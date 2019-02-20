@@ -40,26 +40,26 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void handleMouseAction(MouseEvent event) {
         System.out.println("You clicked me!");
-        panel.requestFocus();
+        //panel.requestFocus();
 //        label.setText("Hello World!");
     }
     @FXML
     private void handleKeyAction(KeyEvent event) {
         if (event.getCode()==KeyCode.LEFT){
-            panel.requestFocus();
+            if(0<contador){
             System.out.println("LEFT");
             graph.eliminar(contador, contador-1, pane);
             contador--;
             // graphPane.requestFocus();
-            
+            }
         }
         else if (event.getCode()==KeyCode.RIGHT){
-            panel.requestFocus();
-            System.out.println("RIGHT");
-            graph.construir(contador, contador+1, pane);
-            contador++;
+            if(ejemplo.getNumNodos()>contador){
+                System.out.println("RIGHT");
+                graph.construir(contador, contador+1, pane);
+                this.contador+=1;
              //graphPane.requestFocus();
-            
+            }
         }
         else if (event.getCode()==KeyCode.HOME){
             System.out.println("Inicio");
@@ -103,7 +103,7 @@ public class FXMLDocumentController implements Initializable {
 //            }
 //            return eventToDispatch;
 //        });
-        grafo.addEventFilter(KeyEvent.ANY,
+        grafo.addEventFilter(KeyEvent.KEY_RELEASED,
                 event ->handleKeyAction(event));
 //         grafo.addEventHandler(KeyEvent.KEY_TYPED,
 //                event -> handleKeyAction(event));
@@ -136,9 +136,9 @@ public class FXMLDocumentController implements Initializable {
 //      });
       //pane.getChildren().addAll(n1.getRectangle(),r2,line,label1);
       graph=new Grafo(ejemplo);
-      graph.construir(contador, 8, pane);
-      contador=8;
-      graph.eliminarNodo(graph.getNodos().get(6), pane,6);
+//      graph.construir(contador, 8, pane);
+//      contador=8;
+      
 //      graph.eliminar(contador, 0, pane);
 //      contador=0;
 //      graph.construir(contador, 16, pane);

@@ -134,10 +134,13 @@ private double posXAnterior;
     public void eliminarNodo(Nodo nodoElim,Pane panelPadre,int number){
         
          panelPadre.getChildren().removeAll(nodoElim.getRectangle(),nodoElim.getLabel(),nodoElim.getLine());
-         nodos.remove(nodoElim);
-         if(nodoElim.getParent()!=null)
+         
+         if(nodoElim.getParent()!=null){
             nodoElim.getParent().getChildren().remove(nodoElim);
-         posXAnterior=nodos.get(number-1).getPosX();
+            posXAnterior=nodos.get(number-1).getPosX();
+         }
+         
+         nodos.remove(number-1);
     }
     /**
      * remove one element of the tree
@@ -185,9 +188,11 @@ private double posXAnterior;
     public void moveSiblings(Nodo nodo){
          Collection<Nodo> hermanos= nodo.getParent().getChildren().getFirst().getHermanos().values();
             for(Nodo n:hermanos){
+                
                 if (!nodo.getSimbolo().equals(n.getSimbolo())){
-                    n.getRectangle().setX(n.getPosX()+nodo.getPosX());
-                    n.getLabel().setLayoutX(n.getPosX()+nodo.getPosX()+n.getRectangle().getWidth()/3);
+                    double distancia=n.getPosX()-nodo.getParent().getChildren().getFirst().getPosX();
+                    n.getRectangle().setX(nodo.getPosX()+distancia);
+                    n.getLabel().setLayoutX(distancia+nodo.getPosX()+n.getRectangle().getWidth()/3);
                 }
             }
     }
@@ -201,10 +206,10 @@ private double posXAnterior;
      * panel to draw
      */
     public void construir(int contador,int pasoSolicitado,Pane panelPadre ) {
-        for(int i=contador;i<=pasoSolicitado;i++){
+        for(int i=contador;i<pasoSolicitado;i++){
             //if is the root
             if(i==0){
-               Nodo raiz= insertarNodo(null, panelPadre, ejemplo.getListaPasos().get(contador).getElemento().split(" ")[0], posXAnterior, 0.0);
+               Nodo raiz= insertarNodo(null, panelPadre, ejemplo.getListaPasos().get(contador).getElemento().split(" ")[0], ejemplo.getNumNodos()*50/2.0, 0.0);
                setPosXAnterior(0);
                
             }
@@ -248,12 +253,24 @@ private double posXAnterior;
      * @param panelPadre 
      */
     public void eliminar(int contador,int pasoSolicitado,Pane panelPadre ){
-        for(int i=contador;i>=pasoSolicitado;i-- )
-            if(nodos.get(i).getParent().getChildren().getFirst()==nodos.get(i)){
+        for(int i=contador-1;i>=pasoSolicitado;i-- ){
+            if((nodos.get(i).getParent()!=null)&&(nodos.get(i).getParent().getChildren().getFirst()==nodos.get(i)))
                 eliminarNodoNotExec(nodos.get(i).getHermanos().values(), panelPadre);
-                eliminarNodo(nodos.get(i), panelPadre, contador);
-            
+            Nodo nodoNotExec=   this.NodoNotExec(nodos.get(i));
+             panelPadre.getChildren().addAll(nodoNotExec.getRectangle(),nodoNotExec.getLabel());
+            eliminarNodo(nodos.get(i), panelPadre, contador);
             }
+       
+    }
+    public Nodo NodoNotExec(Nodo nodo){
+        Nodo hermano=nodo.getParent().getChildren().getFirst();
+        
+        for(int i=0;i<hermano.getHermanos().size();i++){
+          Nodo n= hermano.getHermanos().get(i);
+          if (nodo.getSimbolo().equals(n.getSimbolo()))
+              return n;
+        }
+        return null;
     }
     public HashMap<Integer, Nodo> getNodos() {
         return nodos;
