@@ -5,6 +5,7 @@
  */
 package pruebagrafojfxml;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import javafx.scene.control.Label;
@@ -26,12 +27,16 @@ public class Nodo {
    private Line line;
    private Label label;
    private HashMap<String , Nodo> hermanos; 
-    public Nodo(String simbolo) {
+   private Nodo LeftSibling;
+   private Rectangle rectRgla;
+    public Nodo(String simbolo,Nodo parent) {
         this.simbolo = simbolo;
         this.rectangle = new Rectangle(50,50);
         this.hermanos=new HashMap<>();
-        this.parent = null;
+        this.parent = parent;
         this.children = new LinkedList<>();
+        if(parent!=null && !parent.getChildren().isEmpty())
+            this.LeftSibling=parent.getChildren().getLast();
     }
     
 
@@ -102,5 +107,30 @@ public class Nodo {
     public HashMap<String, Nodo> getHermanos() {
         return hermanos;
     }
-   
+
+    public Nodo getLeftSibling() {
+        return LeftSibling;
+    }
+
+    public void setLeftSibling(Nodo LeftSibling) {
+        this.LeftSibling = LeftSibling;
+    }
+
+    public Rectangle getRectRgla() {
+        return rectRgla;
+    }
+
+    public void setRectRgla(Rectangle rectRgla) {
+        this.rectRgla = rectRgla;
+    }
+    
+   public void setHermanosDelHermano(Nodo hermano) {  
+        Collection<Nodo> aux=hermano.parent.getChildren().getFirst().getHermanos().values();
+        for(Nodo n:aux){
+            if(!n.getSimbolo().equals(hermano.getSimbolo())){
+                hermano.getHermanos().put(n.getSimbolo(), n);
+            }
+        }
+        
+    }
 }
