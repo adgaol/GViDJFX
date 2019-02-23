@@ -213,7 +213,7 @@ private double posXAnterior;
         if(!nodoNotExec.isEmpty()){
             for(Nodo n:nodoNotExec){
                 panelPadre.getChildren().removeAll(n.getRectangle(),n.getLabel());
-                nodos.remove(n);
+                //nodos.remove(n);
             }   
          
         } 
@@ -228,28 +228,28 @@ private double posXAnterior;
      * @param number 
      * number of the node
      */
-    public boolean eliminarNodoNotExec(Collection<Nodo> nodoElim,Pane panelPadre){
-        for(Nodo n:nodoElim){
-            eliminarNodoNotExec(n, panelPadre);
-        }
-         return true;
-    }
+//    public boolean eliminarNodoNotExec(Collection<Nodo> nodoElim,Pane panelPadre){
+//        for(Nodo n:nodoElim){
+//            eliminarNodoNotExec(n, panelPadre);
+//        }
+//         return true;
+//    }
     /**
      * move the nodes no executed
      * @param nodo 
      * new nodo exec
      */
-    public void moveSiblings(Nodo nodo){
-         Collection<Nodo> hermanos= nodo.getParent().getChildren().getFirst().getHermanos().values();
-            for(Nodo n:hermanos){
-                
-                if (!nodo.getSimbolo().equals(n.getSimbolo())){
-                    double distancia=n.getPosX()-nodo.getParent().getChildren().getFirst().getPosX();
-                    n.getRectangle().setX(nodo.getPosX()+distancia);
-                    n.getLabel().setLayoutX(distancia+nodo.getPosX()+n.getRectangle().getWidth()/3);
-                }
-            }
-    }
+//    public void moveSiblings(Nodo nodo){
+//         Collection<Nodo> hermanos= nodo.getParent().getChildren().getFirst().getHermanos().values();
+//            for(Nodo n:hermanos){
+//                
+//                if (!nodo.getSimbolo().equals(n.getSimbolo())){
+//                    double distancia=n.getPosX()-nodo.getParent().getChildren().getFirst().getPosX();
+//                    n.getRectangle().setX(nodo.getPosX()+distancia);
+//                    n.getLabel().setLayoutX(distancia+nodo.getPosX()+n.getRectangle().getWidth()/3);
+//                }
+//            }
+//    }
     /**
      * build the tree to the solicited step
      * @param contador
@@ -275,8 +275,8 @@ private double posXAnterior;
                     Nodo hijo=insertarNodo(parent, panelPadre, ejemplo.getListaPasos().get(i).getElemento().split(" ")[0], /*(parent.getPosX()+parent.getRectangle().getWidth()/2)/2*/posXAnterior,(parent.getRectangle().getHeight()*2)+parent.getPosY());
                     
                     parent.getChildren().add(hijo);
-                    moveSiblings(hijo);
-                    eliminarNodoNotExec(hijo, panelPadre);
+                    //moveSiblings(hijo);
+                    //eliminarNodoNotExec(hijo, panelPadre);
                     Regla regla=ejemplo.getListaPasos().get(i).getRegla();
                     if (regla!=null){
                         insertarNodoNotExec(parent,panelPadre, regla, posXAnterior, hijo.getPosY(),hijo);

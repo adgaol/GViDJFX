@@ -124,13 +124,13 @@ public class Nodo {
         this.rectRgla = rectRgla;
     }
     
-   public void setHermanosDelHermano(Nodo hermano) {  
-        Collection<Nodo> aux=hermano.parent.getChildren().getFirst().getHermanos().values();
-        for(Nodo n:aux){
-            if(!n.getSimbolo().equals(hermano.getSimbolo())){
-                hermano.getHermanos().put(n.getSimbolo(), n);
-            }
-        }
-        
-    }
+//   public void setHermanosDelHermano(Nodo hermano) {  
+//        Collection<Nodo> aux=hermano.parent.getChildren().getFirst().getHermanos().values();
+//        for(Nodo n:aux){
+//            if(!n.getSimbolo().equals(hermano.getSimbolo())){
+//                hermano.getHermanos().put(n.getSimbolo(), n);
+//            }
+//        }
+//        
+//    }
 }
