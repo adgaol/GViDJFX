@@ -38,8 +38,19 @@ public class Nodo {
         if(parent!=null && !parent.getChildren().isEmpty())
             this.LeftSibling=parent.getChildren().getLast();
     }
-    
-
+    /**
+     * Find the last brother not executed.
+     * @return 
+     * The last of the brother nodes not executed.
+     */
+    public Nodo lastSibling(){
+        Nodo last=this;
+        for(Nodo n: this.hermanos.values()){
+            if(last.posX>n.posX)
+                last=n;
+        }
+        return last;
+    }
     public String getSimbolo() {
         return simbolo;
     }

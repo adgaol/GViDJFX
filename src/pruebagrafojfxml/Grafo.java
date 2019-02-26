@@ -10,7 +10,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
+import javafx.event.EventHandler;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -25,10 +27,12 @@ public class Grafo {
 private HashMap<Integer,Nodo> nodos;
 private FicheroXML ejemplo;
 private double posXAnterior;
-    public Grafo(FicheroXML xml) {
+private Gramatica gramatica;
+    public Grafo(FicheroXML xml,Gramatica gramatica) {
       nodos=new HashMap<>();
       this.ejemplo=xml;
       this.posXAnterior=(ejemplo.getNumNodos()-1)*50/2;
+      this.gramatica=gramatica;
     }
     /**
      * insert one node
@@ -288,7 +292,17 @@ private double posXAnterior;
                     rectReg.setOpacity(0.5);
                     hijo.setRectRgla(rectReg);
                     panelPadre.getChildren().add(0,rectReg);
-                    
+                    gramatica.getRelRectRegla().put(rectReg, regla);
+                    rectReg.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+          @Override
+          public void handle(MouseEvent event) {
+            
+              System.out.println(event.getSource());
+              gramatica.cambiarFormaRegla(gramatica.getRelRectRegla().get(event.getSource()));
+          }
+
+      });
                     setPosXAnterior(hijo.getPosX());
                 }   
                 else{
@@ -323,18 +337,31 @@ private double posXAnterior;
      */
     public void eliminar(int contador,int pasoSolicitado,Pane panelPadre ){
         for(int i=contador-1;i>=pasoSolicitado;i-- ){
-            if((nodos.get(i).getParent()!=null)&&(nodos.get(i).getParent().getChildren().getFirst()==nodos.get(i)))
-                eliminarNodoNotExec(nodos.get(i), panelPadre);
-            Nodo nodoNotExec=   this.NodoNotExec(nodos.get(i));
+            Nodo elemElim=nodos.get(i);
+            if((elemElim.getParent()!=null)&&(elemElim.getParent().getChildren().getFirst()==elemElim)){
+                eliminarNodoNotExec(elemElim, panelPadre);
+                panelPadre.getChildren().remove(elemElim.getRectRgla());
+            }
+//            if((elemElim.getParent()!=null)&&(elemElim.getParent().getChildren().getFirst()!=elemElim)){
+//                elemElim.getRectRgla().setWidth(elemElim.getRectRgla().getWidth()-elemElim.getRectangle().getWidth()-(elemElim.getRectangle().getWidth()+10)*elemElim.getHermanos().size()-(elemElim.getPosX()-elemElim.lastSibling().getPosX()+elemElim.lastSibling().getRectangle().getWidth()));
+//            }
+            Nodo nodoNotExec=   this.NodoNotExec(elemElim);
             if(nodoNotExec!=null){
                 nodoNotExec.getRectangle().setX(nodoNotExec.getPosX());
                 nodoNotExec.getLabel().setLayoutX(nodoNotExec.getPosX()+nodoNotExec.getRectangle().getWidth()/3);
                 panelPadre.getChildren().addAll(nodoNotExec.getRectangle(),nodoNotExec.getLabel());
             }
-            eliminarNodo(nodos.get(i), panelPadre, contador);
+            eliminarNodo(elemElim, panelPadre, contador);
             }
        
     }
+    /**
+     * Search the not execute node with the same symbol.
+     * @param nodo
+     * node to found
+     * @return 
+     *  not execute node with the same symbol or null if not exist
+     */
     public Nodo NodoNotExec(Nodo nodo){
         if (nodo.getParent()!=null){
             Nodo hermano=nodo.getParent().getChildren().getFirst();
