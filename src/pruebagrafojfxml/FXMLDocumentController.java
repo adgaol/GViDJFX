@@ -141,8 +141,8 @@ public class FXMLDocumentController implements Initializable {
 //      });
       //pane.getChildren().addAll(n1.getRectangle(),r2,line,label1);
       
-      grammar=new Gramatica(ejemplo);
-      grammar.construir(paneGramatica);
+      grammar=new Gramatica(ejemplo,paneGramatica);
+      grammar.construir(/*paneGramatica*/);
       graph=new Grafo(ejemplo,grammar);
 //      graph.construir(contador, 8, pane);
 //      contador=8;

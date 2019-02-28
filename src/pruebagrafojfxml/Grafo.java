@@ -18,6 +18,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.shape.StrokeType;
 
 /**
  *
@@ -295,14 +297,38 @@ private Gramatica gramatica;
                     gramatica.getRelRectRegla().put(rectReg, regla);
                     rectReg.setOnMouseClicked(new EventHandler<MouseEvent>(){
 
-          @Override
-          public void handle(MouseEvent event) {
-            
-              System.out.println(event.getSource());
-              gramatica.cambiarFormaRegla(gramatica.getRelRectRegla().get(event.getSource()));
-          }
+                        @Override
+                        public void handle(MouseEvent event) {
 
-      });
+                            System.out.println(event.getSource());
+                            gramatica.cambiarFormaRegla(gramatica.getRelRectRegla().get(event.getSource()));
+                        }
+
+                    });
+                    rectReg.setOnMouseEntered(new EventHandler<MouseEvent>(){
+
+                        @Override
+                        public void handle(MouseEvent event) {
+
+                            System.out.println(event.getSource());
+                            Rectangle rect=(Rectangle)event.getSource();
+                            rect.setFill(Color.YELLOW);
+                            
+                            gramatica.drawRectangle(gramatica.getRelRectRegla().get(event.getSource()));
+                        }
+
+                    });
+                    rectReg.setOnMouseExited(new EventHandler<MouseEvent>(){
+
+                        @Override
+                        public void handle(MouseEvent event) {
+                            Rectangle rect=(Rectangle)event.getSource();
+                            rect.setFill(Color.BLACK);
+                            System.out.println(event.getSource());
+                            gramatica.erasedRectangle(gramatica.getRelRectRegla().get(event.getSource()));
+                        }
+
+                    });
                     setPosXAnterior(hijo.getPosX());
                 }   
                 else{
