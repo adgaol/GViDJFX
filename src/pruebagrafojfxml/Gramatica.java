@@ -64,17 +64,20 @@ private Pane panelPadre;
     public ArrayList<Label> formarReglaLarga(Regla regla){
         ArrayList<Label> result=new ArrayList<>();
         regla=idRegla.get(regla.getId());
-        int i=0;
+        int i=1;
         int posAccion=0;
         //regla.getAcciones().get(0).;
         for (Simbolo s: regla.getRegla()){
             if((posAccion<regla.getAcciones().size())&&(i==regla.getAcciones().get(posAccion).getPos())){
-                Label l=new Label("  "+regla.getAcciones().get(posAccion).getValor()+"  ");
                 Label ls=new Label(s.getValor()+" ");
+                Label l=new Label("  "+regla.getAcciones().get(posAccion).getValor()+"  ");
+                
                 //result+=+s.getValor()+"  ";
-                result.add(l);
+                
                 result.add(ls);
+                result.add(l);
                 posAccion++;
+                
             }
             else{
                 Label l=new Label(s.getValor()+"  ");
@@ -82,6 +85,8 @@ private Pane panelPadre;
             }
             i++;
         }
+        
+        
         return result;
     }
     /**
