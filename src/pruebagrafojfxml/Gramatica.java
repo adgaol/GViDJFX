@@ -27,6 +27,13 @@ private HashMap<String,ArrayList<Label>> reglaLabel;
 private HashMap<String,Boolean>formaReglas;//true=forma larga con las acciones.false forma corta
 private HashMap<String,Regla> idRegla;//para poder obtener las reglas con simbolos
 private Pane panelPadre;
+    /**
+     * Builder
+     * @param ejemplo
+     * XML with the data of the translator
+     * @param panelPadre 
+     * Panel where draw the grammar
+     */
     public Gramatica(FicheroXML ejemplo,Pane panelPadre) {
         this.ejemplo = ejemplo;
         this.reglas = ejemplo.getListaGramatica();
@@ -91,8 +98,6 @@ private Pane panelPadre;
     }
     /**
      * build and draw the grammar
-     * @param panelPadre 
-     * panel to draw the grammar
      */
     public void construir(/*Pane panelPadre*/){
         for(Regla r: reglas){
@@ -113,6 +118,11 @@ private Pane panelPadre;
             
         }
     }
+    /**
+     * change the form of the rule to the other form
+     * @param regla 
+     * rule to change
+     */
     public void cambiarFormaRegla(Regla regla){
         ArrayList<Label> l=reglaLabel.get(regla.getId());
         
@@ -147,6 +157,11 @@ private Pane panelPadre;
             reglaLabel.put(regla.getId(), l);
         }
     }
+    /**
+     * Draw the rectangle that englove the rule
+     * @param regla 
+     * Rule where correspond the rectangle
+     */
     public void drawRectangle(Regla regla){
         ArrayList<Label> l=reglaLabel.get(regla.getId());
         Double posY=l.get(0).getLayoutY();

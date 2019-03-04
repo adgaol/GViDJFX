@@ -5,7 +5,6 @@
  */
 package pruebagrafojfxml;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import javafx.scene.control.Label;

@@ -30,18 +30,72 @@ private HashMap<Integer,Nodo> nodos;
 private FicheroXML ejemplo;
 private double posXAnterior;
 private Gramatica gramatica;
-    public Grafo(FicheroXML xml,Gramatica gramatica) {
+private CadenaEntrada cadena;
+private HashMap<String,Integer>stepProcess;
+private int contador;
+private Pane panelPadre;
+    public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelPadre) {
       nodos=new HashMap<>();
       this.ejemplo=xml;
       this.posXAnterior=(ejemplo.getNumNodos()-1)*50/2;
       this.gramatica=gramatica;
+      this.cadena=cadena;
+      this.contador=0;
+      this.stepProcess=new HashMap<>();
+      this.panelPadre=panelPadre;
+      obtainStepsProcess();
+      addHandlingListennerChain();
+    }
+    /**
+     * Obtain a map with the step where a element of the chain is process
+     */
+    public void obtainStepsProcess(){
+        String comp="";
+        int pos=0;
+        for(String i:ejemplo.getCadena()){
+            String[] pendExec= i.split("pend");
+            String last="";
+            if(!pendExec[0].equals(""))
+                last=pendExec[0].substring(pendExec[0].length()-1);
+            if(!last.equals(comp)){
+               stepProcess.put(last, pos);
+               comp=last;
+            }
+            pos++;
+        }
+    }
+    /**
+     * add a listenner to the rectangle of the chain.When you click in someone the graph go to the
+     * step where the element of the chain is process
+     */
+    public void addHandlingListennerChain(){
+        
+        HashMap<String,Rectangle> elements=cadena.getRectanglesChain();
+        for(Rectangle r:elements.values()){
+            r.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+                @Override
+                public void handle(MouseEvent event) {
+                    Rectangle rect=(Rectangle)event.getSource();
+                    int step=0;
+                    if(rect.getId().equals("EOF"))
+                        step=ejemplo.getNumNodos();
+                    else
+                        step= stepProcess.get(rect.getId()/*cadena.getRectanglesText().get(rect.getId())*/);
+                    System.out.println(step);
+                    if(contador<step)
+                        contador=construir(step);
+                    else if(contador>step)
+                        eliminar(step);
+                }
+
+            }); 
+        }
     }
     /**
      * insert one node
      * @param parent
      * parent of the node
-     * @param panelPadre
-     * ponel to draw the node
      * @param simbolo
      * symbol to the node
      * @param posX
@@ -50,7 +104,7 @@ private Gramatica gramatica;
      * position in axis Y
      * @return the node inserted
      */
-    public Nodo insertarNodo(Nodo parent,Pane panelPadre,String simbolo,Double posX,Double posY){
+    public Nodo insertarNodo(Nodo parent,String simbolo,Double posX,Double posY){
       
       
        Nodo nodo=new Nodo(simbolo,parent);
@@ -78,10 +132,10 @@ private Gramatica gramatica;
     }
     /**
      * insert one node
+     * @param parent
+     * parent of the node to insert
      * @param regla
      * rule to insert
-     * @param panelPadre
-     * ponel to draw the node
      * @param posX
      * position in axis X
      * @param posY
@@ -90,7 +144,7 @@ private Gramatica gramatica;
      * simbol already inserted
      * @return the node inserted
      */
-    public HashSet<Nodo> insertarNodoNotExec(Nodo parent,Pane panelPadre,Regla regla,Double posX,Double posY,Nodo hijo){
+    public HashSet<Nodo> insertarNodoNotExec(Nodo parent,Regla regla,Double posX,Double posY,Nodo hijo){
       HashSet<Nodo> nodesInserted=new HashSet<>();
     String[] simbolos=regla.getValor().split(" ");
     Nodo nodo=null;
@@ -128,10 +182,8 @@ private Gramatica gramatica;
     }
      /**
      * insert one node
-     * @param regla
-     * rule to insert
-     * @param panelPadre
-     * ponel to draw the node
+     * @param nodosHermanos
+     * collection of not exec siblings nodes to insert
      * @param posX
      * position in axis X
      * @param posY
@@ -140,7 +192,7 @@ private Gramatica gramatica;
      * simbol already inserted
      * @return the node inserted
      */
-    public HashSet<Nodo> insertarNodoNotExec(Pane panelPadre,Collection<Nodo> nodosHermanos,Double posX,Double posY,Nodo hijo){
+    public HashSet<Nodo> insertarNodoNotExec(Collection<Nodo> nodosHermanos,Double posX,Double posY,Nodo hijo){
       HashSet<Nodo> nodesInserted=new HashSet<>();
     
     
@@ -179,12 +231,10 @@ private Gramatica gramatica;
      * remove one element of the tree
      * @param nodoElim
      * node to remove
-     * @param panelPadre
-     * panel from remove
      * @param number 
      * number of the node
      */
-    public void eliminarNodo(Nodo nodoElim,Pane panelPadre,int number){
+    public void eliminarNodo(Nodo nodoElim,int number){
         
          panelPadre.getChildren().removeAll(nodoElim.getRectangle(),nodoElim.getLabel(),nodoElim.getLine());
          
@@ -193,21 +243,19 @@ private Gramatica gramatica;
             if(nodoElim.getParent().getParent()==null && nodoElim.getLeftSibling()==null)
                 posXAnterior=10;
             else     
-                posXAnterior=nodos.get(number-2).getPosX();
+                posXAnterior=nodos.get(number-1).getPosX();
          }
          
-         nodos.remove(number-1);
+         nodos.remove(number);
     }
     /**
      * remove one element of the tree
      * @param nodoElim
      * node to remove
-     * @param panelPadre
-     * panel from remove
-     * @param number 
-     * number of the node
+     * @return 
+     * A list of not exec siblings nodes
      */
-    public LinkedList<Nodo> eliminarNodoNotExec(Nodo nodoElim,Pane panelPadre){
+    public LinkedList<Nodo> eliminarNodoNotExec(Nodo nodoElim){
         LinkedList<Nodo> nodoNotExec=new LinkedList<>();
         
         for(Nodo n:nodoElim.getHermanos().values()){
@@ -225,51 +273,19 @@ private Gramatica gramatica;
         } 
          return nodoNotExec;
     }
-      /**
-     * remove a collection of elements of the tree
-     * @param nodoElim
-     * node to remove
-     * @param panelPadre
-     * panel from remove
-     * @param number 
-     * number of the node
-     */
-//    public boolean eliminarNodoNotExec(Collection<Nodo> nodoElim,Pane panelPadre){
-//        for(Nodo n:nodoElim){
-//            eliminarNodoNotExec(n, panelPadre);
-//        }
-//         return true;
-//    }
-    /**
-     * move the nodes no executed
-     * @param nodo 
-     * new nodo exec
-     */
-//    public void moveSiblings(Nodo nodo){
-//         Collection<Nodo> hermanos= nodo.getParent().getChildren().getFirst().getHermanos().values();
-//            for(Nodo n:hermanos){
-//                
-//                if (!nodo.getSimbolo().equals(n.getSimbolo())){
-//                    double distancia=n.getPosX()-nodo.getParent().getChildren().getFirst().getPosX();
-//                    n.getRectangle().setX(nodo.getPosX()+distancia);
-//                    n.getLabel().setLayoutX(distancia+nodo.getPosX()+n.getRectangle().getWidth()/3);
-//                }
-//            }
-//    }
+
     /**
      * build the tree to the solicited step
-     * @param contador
-     * initial step
      * @param pasoSolicitado
      * last step
-     * @param panelPadre 
-     * panel to draw
+     * @return 
+     * the step where it has finished
      */
-    public void construir(int contador,int pasoSolicitado,Pane panelPadre ) {
+    public int construir(int pasoSolicitado ) {
         for(int i=contador;i<pasoSolicitado;i++){
             //if is the root
             if(i==0){
-               Nodo raiz= insertarNodo(null, panelPadre, ejemplo.getListaPasos().get(contador).getElemento().split(" ")[0], ejemplo.getNumNodos()*50/2.0, 0.0);
+               Nodo raiz= insertarNodo(null, ejemplo.getListaPasos().get(contador).getElemento().split(" ")[0], ejemplo.getNumNodos()*50/2.0, 0.0);
                setPosXAnterior(0);
                
             }
@@ -278,14 +294,14 @@ private Gramatica gramatica;
                 
                 //if is the first child
                 if(parent.getChildren().isEmpty()){
-                    Nodo hijo=insertarNodo(parent, panelPadre, ejemplo.getListaPasos().get(i).getElemento().split(" ")[0], /*(parent.getPosX()+parent.getRectangle().getWidth()/2)/2*/posXAnterior,(parent.getRectangle().getHeight()*2)+parent.getPosY());
+                    Nodo hijo=insertarNodo(parent, ejemplo.getListaPasos().get(i).getElemento().split(" ")[0], /*(parent.getPosX()+parent.getRectangle().getWidth()/2)/2*/posXAnterior,(parent.getRectangle().getHeight()*2)+parent.getPosY());
                     
                     parent.getChildren().add(hijo);
                     //moveSiblings(hijo);
                     //eliminarNodoNotExec(hijo, panelPadre);
                     Regla regla=ejemplo.getListaPasos().get(i).getRegla();
                     if (regla!=null){
-                        insertarNodoNotExec(parent,panelPadre, regla, posXAnterior, hijo.getPosY(),hijo);
+                        insertarNodoNotExec(parent, regla, posXAnterior, hijo.getPosY(),hijo);
                        
                     }
                     Rectangle rectReg=new Rectangle(hijo.getRectangle().getWidth()+(hijo.getRectangle().getWidth()+10)*hijo.getHermanos().size()+10, hijo.getRectangle().getWidth()+20);
@@ -332,14 +348,14 @@ private Gramatica gramatica;
                     setPosXAnterior(hijo.getPosX());
                 }   
                 else{
-                    Nodo hijo=insertarNodo(parent, panelPadre, ejemplo.getListaPasos().get(i).getElemento().split(" ")[0],posXAnterior+parent.getRectangle().getWidth()+10/* (parent.getRectangle().getWidth()*2+parent.getPosX()/2+10)(parent.getRectangle().getWidth()/2)+(parent.getRectangle().getWidth()*parent.getChildren().size()))/2*/,(parent.getRectangle().getHeight()*2)+parent.getPosY());
+                    Nodo hijo=insertarNodo(parent, ejemplo.getListaPasos().get(i).getElemento().split(" ")[0],posXAnterior+parent.getRectangle().getWidth()+10/* (parent.getRectangle().getWidth()*2+parent.getPosX()/2+10)(parent.getRectangle().getWidth()/2)+(parent.getRectangle().getWidth()*parent.getChildren().size()))/2*/,(parent.getRectangle().getHeight()*2)+parent.getPosY());
                     parent.getChildren().add(hijo);
        
                     //hijo.setHermanosDelHermano(hijo);
                     
-                    eliminarNodoNotExec(hijo.getParent().getChildren().getFirst(), panelPadre);
+                    eliminarNodoNotExec(hijo.getParent().getChildren().getFirst());
                     
-                    insertarNodoNotExec(panelPadre,hijo.getLeftSibling().getHermanos().values(), hijo.getPosX(), (parent.getRectangle().getHeight()*2)+parent.getPosY(),hijo);
+                    insertarNodoNotExec(hijo.getLeftSibling().getHermanos().values(), hijo.getPosX(), (parent.getRectangle().getHeight()*2)+parent.getPosY(),hijo);
                     Rectangle rectReg=hijo.getLeftSibling().getRectRgla();//new Rectangle(hijo.getRectangle().getWidth()+(hijo.getRectangle().getWidth()+10)*hijo.getHermanos().size()+10, hijo.getRectangle().getWidth()+20);
                     if(hijo.getParent().getChildren().getFirst().getPosX()!=0)
                          rectReg.setWidth(10+hijo.getRectangle().getWidth()+(hijo.getRectangle().getWidth()+10)*hijo.getHermanos().size()+(hijo.getPosX())-hijo.getParent().getChildren().getFirst().getPosX());
@@ -349,23 +365,27 @@ private Gramatica gramatica;
                     
                     hijo.setRectRgla(rectReg);
                     //panelPadre.getChildren().add(0,rectReg);
+                    
                     setPosXAnterior(hijo.getPosX());
+                    
                 }
             }
         }
-        
+        contador=pasoSolicitado;
+        cadena.actualizarCadena(pasoSolicitado);
+        return contador;
     }
     /**
      * remove until the solicited step 
-     * @param contador
-     * @param pasoSolicitado
-     * @param panelPadre 
+     * @param pasoSolicitado 
+     * @return  
+     * the step where it has finished
      */
-    public void eliminar(int contador,int pasoSolicitado,Pane panelPadre ){
+    public int eliminar(int pasoSolicitado ){
         for(int i=contador-1;i>=pasoSolicitado;i-- ){
             Nodo elemElim=nodos.get(i);
             if((elemElim.getParent()!=null)&&(elemElim.getParent().getChildren().getFirst()==elemElim)){
-                eliminarNodoNotExec(elemElim, panelPadre);
+                eliminarNodoNotExec(elemElim);
                 panelPadre.getChildren().remove(elemElim.getRectRgla());
             }
 //            if((elemElim.getParent()!=null)&&(elemElim.getParent().getChildren().getFirst()!=elemElim)){
@@ -377,9 +397,11 @@ private Gramatica gramatica;
                 nodoNotExec.getLabel().setLayoutX(nodoNotExec.getPosX()+nodoNotExec.getRectangle().getWidth()/3);
                 panelPadre.getChildren().addAll(nodoNotExec.getRectangle(),nodoNotExec.getLabel());
             }
-            eliminarNodo(elemElim, panelPadre, contador);
+            eliminarNodo(elemElim, i);
             }
-       
+            cadena.actualizarCadena(pasoSolicitado);
+            contador=pasoSolicitado;
+            return contador-1;
     }
     /**
      * Search the not execute node with the same symbol.
@@ -414,6 +436,14 @@ private Gramatica gramatica;
 
     public void setPosXAnterior(double posXAnterior) {
         this.posXAnterior = posXAnterior;
+    }
+
+    public int getContador() {
+        return contador;
+    }
+
+    public void setContador(int contador) {
+        this.contador = contador;
     }
     
 }

@@ -37,6 +37,8 @@ public class FXMLDocumentController implements Initializable {
     private ScrollPane grafo;
     @FXML
     private ScrollPane gramatica;
+    @FXML
+    private ScrollPane cadenaEntrada;
 
 //    @FXML
 //    private void handleMouseAction(MouseEvent event) {
@@ -47,29 +49,31 @@ public class FXMLDocumentController implements Initializable {
     
     private void handleKeyAction(KeyEvent event) {
         if (event.getCode()==KeyCode.LEFT){
-            if(0<contador){
+            if(0<graph.getContador()){
             System.out.println("LEFT");
-            graph.eliminar(contador, contador-1, paneGrafo);
-            contador--;
+            graph.eliminar( graph.getContador()-1);
+            //contador--;
             // graphPane.requestFocus();
             }
         }
         else if (event.getCode()==KeyCode.RIGHT){
-            if(ejemplo.getNumNodos()>contador){
+            if(ejemplo.getNumNodos()>graph.getContador()){
                 System.out.println("RIGHT");
-                graph.construir(contador, contador+1, paneGrafo);
-                this.contador+=1;
+                graph.construir(graph.getContador()+1);
+                //this.contador+=1;
              //graphPane.requestFocus();
             }
         }
         else if (event.getCode()==KeyCode.HOME){
             System.out.println("Inicio");
+            graph.eliminar(0);
            // irInicio();
              //graphPane.requestFocus();
             
         }
         else if (event.getCode()==KeyCode.END){
             System.out.println("Fin");
+            graph.construir(ejemplo.getNumNodos());
             //irFin();
              //graphPane.requestFocus();
             
@@ -79,11 +83,13 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     private FicheroXML ejemplo;
-    private int contador=0;
+    //private int contador=0;
     private Grafo graph;
     private Gramatica grammar;
+    private CadenaEntrada entryChain;
     private Pane paneGrafo;
     private Pane paneGramatica;
+    private Pane paneCadenaEntrada;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
       ejemplo = new FicheroXML();
@@ -93,6 +99,8 @@ public class FXMLDocumentController implements Initializable {
       grafo.setContent(paneGrafo);
       paneGramatica=new Pane();  
       gramatica.setContent(paneGramatica);
+      paneCadenaEntrada=new Pane();  
+      cadenaEntrada.setContent(paneCadenaEntrada);
 //       EventDispatcher scrollPaneEventDispatcher = grafo.getEventDispatcher();
 //       grafo.setEventDispatcher((event, tail) -> {
 //            if (KeyEvent.ANY.equals(event.getEventType().getSuperType())) {
@@ -140,10 +148,13 @@ public class FXMLDocumentController implements Initializable {
 //        pane.getChildren().remove(rectangles.get(r1));
 //      });
       //pane.getChildren().addAll(n1.getRectangle(),r2,line,label1);
-      
+      entryChain=new CadenaEntrada(ejemplo.getCadena(),paneCadenaEntrada);
+      entryChain.construir();
       grammar=new Gramatica(ejemplo,paneGramatica);
       grammar.construir(/*paneGramatica*/);
-      graph=new Grafo(ejemplo,grammar);
+      
+      graph=new Grafo(ejemplo,grammar,entryChain,paneGrafo);
+      
 //      graph.construir(contador, 8, pane);
 //      contador=8;
       
