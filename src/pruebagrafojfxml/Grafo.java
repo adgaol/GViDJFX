@@ -8,18 +8,15 @@ package pruebagrafojfxml;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.StrokeLineCap;
-import javafx.scene.shape.StrokeType;
+import javafx.scene.text.Font;
 
 /**
  *
@@ -34,7 +31,8 @@ private CadenaEntrada cadena;
 private HashMap<String,Integer>stepProcess;
 private int contador;
 private Pane panelPadre;
-    public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelPadre) {
+private Configuracion config;
+    public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelPadre,Configuracion config) {
       nodos=new HashMap<>();
       this.ejemplo=xml;
       this.posXAnterior=(ejemplo.getNumNodos()-1)*50/2;
@@ -43,6 +41,7 @@ private Pane panelPadre;
       this.contador=0;
       this.stepProcess=new HashMap<>();
       this.panelPadre=panelPadre;
+      this.config=config;
       obtainStepsProcess();
       addHandlingListennerChain();
     }
@@ -107,16 +106,29 @@ private Pane panelPadre;
     public Nodo insertarNodo(Nodo parent,String simbolo,Double posX,Double posY){
       
       
-       Nodo nodo=new Nodo(simbolo,parent);
-       nodo.getRectangle().setFill(Color.RED);
-       
+       Nodo nodo=new Nodo(simbolo,parent,isTerminal(simbolo));
        nodo.setPosX(posX);
        nodo.getRectangle().setX(posX);
        nodo.setPosY(posY);
        nodo.getRectangle().setY(posY);
        Label label=new Label(simbolo);
+       label.setFont(new Font(config.getLetraArbol()));
        label.setLayoutX(posX+nodo.getRectangle().getWidth()/3);
        label.setLayoutY(posY+nodo.getRectangle().getHeight()/3);
+       if(!isTerminal(simbolo)){
+          Color colorRectangle=Color.web(config.getColorNoTerminal());
+          nodo.getRectangle().setFill(colorRectangle);
+          Color colorText=Color.web(config.getLetraNoTerminal());
+          label.setTextFill(colorText);
+          
+       }
+       else{
+          Color colorRectangle=Color.web(config.getColorTerminal());
+          nodo.getRectangle().setFill(colorRectangle);
+          Color colorText=Color.web(config.getLetraTerminal());
+          label.setTextFill(colorText);
+       }
+       
        nodo.setLabel(label);
        
        nodos.put(nodos.size(), nodo);
@@ -129,6 +141,21 @@ private Pane panelPadre;
            panelPadre.getChildren().addAll(nodo.getRectangle(),label);
        
        return nodo; 
+    }
+    /**
+     * Decide if the symbol is terminal
+     * @param symbol
+     * symbol to evaluate
+     * @return 
+     * if es terminal true else false
+     */
+    public Boolean isTerminal(String symbol){
+        boolean terminal=false;
+        for(Simbolo s:ejemplo.getMapa().values()){
+            if(s.getValor().equals(symbol))
+                terminal=s.isTerminal();
+        }
+        return terminal;
     }
     /**
      * insert one node
@@ -151,7 +178,8 @@ private Pane panelPadre;
     Double nPosX=posX;
     for(int i =1;i<simbolos.length;i++){
         if(!simbolos[i].equals(hijo.getSimbolo())){
-            nodo=new Nodo(simbolos[i],parent);
+            Boolean terminal=isTerminal(simbolos[i]);
+            nodo=new Nodo(simbolos[i],parent,terminal);
             nodo.getRectangle().setFill(Color.RED);
             nodo.getRectangle().setOpacity(0.50);
             
@@ -161,9 +189,22 @@ private Pane panelPadre;
             nodo.setPosY(posY);
             nodo.getRectangle().setY(posY);
             Label label=new Label(simbolos[i]);
-            
+            label.setFont(new Font(config.getLetraArbol()));
             label.setLayoutX(nPosX+nodo.getRectangle().getWidth()/3);
             label.setLayoutY(posY+nodo.getRectangle().getHeight()/3);
+            if(!terminal){
+              Color colorRectangle=Color.web(config.getColorNoTerminal());
+              nodo.getRectangle().setFill(colorRectangle);
+              Color colorText=Color.web(config.getLetraNoTerminal());
+              label.setTextFill(colorText);
+
+            }
+            else{
+                Color colorRectangle=Color.web(config.getColorTerminal());
+                nodo.getRectangle().setFill(colorRectangle);
+                Color colorText=Color.web(config.getLetraTerminal());
+                label.setTextFill(colorText);
+            }
             nodo.setLabel(label);
             nodesInserted.add(nodo);
             hijo.getHermanos().put(simbolos[i], nodo);
@@ -273,7 +314,7 @@ private Pane panelPadre;
         } 
          return nodoNotExec;
     }
-
+    
     /**
      * build the tree to the solicited step
      * @param pasoSolicitado
@@ -285,7 +326,8 @@ private Pane panelPadre;
         for(int i=contador;i<pasoSolicitado;i++){
             //if is the root
             if(i==0){
-               Nodo raiz= insertarNodo(null, ejemplo.getListaPasos().get(contador).getElemento().split(" ")[0], ejemplo.getNumNodos()*50/2.0, 0.0);
+               String simbolo=ejemplo.getListaPasos().get(contador).getElemento().split(" ")[0];
+               Nodo raiz= insertarNodo(null, simbolo, ejemplo.getNumNodos()*50/2.0, 0.0);
                setPosXAnterior(0);
                
             }
@@ -294,7 +336,8 @@ private Pane panelPadre;
                 
                 //if is the first child
                 if(parent.getChildren().isEmpty()){
-                    Nodo hijo=insertarNodo(parent, ejemplo.getListaPasos().get(i).getElemento().split(" ")[0], /*(parent.getPosX()+parent.getRectangle().getWidth()/2)/2*/posXAnterior,(parent.getRectangle().getHeight()*2)+parent.getPosY());
+                    String simbolo=ejemplo.getListaPasos().get(i).getElemento().split(" ")[0];
+                    Nodo hijo=insertarNodo(parent, simbolo, posXAnterior,(parent.getRectangle().getHeight()*2)+parent.getPosY());
                     
                     parent.getChildren().add(hijo);
                     //moveSiblings(hijo);
@@ -348,7 +391,8 @@ private Pane panelPadre;
                     setPosXAnterior(hijo.getPosX());
                 }   
                 else{
-                    Nodo hijo=insertarNodo(parent, ejemplo.getListaPasos().get(i).getElemento().split(" ")[0],posXAnterior+parent.getRectangle().getWidth()+10/* (parent.getRectangle().getWidth()*2+parent.getPosX()/2+10)(parent.getRectangle().getWidth()/2)+(parent.getRectangle().getWidth()*parent.getChildren().size()))/2*/,(parent.getRectangle().getHeight()*2)+parent.getPosY());
+                    String simbolo=ejemplo.getListaPasos().get(i).getElemento().split(" ")[0];
+                    Nodo hijo=insertarNodo(parent, simbolo,posXAnterior+parent.getRectangle().getWidth()+10,(parent.getRectangle().getHeight()*2)+parent.getPosY());
                     parent.getChildren().add(hijo);
        
                     //hijo.setHermanosDelHermano(hijo);
@@ -417,6 +461,14 @@ private Pane panelPadre;
             return n;
         }
         return null;
+    }
+    /**
+     * update the color and the size of the letter
+     */
+    public void updateGraph(){
+        int cont=contador;
+        eliminar(0);
+        construir(cont);
     }
     public HashMap<Integer, Nodo> getNodos() {
         return nodos;

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tables>
+  <config>
+    <tamLetras>
+      <arbol>18</arbol>
+      <traductor>18</traductor>
+      <cadena>15</cadena>
+    </tamLetras>
+    <colores>
+      <terminales>0x80334dff</terminales>
+      <noTerminales>0x000000ff</noTerminales>
+      <letraTerminales>0x003333ff</letraTerminales>
+      <letraNoTerminales>0x1a3399ff</letraNoTerminales>
+      <leido>0xb36680ff</leido>
+      <pend>0xb34d1aff</pend>
+    </colores>
+    <accSem>
+      <colorAccSem>0xcc6633ff</colorAccSem>
+      <tipoLetra>Courier</tipoLetra>
+      <sizeAcciones>18</sizeAcciones>
+    </accSem>
+    <zoom>50</zoom>
+  </config>
+</tables>

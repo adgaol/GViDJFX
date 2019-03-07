@@ -16,13 +16,21 @@ import javafx.stage.Stage;
  * @author adgao
  */
 public class PruebaGrafoJFXML extends Application {
-    
+    private static Stage stage;
+
+    public static Stage getStage() {
+        return stage;
+    }
+
+    public static void setStage(Stage stage) {
+        PruebaGrafoJFXML.stage = stage;
+    }
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         
         Scene scene = new Scene(root);
-        
+        setStage(stage);
         stage.setScene(scene);
         stage.show();
     }

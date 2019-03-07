@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 
 /**
  *
@@ -23,10 +24,12 @@ private ArrayList<Regla> reglas;
 private int posYAnterior;
 private HashMap<Rectangle,Regla>relRectRegla;
 private HashMap<String,Rectangle> ruleRectGramm;
+private HashMap<String,ArrayList<String>> ruleActions;
 private HashMap<String,ArrayList<Label>> reglaLabel;
 private HashMap<String,Boolean>formaReglas;//true=forma larga con las acciones.false forma corta
 private HashMap<String,Regla> idRegla;//para poder obtener las reglas con simbolos
 private Pane panelPadre;
+private Configuracion config;
     /**
      * Builder
      * @param ejemplo
@@ -34,7 +37,7 @@ private Pane panelPadre;
      * @param panelPadre 
      * Panel where draw the grammar
      */
-    public Gramatica(FicheroXML ejemplo,Pane panelPadre) {
+    public Gramatica(FicheroXML ejemplo,Pane panelPadre,Configuracion config) {
         this.ejemplo = ejemplo;
         this.reglas = ejemplo.getListaGramatica();
         posYAnterior=10;
@@ -44,6 +47,8 @@ private Pane panelPadre;
         formaReglas=new HashMap<>();
         idRegla=new HashMap<>();
         ruleRectGramm=new HashMap<>();
+        this.config=config;
+        ruleActions=new HashMap<>();
     }
     /**
      * from a rule produce the String correspondent without the actions
@@ -56,7 +61,20 @@ private Pane panelPadre;
         ArrayList<Label> result=new ArrayList<>();
         regla=idRegla.get(regla.getId());
         for (Simbolo s: regla.getRegla()){
-            Label l=new Label(s.getValor()+"  ");
+            
+            Label l=new Label(s.getValor());
+            l.setFont(new Font(config.getLetraTraductor()));
+            if(!s.isTerminal()){
+                    
+                Color colorText=Color.web(config.getLetraNoTerminal());
+                l.setTextFill(colorText);
+
+            }
+            else{
+
+                Color colorText=Color.web(config.getLetraTerminal());
+                l.setTextFill(colorText);
+            }
             result.add(l);
         }
         return result;
@@ -70,31 +88,76 @@ private Pane panelPadre;
      */
     public ArrayList<Label> formarReglaLarga(Regla regla){
         ArrayList<Label> result=new ArrayList<>();
+        ArrayList<String> actions=new ArrayList<>();
         regla=idRegla.get(regla.getId());
         int i=1;
         int posAccion=0;
         //regla.getAcciones().get(0).;
         for (Simbolo s: regla.getRegla()){
             if((posAccion<regla.getAcciones().size())&&(i==regla.getAcciones().get(posAccion).getPos())){
-                Label ls=new Label(s.getValor()+" ");
-                Label l=new Label("  "+regla.getAcciones().get(posAccion).getValor()+"  ");
-                
+                Label ls=new Label(s.getValor());
+                Label l=new Label(regla.getAcciones().get(posAccion).getValor());
+                l.setFont(new Font(config.getTipoLetra(),config.getSizeAcciones()));
+                Color colorAct=Color.web(config.getColorAccSem());
+                l.setTextFill(colorAct);
                 //result+=+s.getValor()+"  ";
-                
+                ls.setFont(new Font(config.getLetraTraductor()));
+                if(!s.isTerminal()){
+
+                    Color colorText=Color.web(config.getLetraNoTerminal());
+                    ls.setTextFill(colorText);
+
+                }
+                else{
+
+                    Color colorText=Color.web(config.getLetraTerminal());
+                    ls.setTextFill(colorText);
+                }
                 result.add(ls);
                 result.add(l);
+                actions.add(regla.getAcciones().get(posAccion).getValor());
+                
                 posAccion++;
                 
             }
             else{
-                Label l=new Label(s.getValor()+"  ");
+                Label l=new Label(s.getValor());
                 result.add(l);
+                l.setFont(new Font(config.getLetraTraductor()));
+                if(!s.isTerminal()){
+
+                    Color colorText=Color.web(config.getLetraNoTerminal());
+                    l.setTextFill(colorText);
+
+                }
+                else{
+
+                    Color colorText=Color.web(config.getLetraTerminal());
+                    l.setTextFill(colorText);
+                }
             }
+            ruleActions.put(regla.getId(),actions);
             i++;
         }
         
         
         return result;
+    }
+    /**
+     * evaluate if the symbol is terminal
+     * @param regla
+     * rule of the symbol
+     * @param simbolo
+     * symbol to evaluate
+     * @return 
+     * true if is terminal false if not
+     */
+    public boolean isTerminal(Regla regla,String simbolo){
+        for (Simbolo s:regla.getRegla()){
+            if(s.getValor().equals(simbolo))
+                return s.isTerminal();
+        }
+        return false;
     }
     /**
      * build and draw the grammar
@@ -107,11 +170,12 @@ private Pane panelPadre;
             for(Label l:labels){
                 l.setLayoutX(posXAnterior);
                 l.setLayoutY(posYAnterior);
+               
                 panelPadre.getChildren().add(l);
                 posXAnterior=posXAnterior+l.getFont().getSize()/2*l.getText().length()+20;
             }
             
-            posYAnterior+=30;
+            posYAnterior+=40;
             
             reglaLabel.put(r.getId(), labels);
             formaReglas.put(r.getId(), false);
@@ -190,6 +254,52 @@ private Pane panelPadre;
 //        Rectangle rect=new Rectangle(posX, posY, width,l.get(0).getFont().getSize()/2 );
         panelPadre.getChildren().remove(rect);
         return rect;
+    }
+    /**
+     * update the color and the size of the letter of the grammar
+     */
+    public void updateGrammar(){
+        for(String ids:reglaLabel.keySet()){
+            
+            for(Label l:reglaLabel.get(ids)){
+                Color color=null;
+                if(isActions(ruleActions.get(ids),l.getText())){
+                    color=Color.web(config.getColorAccSem());
+                    l.setFont(new Font(config.getSizeAcciones()));
+                }
+                else if(isTerminal(idRegla.get(ids),l.getText())){
+                    color=Color.web(config.getLetraTerminal());
+                    l.setFont(new Font(config.getLetraTraductor()));
+                }
+                else{
+                    color=Color.web(config.getLetraNoTerminal());
+                    l.setFont(new Font(config.getLetraTraductor()));
+                
+                }
+                l.setTextFill(color);
+                
+            }
+        }
+    }
+    /**
+     * evaluate if is a action 
+     * @param actions
+     * action existing
+     * @param actionSearched
+     * action to evaluate
+     * @return 
+     * true if is an action false if not
+     */
+    public boolean isActions(ArrayList<String> actions,String actionSearched){
+        if(actions!=null){
+            for(String action:actions){
+                if((action.equals(actionSearched))){
+                    return true;
+                }
+            }
+        }
+        return false;
+        
     }
     public FicheroXML getEjemplo() {
         return ejemplo;

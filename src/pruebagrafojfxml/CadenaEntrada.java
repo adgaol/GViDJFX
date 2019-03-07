@@ -10,7 +10,9 @@ import java.util.HashSet;
 import java.util.List;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 
 /**
  *
@@ -18,11 +20,13 @@ import javafx.scene.shape.Rectangle;
  */
 public class CadenaEntrada {
 private List<String> cadenaPorPaso;
-
+private Configuracion config;
 private double posX;
 private Pane panelPadre;
 private HashMap<String,Rectangle> rectanglesChain;
 private HashMap<String,String> rectanglesText;
+private HashMap<String,Label>labels;
+
     /**
      * Builder
      * @param cadenaPorPaso
@@ -30,13 +34,14 @@ private HashMap<String,String> rectanglesText;
      * @param panelPadre 
      * Panel where draw the chain
      */
-    public CadenaEntrada(List<String> cadenaPorPaso,Pane panelPadre) {
+    public CadenaEntrada(List<String> cadenaPorPaso,Pane panelPadre,Configuracion config) {
         this.cadenaPorPaso = cadenaPorPaso;
-       
+        this.config=config;
         posX=10;
         this.panelPadre=panelPadre;
         rectanglesChain=new HashMap<>();
         rectanglesText=new HashMap<>();
+        labels=new HashMap<>();
     }
     /**
      * Build the chain
@@ -56,11 +61,17 @@ private HashMap<String,String> rectanglesText;
             r.setOpacity(0.5);
             l.setLayoutX(posX+width/4);
             l.setLayoutY(posY);
+            Color colorAct=Color.web(config.getColorPend());
+            l.setTextFill(colorAct);
+            l.setFont(new Font(config.getLetraCadena()));
             r.setLayoutX(posX);
             r.setLayoutY(posY);
             r.setId(elem);
+            Color colorRectangle=Color.web(config.getColorTerminal());
+            r.setFill(colorRectangle);
             rectanglesChain.put(elem, r);
             rectanglesText.put(r.getId(), elem);
+            labels.put(elem, l);
             panelPadre.getChildren().addAll(r,l);
             posX+=width+10;
         }
@@ -71,28 +82,38 @@ private HashMap<String,String> rectanglesText;
      */
     public void actualizarCadena(int step){
         String[] pendExec=cadenaPorPaso.get(step).split("pend");
-        String[] exec=null;
-        //if(pendExec.length==2){
-            exec=pendExec[0].split(" ");
-        
-            
-            HashSet<String> execToCompare=new HashSet<>();
-            for(int i=0;i<exec.length;i++){
-               execToCompare.add(exec[i]); 
-            }
-            for (String elem:rectanglesChain.keySet()){
-                if(execToCompare.contains(elem))
-                    rectanglesChain.get(elem).setOpacity(1.0);
+        String[] exec=pendExec[0].split(" ");
 
-                else
-                    rectanglesChain.get(elem).setOpacity(0.5);
-           // }
+
+        HashSet<String> execToCompare=new HashSet<>();
+        for(int i=0;i<exec.length;i++){
+           execToCompare.add(exec[i]); 
+        }
+        for (String elem:rectanglesChain.keySet()){
+            if(execToCompare.contains(elem)){
+                rectanglesChain.get(elem).setOpacity(1.0);
+                Color colorAct=Color.web(config.getColorLeido());
+                labels.get(elem).setTextFill(colorAct);
+            }
+            else{
+                rectanglesChain.get(elem).setOpacity(0.5);
+                Color colorAct=Color.web(config.getColorPend());
+                labels.get(elem).setTextFill(colorAct);
+                
+            }
+       // }
         }
         if(step==cadenaPorPaso.size()-1){
             rectanglesChain.get("EOF").setOpacity(1.0);
+            Color colorAct=Color.web(config.getColorLeido());
+            labels.get("EOF").setTextFill(colorAct);
         }
-        else
+        else{
             rectanglesChain.get("EOF").setOpacity(0.5);
+            Color colorAct=Color.web(config.getColorPend());
+            labels.get("EOF").setTextFill(colorAct);
+            
+        }
     }
 
     public HashMap<String, Rectangle> getRectanglesChain() {

@@ -5,15 +5,21 @@
  */
 package pruebagrafojfxml;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventDispatcher;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
@@ -26,6 +32,9 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  *
@@ -39,6 +48,65 @@ public class FXMLDocumentController implements Initializable {
     private ScrollPane gramatica;
     @FXML
     private ScrollPane cadenaEntrada;
+    
+    @FXML
+    public void handleOpenConfiguration(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocumentConfig.fxml"));
+
+        Scene scene = new Scene(root);
+        Stage configurationScreen=new Stage();
+        configurationScreen.setScene(scene);
+        configurationScreen.initModality(Modality.WINDOW_MODAL);
+        configurationScreen.setTitle("Configuración");
+            // Specifies the owner Window (parent) for new window
+        configurationScreen.initOwner(PruebaGrafoJFXML.getStage());
+           //configuration.onCloseRequestProperty().addListener();
+            // Set position of second window, related to primary window.
+            //newWindow.setX(primaryStage.getX() + 200);
+            //newWindow.setY(primaryStage.getY() + 100);
+        configurationScreen.show();
+        configurationScreen.setOnHiding(new EventHandler<WindowEvent>() {
+          @Override
+          public void handle(WindowEvent we) {
+            //int cont=contador;
+            configuration.cargarConfiguracion("./config/configActual.xml");
+            graph.updateGraph();
+            grammar.updateGrammar();
+         
+            
+          }
+      }); 
+
+
+    }
+    @FXML
+    private void handleAnteriorAction(ActionEvent event) {
+         if(0<graph.getContador()){
+            System.out.println("LEFT");
+            graph.eliminar( graph.getContador()-1);
+         }
+//        label.setText("Hello World!");
+    }
+    @FXML
+    private void handleSiguienteAction(ActionEvent event) {
+        if(ejemplo.getNumNodos()>graph.getContador()){
+                System.out.println("RIGHT");
+                graph.construir(graph.getContador()+1);
+        }
+//        label.setText("Hello World!");
+    }
+    @FXML
+    private void handleIrFinAction(ActionEvent event) {
+        System.out.println("Fin");
+        graph.construir(ejemplo.getNumNodos());
+//        label.setText("Hello World!");
+    }
+    @FXML
+    private void handleIrInicioAction(ActionEvent event) {
+        System.out.println("Inicio");
+            graph.eliminar(0);
+//        label.setText("Hello World!");
+    }
 
 //    @FXML
 //    private void handleMouseAction(MouseEvent event) {
@@ -90,11 +158,14 @@ public class FXMLDocumentController implements Initializable {
     private Pane paneGrafo;
     private Pane paneGramatica;
     private Pane paneCadenaEntrada;
+    private Configuracion configuration;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
       ejemplo = new FicheroXML();
       ejemplo.cargarXml("C:\\Users\\adgao\\Documents\\universidad\\TFG\\TFG-Anterior\\TFG-Anterior\\VisTDS\\traductores\\descend.xml"); 
   //    HashMap rectangles=new HashMap();
+      configuration=new Configuracion();
+      configuration.cargarConfiguracion("./config/configActual.xml");
       paneGrafo=new Pane();  
       grafo.setContent(paneGrafo);
       paneGramatica=new Pane();  
@@ -148,12 +219,12 @@ public class FXMLDocumentController implements Initializable {
 //        pane.getChildren().remove(rectangles.get(r1));
 //      });
       //pane.getChildren().addAll(n1.getRectangle(),r2,line,label1);
-      entryChain=new CadenaEntrada(ejemplo.getCadena(),paneCadenaEntrada);
+      entryChain=new CadenaEntrada(ejemplo.getCadena(),paneCadenaEntrada,configuration);
       entryChain.construir();
-      grammar=new Gramatica(ejemplo,paneGramatica);
+      grammar=new Gramatica(ejemplo,paneGramatica,configuration);
       grammar.construir(/*paneGramatica*/);
       
-      graph=new Grafo(ejemplo,grammar,entryChain,paneGrafo);
+      graph=new Grafo(ejemplo,grammar,entryChain,paneGrafo,configuration);
       
 //      graph.construir(contador, 8, pane);
 //      contador=8;

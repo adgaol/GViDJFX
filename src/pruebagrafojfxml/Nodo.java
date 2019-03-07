@@ -28,12 +28,14 @@ public class Nodo {
    private HashMap<String , Nodo> hermanos; 
    private Nodo LeftSibling;
    private Rectangle rectRgla;
-    public Nodo(String simbolo,Nodo parent) {
+   private Boolean isTerminal;//true=terminal false=no terminal 
+    public Nodo(String simbolo,Nodo parent,Boolean isTerminal) {
         this.simbolo = simbolo;
         this.rectangle = new Rectangle(50,50);
         this.hermanos=new HashMap<>();
         this.parent = parent;
         this.children = new LinkedList<>();
+        this.isTerminal=isTerminal;
         if(parent!=null && !parent.getChildren().isEmpty())
             this.LeftSibling=parent.getChildren().getLast();
     }
@@ -143,4 +145,12 @@ public class Nodo {
 //        }
 //        
 //    }
+
+    public Boolean getIsTerminal() {
+        return isTerminal;
+    }
+
+    public void setIsTerminal(Boolean isTerminal) {
+        this.isTerminal = isTerminal;
+    }
 }
