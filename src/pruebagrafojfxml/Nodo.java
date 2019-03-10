@@ -5,6 +5,7 @@
  */
 package pruebagrafojfxml;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import javafx.scene.control.Label;
@@ -28,14 +29,21 @@ public class Nodo {
    private HashMap<String , Nodo> hermanos; 
    private Nodo LeftSibling;
    private Rectangle rectRgla;
-   private Boolean isTerminal;//true=terminal false=no terminal 
-    public Nodo(String simbolo,Nodo parent,Boolean isTerminal) {
+   private Boolean isTerminal;//true=terminal false=no terminal
+   private int font; 
+   private ArrayList<Line> lines;
+    public Nodo(String simbolo,Nodo parent,Boolean isTerminal,int font) {
         this.simbolo = simbolo;
-        this.rectangle = new Rectangle(50,50);
+        this.font=font;
+        if((font<=15) && (simbolo.length()<=3))
+            this.rectangle = new Rectangle(50,50);
+        else
+            this.rectangle=new Rectangle(50+this.simbolo.length()-3+font,50);
         this.hermanos=new HashMap<>();
         this.parent = parent;
         this.children = new LinkedList<>();
         this.isTerminal=isTerminal;
+        this.lines=new ArrayList<>();
         if(parent!=null && !parent.getChildren().isEmpty())
             this.LeftSibling=parent.getChildren().getLast();
     }
@@ -153,4 +161,10 @@ public class Nodo {
     public void setIsTerminal(Boolean isTerminal) {
         this.isTerminal = isTerminal;
     }
+
+    public ArrayList<Line> getLines() {
+        return lines;
+    }
+    
 }
+

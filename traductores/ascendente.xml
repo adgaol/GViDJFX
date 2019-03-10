@@ -1,0 +1,435 @@
+
+<!--?xml version="1.0" encoding="UTF-8"?-->
+ 
+     <raiz>
+        <espec nombre="Especificación del XML">
+            <traductor>
+                <tipo>Ascendente</tipo>
+               
+                <regla  id="R1">
+
+                    <accionSemantica pos="4">
+                        {print(op(B.resul,A.resul);}
+                    </accionSemantica>
+                  <simbolo>               
+                      <valor>EXP::=</valor>
+                      <terminal>false</terminal>
+                  </simbolo>
+
+                  <simbolo>
+                      <valor>B</valor>
+                      <terminal>false</terminal>
+                  </simbolo>
+
+                  <simbolo>
+                      <valor>A</valor>
+                      <terminal>false</terminal>
+                  </simbolo>
+
+                  <simbolo>
+                      <valor>;</valor>
+                      <terminal>true</terminal>
+                  </simbolo>
+                </regla>
+
+                <regla  id="R2">             
+
+                     <accionSemantica pos="4">
+                        {+ op(B.resul,A1.resul);}
+                    </accionSemantica>
+
+                  <simbolo>
+                      <valor>A::=</valor>
+                      <terminal>false</terminal>
+                  </simbolo>
+
+                  <simbolo>
+                      <valor>+</valor>
+                      <terminal>true</terminal>
+                  </simbolo>
+
+                  <simbolo>
+                      <valor>B</valor>
+                      <terminal>false</terminal>
+                  </simbolo>
+
+                  <simbolo>
+                      <valor>A1</valor>
+                      <terminal>false</terminal>
+                  </simbolo>
+                </regla>
+
+                <regla id="R3">
+                    <accionSemantica pos="2">
+                        {A.resul = + 0;}
+                     </accionSemantica>
+                   <simbolo>
+                       <valor>|</valor>
+                       <terminal>false</terminal>
+                   </simbolo>
+
+                   <simbolo>
+                       <valor>λ</valor>
+                       <terminal>true</terminal>
+                   </simbolo>           
+
+                 </regla>   
+
+                <regla id="R4">
+
+                   <accionSemantica pos="3">
+                      {op(num,C.resul);}
+                   </accionSemantica>
+                 <simbolo>
+                     <valor>B::=</valor>
+                     <terminal>false</terminal>
+                 </simbolo>
+
+                 <simbolo>
+                     <valor>num</valor>
+                     <terminal>true</terminal>
+                 </simbolo>   
+
+                 <simbolo>
+                     <valor>C</valor>
+                     <terminal>false</terminal>
+                 </simbolo>      
+               </regla>
+
+               <regla id="R5">              
+                   <accionSemantica pos="4">
+                     {* op(num,C1);}
+                  </accionSemantica>
+                <simbolo>
+                    <valor>C::=</valor>
+                    <terminal>false</terminal>
+                </simbolo>
+                <simbolo>
+                    <valor>*</valor>
+                    <terminal>true</terminal>
+                </simbolo>  
+                <simbolo>
+                    <valor>num</valor>
+                    <terminal>true</terminal>
+                </simbolo>   
+
+                <simbolo>
+                    <valor>C1</valor>
+                    <terminal>false</terminal>
+                </simbolo> 
+               </regla>
+               <regla id="R6">
+                    <accionSemantica pos="2">
+                     {C.resul = * 1;}
+                  </accionSemantica>
+                <simbolo>
+                    <valor>|</valor>
+                    <terminal>false</terminal>
+                </simbolo>
+
+                <simbolo>
+                    <valor>λ</valor>
+                    <terminal>true</terminal>
+                </simbolo>           
+
+              </regla>         
+            </traductor>
+            <cadena>
+                2 * 4 + 3
+            </cadena>
+            <arbol>
+                <num_nodos>17</num_nodos>
+                <altura>5</altura>
+                <nodo id="16">
+                    <elemento>EXP</elemento>
+                    <nivel>1</nivel>               
+                </nodo>
+
+                <nodo id="6">
+                    <elemento>B</elemento>
+                    <nivel>2</nivel>               
+                </nodo>
+                <nodo id="14">
+                    <elemento>A</elemento>
+                    <nivel>2</nivel>               
+                </nodo>
+                <nodo id="15">
+                    <elemento>;</elemento>
+                    <nivel>2</nivel>               
+                </nodo>
+
+                <nodo id="0">
+                    <elemento>num</elemento>
+                    <nivel>3</nivel> 
+                </nodo>
+                <nodo id="5">
+                    <elemento>C</elemento>
+                    <nivel>3</nivel> 
+                </nodo>
+                <nodo id="7">
+                    <elemento>+</elemento>
+                    <nivel>3</nivel> 
+                </nodo>           
+                <nodo id="11">
+                    <elemento>B</elemento>
+                    <nivel>3</nivel> 
+                </nodo>
+                <nodo id="13">
+                    <elemento>A1</elemento>
+                    <nivel>3</nivel> 
+                </nodo>
+
+                <nodo id="1">
+                    <elemento>*</elemento>
+                    <nivel>4</nivel> 
+                </nodo>
+                <nodo id="2">
+                    <elemento>num</elemento>
+                    <nivel>4</nivel> 
+                </nodo>
+                <nodo id="4">
+                    <elemento>C1</elemento>
+                    <nivel>4</nivel> 
+                </nodo>
+                <nodo id="8">
+                    <elemento>num</elemento>
+                    <nivel>4</nivel> 
+                </nodo>
+                <nodo id="10">
+                    <elemento>C</elemento>
+                    <nivel>4</nivel> 
+                </nodo>
+                <nodo id="12">
+                    <elemento>λ</elemento>
+                    <nivel>4</nivel> 
+                </nodo>
+
+                <nodo id="3">
+                    <elemento>λ</elemento>
+                    <nivel>5</nivel> 
+                </nodo>
+                <nodo id="9">
+                    <elemento>λ</elemento>
+                    <nivel>5</nivel> 
+                </nodo>
+            </arbol>
+
+            <contenido>
+                <paso id="0">
+                    <tipo> desplazamiento </tipo>
+                    <nuevaRegla refRegla="R4">
+                        B::= num C
+                        
+                    </nuevaRegla>
+                    
+                    <widthRegla>3</widthRegla>
+                    <cadena>
+                        <leido>2</leido>
+                        <pendiente>* 4 + 3</pendiente>
+                    </cadena>
+                    <elemento>num</elemento>               
+                    <valor>num.vlex=2</valor>
+
+                </paso>
+
+                <paso id="1">
+                    <tipo> desplazamiento </tipo>
+                    <nuevaRegla refRegla="R5">
+                        C::= * num C1
+                       
+                    </nuevaRegla>
+                    <widthRegla>4</widthRegla>
+                    <cadena>
+                        <leido>2 *</leido>
+                        <pendiente>4 + 3</pendiente>
+                    </cadena>
+                    <elemento>*</elemento>
+                   <valor></valor>
+                </paso>
+
+                <paso id="2">
+                    <tipo> desplazamiento </tipo>
+                    
+                    <cadena>
+                        <leido>2 * 4</leido>
+                        <pendiente>+ 3</pendiente>
+                    </cadena>
+                    <elemento>num</elemento>
+                    <valor>num.vlex=4</valor>
+                </paso>
+
+                <paso id="3">
+                    <tipo> desplazamiento </tipo>
+                    <nuevaRegla refRegla="R6">C::= λ 
+                    </nuevaRegla>
+                    <widthRegla>4</widthRegla>
+                    <cadena>
+                        <leido>2 * 4</leido>
+                        <pendiente>+ 3</pendiente>
+                    </cadena>
+                    <elemento>λ</elemento>
+                    <valor></valor>
+                </paso>
+
+                <paso id="4">
+                    <tipo> reduccion </tipo>
+                    
+                      <cadena>
+                        <leido>2 * 4</leido>
+                        <pendiente>+ 3</pendiente>
+                    </cadena>  
+                    <elemento> C1</elemento> 
+					<relNodos>3</relNodos>
+                    <valor>C.resul=* 1</valor>  
+
+                </paso>
+                <paso id="5">
+                    <tipo> reduccion </tipo>
+                    
+                      <cadena>
+                        <leido>2 * 4</leido>
+                        <pendiente>+ 3</pendiente>
+                    </cadena>  
+                    <elemento> C</elemento> 
+					<relNodos>1 2 4</relNodos>
+                    <valor>C.resul=* 4</valor> 
+
+                </paso>
+
+                <paso id="6">
+                    <tipo> reduccion </tipo>
+                    <nuevaRegla refRegla="R1">EXP::=B A ;
+                   </nuevaRegla>
+                    <widthRegla>9</widthRegla>
+                      <cadena>
+                        <leido>2 * 4</leido>
+                        <pendiente>+ 3</pendiente>
+                    </cadena>  
+                    <elemento> B</elemento> 
+					<relNodos>0 5</relNodos>
+                    <valor>B.resul=8</valor>  
+
+                </paso>
+
+                <paso id="7">
+                    <tipo> desplazamiento </tipo>
+                    <nuevaRegla refRegla="R2">A::= + B A1
+                   </nuevaRegla>
+                    <widthRegla>8</widthRegla>
+                      <cadena>
+                        <leido>2 * 4 +</leido>
+                        <pendiente>3</pendiente>
+                    </cadena>  
+                    <elemento>+</elemento>    
+                    <valor></valor>        
+                </paso>
+
+                <paso id="8">
+                    <tipo> desplazamiento </tipo>
+                    <nuevaRegla refRegla="R4">B::= num C
+                    </nuevaRegla>
+                    <widthRegla>7</widthRegla>
+                      <cadena>
+                        <leido>2 * 4 + 3</leido>
+                        <pendiente></pendiente>
+                    </cadena>  
+                    <elemento>num</elemento>    
+                    <valor>num.vlex=3</valor>         
+                </paso>
+
+                <paso id="9">
+                    <tipo> desplazamiento </tipo>
+                   <nuevaRegla refRegla="R6">C::= λ
+                   </nuevaRegla>
+                    <widthRegla>7</widthRegla>
+                      <cadena>
+                        <leido>2 * 4 + 3</leido>
+                        <pendiente></pendiente>
+                    </cadena>  
+                    <elemento>λ</elemento>    
+                    <valor></valor>         
+                </paso>
+
+                <paso id="10">
+                    <tipo> reduccion </tipo>
+                    
+                      <cadena>
+                        <leido>2 * 4 + 3</leido>
+                        <pendiente></pendiente>
+                    </cadena>  
+                    <elemento> C</elemento> 
+					<relNodos>9</relNodos>
+                    <valor>C.resul=* 1</valor>               
+                </paso>
+
+                 <paso id="11">
+                    <tipo> reduccion </tipo>
+                   
+                      <cadena>
+                        <leido>2 * 4 + 3</leido>
+                        <pendiente></pendiente>
+                    </cadena>  
+                    <elemento>B</elemento> 
+					<relNodos>8 10</relNodos>
+                    <valor>B.resul=3</valor>                         
+                </paso>
+                <paso id="12">
+                    <tipo> desplazamiento </tipo>
+                    <nuevaRegla refRegla="R3">A::= λ
+                    </nuevaRegla>
+                    <widthRegla>8</widthRegla>
+                      <cadena>
+                        <leido>2 * 4 + 3</leido>
+                        <pendiente></pendiente>
+                    </cadena>  
+                    <elemento>λ</elemento>    
+                   <valor></valor>         
+                </paso>
+                <paso id="13">
+                    <tipo> reduccion </tipo>
+                    
+                      <cadena>
+                        <leido>2 * 4 + 3</leido>
+                        <pendiente></pendiente>
+                    </cadena>  
+                    <elemento> A1</elemento>
+					<relNodos>12</relNodos>
+                    <valor>A.resul=+ 0</valor>                   
+                </paso>
+
+                 <paso id="14">
+                    <tipo> reduccion </tipo>
+                    
+                      <cadena>
+                       <leido>2 * 4 + 3</leido>
+                        <pendiente></pendiente>
+                    </cadena>  
+                    <elemento>A</elemento>
+					<relNodos>7 11 13</relNodos>
+                    <valor>A.resul=+ 3</valor>                         
+                </paso>
+                <paso id="15">
+                    <tipo> desplazamiento </tipo>
+                    
+                      <cadena>
+                        <leido>2 * 4 + 3</leido>
+                        <pendiente></pendiente>
+                    </cadena>  
+                    <elemento>;</elemento>    
+                    <valor></valor>           
+                </paso>
+                <paso id="16">
+                    <tipo> reduccion </tipo>
+                    
+                      <cadena>
+                        <leido>2 * 4 + 3</leido>
+                        <pendiente></pendiente>
+                    </cadena>  
+                    <elemento>EXP</elemento>
+					<relNodos>6 14 15</relNodos>
+                    <valor></valor>                         
+                </paso>
+            </contenido>
+        </espec>  
+
+</raiz>

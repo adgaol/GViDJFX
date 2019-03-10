@@ -41,7 +41,7 @@
                         </Menu>
                         <Menu mnemonicParsing="false" text="Cargar">
                           <items>
-                            <MenuItem mnemonicParsing="false" text="Traductor" />
+                            <MenuItem mnemonicParsing="false" onAction="#handleCargarArchivo" text="Traductor" />
                           <MenuItem mnemonicParsing="false" text="Cadena" />
                           </items>
                         </Menu>
@@ -58,16 +58,16 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Ejecución">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Inicio" />
-                        <MenuItem mnemonicParsing="false" text="Anterior" />
-                        <MenuItem mnemonicParsing="false" text="siguiente" />
-                        <MenuItem mnemonicParsing="false" text="Fin" />
+                    <MenuItem mnemonicParsing="false" onAction="#handleIrInicioAction" text="Inicio" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleAnteriorAction" text="Anterior" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleSiguienteAction" text="siguiente" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleIrFinAction" text="Fin" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Configuración">
                   <items>
                     <MenuItem mnemonicParsing="false" onAction="#handleOpenConfiguration" text="Editar configuración" />
-                        <MenuItem mnemonicParsing="false" text="Restablecer configuración por defecto" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleDefaultConfiguration" text="Restablecer configuración por defecto" />
                   </items>
                 </Menu>
                   <Menu mnemonicParsing="false" text="Ayuda">
@@ -107,13 +107,13 @@
                                 </rowConstraints>
                                  <children>
                                     <Label prefHeight="25.0" prefWidth="44.0" text="Zoom" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <Slider majorTickUnit="50.0" max="300.0" min="50.0" minorTickCount="10" prefHeight="38.0" prefWidth="269.0" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.valignment="CENTER" />
-                                    <Button layoutX="5.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="31.0" text="-" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                    <Slider fx:id="sliderZoom" majorTickUnit="50.0" max="300.0" min="50.0" minorTickCount="10" prefHeight="38.0" prefWidth="269.0" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.valignment="CENTER" />
+                                    <Button layoutX="5.0" mnemonicParsing="false" onAction="#handleMasMenosZoom" prefHeight="25.0" prefWidth="31.0" text="-" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                        <GridPane.margin>
                                           <Insets />
                                        </GridPane.margin>
                                     </Button>
-                                    <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="31.0" text="+" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
+                                    <Button fx:id="masZoom" mnemonicParsing="false" onAction="#handleMasMenosZoom" prefHeight="25.0" prefWidth="31.0" text="+" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
                                  </children>
                               </GridPane>
                            </bottom>

@@ -1,0 +1,878 @@
+
+<!--?xml version="1.0" encoding="UTF-8"?-->
+ 
+     <raiz>
+        <espec nombre="Especificación del XML">
+            <traductor>
+                <tipo>Descendente</tipo>
+                
+         <regla  id="R1">
+             <accionSemantica pos="2">
+                {Ep.vh = T.vs;} 
+                 <intermedio>si</intermedio>
+             </accionSemantica>
+             <accionSemantica pos="3">
+                {E.valor = Ep.vs;}
+             </accionSemantica>
+           <simbolo>               
+               <valor>E::=</valor>
+               <terminal>false</terminal>
+           </simbolo>
+           
+           <simbolo>
+               <valor>T</valor>
+               <terminal>false</terminal>
+           </simbolo>
+           
+           <simbolo>
+               <valor>Ep</valor>
+               <terminal>false</terminal>
+           </simbolo>           
+          
+         </regla>
+         
+         <regla  id="R2">
+             <accionSemantica pos="3">
+               {Ep1.vh = Ep.vh + T.vs;} 
+                 <intermedio>si</intermedio>
+             </accionSemantica>             
+              <accionSemantica pos="4">
+               {Ep.vs = Ep1.vs}
+             </accionSemantica>
+             
+           <simbolo>
+               <valor>Ep</valor>
+               <terminal>false</terminal>
+           </simbolo>
+           
+           <simbolo>
+               <valor>+</valor>
+               <terminal>true</terminal>
+           </simbolo>
+           
+           <simbolo>
+               <valor>T</valor>
+               <terminal>false</terminal>
+           </simbolo>
+           
+           <simbolo>
+               <valor>Ep1</valor>
+               <terminal>false</terminal>
+           </simbolo>
+         </regla>
+          
+        <regla id="R3">
+             <accionSemantica pos="3">
+                {Ep1.vh = Ep.vh - T.vs;} 
+                 <intermedio>si</intermedio>
+             </accionSemantica>             
+              <accionSemantica pos="4">
+               {Ep.vs = Ep1.vs}
+             </accionSemantica>
+             
+           <simbolo>
+               <valor>|</valor>
+               <terminal>false</terminal>
+           </simbolo>
+           
+           <simbolo>
+               <valor>-</valor>
+               <terminal>true</terminal>
+           </simbolo>
+           
+           <simbolo>
+               <valor>T</valor>
+               <terminal>false</terminal>
+           </simbolo>
+           
+           <simbolo>
+               <valor>Ep1</valor>
+               <terminal>false</terminal>
+           </simbolo>         
+           
+         </regla>   
+         
+          <regla id="R4">
+                <accionSemantica pos="2">
+               {Ep.vs = Ep.vh;}
+             </accionSemantica>
+           <simbolo>
+               <valor>|</valor>
+               <terminal>false</terminal>
+           </simbolo>
+           
+           <simbolo>
+               <valor>λ</valor>
+               <terminal>true</terminal>
+           </simbolo>         
+          
+         </regla>
+         
+          <regla id="R5">
+               <accionSemantica pos="2">
+                  {Tp.vh = F.vs;} 
+                   <intermedio>si</intermedio>
+             </accionSemantica>
+              <accionSemantica pos="3">
+                 {T.valor = Tp.vs;}
+             </accionSemantica>
+           <simbolo>
+               <valor>T::=</valor>
+               <terminal>false</terminal>
+           </simbolo>
+           <simbolo>
+               <valor>F</valor>
+               <terminal>false</terminal>
+           </simbolo>  
+           <simbolo>
+               <valor>Tp</valor>
+               <terminal>false</terminal>
+           </simbolo>   
+           
+          </regla>
+          <regla id="R6">
+             <accionSemantica pos="3">
+                {Tp1.vh = Tp.vh * F.valor;}  
+                 <intermedio>si</intermedio>
+             </accionSemantica>             
+              <accionSemantica pos="4">
+               {Tp.vs = Tp1.vs}
+             </accionSemantica>
+             
+           <simbolo>
+               <valor>Tp::=</valor>
+               <terminal>false</terminal>
+           </simbolo>
+           
+           <simbolo>
+               <valor>*</valor>
+               <terminal>true</terminal>
+           </simbolo>
+           
+           <simbolo>
+               <valor>F</valor>
+               <terminal>false</terminal>
+           </simbolo>
+           
+           <simbolo>
+               <valor>Tp1</valor>
+               <terminal>false</terminal>
+           </simbolo>           
+         </regla>
+		 
+		 <regla id="R7">
+             <accionSemantica pos="3">
+                {Tp1.vh = Tp.vh / F.valor;}  
+                 <intermedio>si</intermedio>
+             </accionSemantica>             
+              <accionSemantica pos="4">
+                {Tp.vs = Tp1.vs}
+             </accionSemantica>
+             
+           <simbolo>
+               <valor>|</valor>
+               <terminal>false</terminal>
+           </simbolo>
+           
+           <simbolo>
+               <valor>/</valor>
+               <terminal>true</terminal>
+           </simbolo>
+           
+           <simbolo>
+               <valor>F</valor>
+               <terminal>false</terminal>
+           </simbolo>
+           
+           <simbolo>
+               <valor>Tp1</valor>
+               <terminal>false</terminal>
+           </simbolo>           
+         </regla>
+		 
+		  <regla id="R8">
+               <accionSemantica pos="2">
+				{Tp.vs = Tp.vh;}
+             </accionSemantica>
+           <simbolo>
+               <valor>|</valor>
+               <terminal>false</terminal>
+           </simbolo>
+           
+           <simbolo>
+               <valor>λ</valor>
+               <terminal>true</terminal>
+           </simbolo>         
+          
+         </regla>
+		 
+		 <regla id="R9">
+             <accionSemantica pos="2">
+                    {F.valor=num.valex;}
+             </accionSemantica>
+             <simbolo>
+                <valor>F::=</valor>
+                <terminal>false</terminal>
+            </simbolo>
+
+            <simbolo>
+                 <valor>num</valor>
+                 <terminal>true</terminal>
+            </simbolo>           
+
+              </regla>    
+			  
+			<regla id="R10">
+                <accionSemantica pos="4">
+                     {F.valor=E.valor;}
+                  </accionSemantica>
+                <simbolo>
+                    <valor>|</valor>
+                    <terminal>false</terminal>
+                </simbolo>
+
+                <simbolo>
+                    <valor>(</valor>
+                    <terminal>true</terminal>
+                </simbolo> 
+				
+				<simbolo>
+                    <valor>E</valor>
+                    <terminal>false</terminal>
+                </simbolo>  
+				
+				<simbolo>
+                    <valor>)</valor>
+                    <terminal>true</terminal>
+                </simbolo>  
+
+              </regla>   
+		 
+            </traductor>
+            <cadena>
+                ( 2 + 3 ) * 4
+            </cadena>
+            <arbol>
+                <num_nodos>28</num_nodos>
+                <altura>8</altura>
+                <nodo id="0">
+                    <elemento>E</elemento>
+                    <nivel>1</nivel>
+                    <terminal>false</terminal>               
+                </nodo>
+
+                <nodo id="1">
+                    <elemento>T</elemento>
+                    <nivel>2</nivel>
+                    <terminal>false</terminal>               
+                </nodo>
+                <nodo id="26">
+                    <elemento>Ep</elemento>
+                    <nivel>2</nivel> 
+                    <terminal>false</terminal>              
+                </nodo>
+                <nodo id="2">
+                    <elemento>F</elemento>
+                    <nivel>3</nivel>
+                    <terminal>false</terminal>               
+                </nodo>
+
+                <nodo id="20">
+                    <elemento>Tp</elemento>
+                    <nivel>3</nivel> 
+                    <terminal>false</terminal>
+                </nodo>
+                <nodo id="27">
+                    <elemento>λ</elemento>
+                    <nivel>3</nivel> 
+                    <terminal>true</terminal>
+                </nodo>
+                <nodo id="3">
+                    <elemento>(</elemento>
+                    <nivel>4</nivel> 
+                    <terminal>true</terminal>
+                </nodo>           
+                <nodo id="4">
+                    <elemento>E</elemento>
+                    <nivel>4</nivel>
+                    <terminal>false</terminal> 
+                </nodo>
+                <nodo id="19">
+                    <elemento>)</elemento>
+                    <nivel>4</nivel> 
+                    <terminal>true</terminal>
+                </nodo>
+				 <nodo id="21">
+                    <elemento>*</elemento>
+                    <nivel>4</nivel> 
+                    <terminal>true</terminal>
+                </nodo>
+                <nodo id="22">
+                    <elemento>F</elemento>
+                    <nivel>4</nivel> 
+                    <terminal>false</terminal>
+                </nodo>
+                <nodo id="24">
+                    <elemento>Tp1</elemento>
+                    <nivel>4</nivel> 
+                    <terminal>false</terminal>
+                </nodo>
+                <nodo id="5">
+                    <elemento>T</elemento>
+                    <nivel>5</nivel>
+                    <terminal>false</terminal> 
+                </nodo>
+                <nodo id="10">
+                    <elemento>Ep</elemento>
+                    <nivel>5</nivel> 
+                    <terminal>false</terminal>
+                </nodo>
+                <nodo id="23">
+                    <elemento>num</elemento>
+                    <nivel>5</nivel> 
+                    <terminal>true</terminal>
+                </nodo>
+                <nodo id="25">
+                    <elemento>λ</elemento>
+                    <nivel>5</nivel>
+                    <terminal>true</terminal> 
+                </nodo>
+
+                <nodo id="6">
+                    <elemento>F</elemento>
+                    <nivel>6</nivel>
+                    <terminal>false</terminal>  
+                </nodo>
+                <nodo id="8">
+                    <elemento>Tp</elemento>
+                    <nivel>6</nivel> 
+                    <terminal>false</terminal> 
+                </nodo>
+				<nodo id="11">
+                    <elemento>+</elemento>
+                    <nivel>6</nivel> 
+                    <terminal>true</terminal> 
+                </nodo>
+				 <nodo id="12">
+                    <elemento>T</elemento>
+                    <nivel>6</nivel> 
+                    <terminal>false</terminal> 
+                </nodo>
+				<nodo id="17">
+                    <elemento>Ep1</elemento>
+                    <nivel>6</nivel> 
+                    <terminal>false</terminal> 
+                </nodo>
+				<nodo id="7">
+                    <elemento>num</elemento>
+                    <nivel>7</nivel> 
+                    <terminal>true</terminal> 
+                </nodo>
+				 <nodo id="9">
+                    <elemento>λ</elemento>
+                    <nivel>7</nivel>
+                    <terminal>true</terminal> 
+                </nodo>
+				 <nodo id="13">
+                    <elemento>F</elemento>
+                    <nivel>7</nivel>
+                    <terminal>false</terminal>  
+                </nodo>
+				<nodo id="15">
+                    <elemento>Tp</elemento>
+                    <nivel>7</nivel>
+                    <terminal>false</terminal>  
+                </nodo>
+				<nodo id="18">
+                    <elemento>λ</elemento>
+                    <nivel>7</nivel>
+                    <terminal>true</terminal> 
+                </nodo>
+				<nodo id="14">
+                    <elemento>num</elemento>
+                    <nivel>8</nivel> 
+                    <terminal>true</terminal> 
+                </nodo>
+				<nodo id="16">
+                    <elemento>λ</elemento>
+                    <nivel>8</nivel>
+                    <terminal>true</terminal> 
+                </nodo>
+            </arbol>
+
+            <contenido>
+                <paso id="0">
+                    <tipo> primero </tipo>                                  
+                    <cadena>
+                        <leido></leido>
+                        <pendiente>( 2 + 3 ) * 4</pendiente>
+                    </cadena>
+                    <elemento>E</elemento>               
+                    <valor>E.valor=null</valor>
+
+                </paso>
+
+                <paso id="1">
+                    <tipo> derivacion </tipo>
+                    <nuevaRegla refRegla="R1">E::= T Ep					
+                    </nuevaRegla>
+                    <widthRegla>12</widthRegla>
+                    <cadena>
+                        <leido></leido>
+                        <pendiente>( 2 + 3 ) * 4</pendiente>
+                    </cadena>
+                    <elemento>T</elemento>
+					<relNodos>0</relNodos>
+                    <valor>T.vs=null</valor>
+                </paso>
+                
+                 
+                <paso id="2">
+                    <tipo> derivacion </tipo>
+                     <nuevaRegla refRegla="R5">T::= F Tp                                                 
+                     </nuevaRegla>
+                     <widthRegla>9</widthRegla>                    
+                    <cadena>
+                         <leido></leido>
+                        <pendiente>( 2 + 3 ) * 4</pendiente>
+                    </cadena>
+                    <elemento>F</elemento>
+					<relNodos>1</relNodos>
+                    <valor>F.vs=null</valor>
+                </paso>
+                
+                 <paso id="3">
+                    <tipo> derivacion </tipo>
+                     <nuevaRegla refRegla="R10">F::= ( E )                                                 
+                     </nuevaRegla>
+                     <widthRegla>8</widthRegla>                    
+                    <cadena>
+                         <leido>(</leido>
+                        <pendiente>2 + 3 ) * 4</pendiente>
+                    </cadena>
+                    <elemento>(</elemento>
+					<relNodos>2</relNodos>
+                    <valor>F.vs=null</valor>
+                </paso>
+                
+                 <paso id="4">
+                    <tipo> despDes</tipo>                                         
+                    <cadena>
+                         <leido>(</leido>
+                        <pendiente>2 + 3 ) * 4</pendiente>
+                    </cadena>
+                    <elemento>E</elemento>
+					<relNodos>2</relNodos>
+                    <valor>E.valor=null</valor>
+					
+                </paso>
+                 <paso id="5">
+                    <tipo> derivacion </tipo>
+                     <nuevaRegla refRegla="R1">E::= T Ep                                                 
+                     </nuevaRegla>
+                     <widthRegla>5</widthRegla>                    
+                    <cadena>
+                         <leido>(</leido>
+                        <pendiente>2 + 3 ) * 4</pendiente>
+                    </cadena>
+                    <elemento>T</elemento>
+					<relNodos>4</relNodos>
+                    <valor>T.vs=null</valor>					
+                </paso>
+                 <paso id="6">
+                    <tipo> derivacion </tipo>
+                     <nuevaRegla refRegla="R5">T::= F Tp                                                 
+                     </nuevaRegla>
+                     <widthRegla>3</widthRegla>                    
+                    <cadena>
+                         <leido>(</leido>
+                        <pendiente>2 + 3 ) * 4</pendiente>
+                    </cadena>
+                    <elemento>F</elemento>
+					<relNodos>5</relNodos>
+                    <valor>F.vs=null</valor>
+                </paso>
+
+                <paso id="7">
+                    <tipo> derivacion </tipo>
+                    <nuevaRegla refRegla="R9">F::= num                                               
+                    </nuevaRegla>
+                    <widthRegla>2</widthRegla>
+                    <cadena>
+                        <leido>( 2</leido>
+                        <pendiente>+ 3 ) * 4</pendiente>
+                    </cadena>
+                    <elemento>num</elemento>
+					<relNodos>6</relNodos>
+                    <valor>num.valex=2</valor>
+					<accionSemanticaEjecutada>
+						<nodo>
+							<refNodo>6</refNodo>
+							<atributos>F.vs=2</atributos>
+						</nodo>											
+					</accionSemanticaEjecutada>
+                </paso>
+                 <paso id="8">
+                    <tipo>despDes</tipo>
+                                    
+                    <cadena>
+                         <leido>( 2</leido>
+                        <pendiente>+ 3 ) * 4</pendiente>
+                    </cadena>
+                    <elemento>Tp</elemento>
+					<relNodos>5</relNodos>
+                   <valor>
+                       Tp.vh=2 Tp.vs=null                
+                   </valor>
+				   
+                </paso>
+                  
+
+                <paso id="9">
+                    <tipo> derivacion </tipo>
+                    <nuevaRegla refRegla="R8">Tp::= λ                         
+                    </nuevaRegla>
+                    <widthRegla>3</widthRegla>
+                      <cadena>
+                        <leido>( 2</leido>
+                        <pendiente>+ 3 ) * 4</pendiente>
+                    </cadena>  
+                    <elemento>λ</elemento>
+					<relNodos>8</relNodos>					
+                    <valor></valor>
+					<accionSemanticaEjecutada>
+						<nodo>
+							<refNodo>8</refNodo>
+							<atributos>Tp.vh=2 Tp.vs=2</atributos>
+						</nodo>											
+					</accionSemanticaEjecutada>
+                </paso>
+                 <paso id="10">
+                    <tipo> despDes </tipo>                    
+                      <cadena>
+                         <leido>( 2</leido>
+                        <pendiente>+ 3 ) * 4</pendiente>
+                    </cadena>  
+                    <elemento>Ep</elemento> 
+					<relNodos>4</relNodos>
+                    <valor>Ep.vh=2 Ep.vs=null</valor>  
+                </paso>
+                 
+                <paso id="11">
+                    <tipo> derivacion</tipo>
+                    <nuevaRegla refRegla="R2">Ep::= + T Ep1                      
+                    </nuevaRegla>
+                    <widthRegla>7</widthRegla>
+                      <cadena>
+                        <leido>( 2 +</leido>
+                        <pendiente>3 ) * 4</pendiente>
+                    </cadena>  
+                    <elemento>+</elemento> 
+					<relNodos>10</relNodos>
+                    <valor></valor>
+                </paso>
+                
+                 <paso id="12">
+                    <tipo> despDes </tipo>                                       
+                      <cadena>
+                        <leido>( 2 +</leido>
+                        <pendiente>3 ) * 4</pendiente>
+                    </cadena>  
+                    <elemento>T</elemento> 
+					<relNodos>10</relNodos>
+                    <valor>
+                        T.vs=null                      
+                    </valor> 
+
+                </paso>
+
+               
+
+                <paso id="13">
+                    <tipo> derivacion </tipo>
+                   <nuevaRegla refRegla="R5">T::= F Tp                 
+                   </nuevaRegla>
+                    <widthRegla>6</widthRegla>
+                      <cadena>
+                        <leido>( 2 +</leido>
+                        <pendiente>3 ) * 4</pendiente>
+                    </cadena>  
+                    <elemento>F</elemento>  
+					<relNodos>12</relNodos>
+                    <valor>F.vs=null</valor>					
+                </paso>
+				
+				
+                
+                <paso id="14">
+                    <tipo> derivacion </tipo> 
+					<nuevaRegla refRegla="R9">F::= num                 
+                   </nuevaRegla>
+                    <widthRegla>5</widthRegla>
+                      <cadena>
+                         <leido>( 2 + 3</leido>
+                        <pendiente>) * 4</pendiente>
+                    </cadena>  
+                    <elemento>num</elemento>
+					<relNodos>13</relNodos>
+                    <valor>
+                        num.valex=3                      
+                    </valor> 
+					
+					
+					<accionSemanticaEjecutada>
+						<nodo>
+							<refNodo>13</refNodo>
+							<atributos>F.vs=3</atributos>
+						</nodo>						
+						<nodo>
+							<refNodo>10</refNodo>
+							<atributos>Ep.vh=3 Ep.vs=null</atributos>
+						</nodo>	
+						
+											
+					</accionSemanticaEjecutada>	
+                </paso>
+                
+                <paso id="15">
+                    <tipo> despDes </tipo>
+                   
+                      <cadena>
+                        <leido>( 2 + 3</leido>
+                        <pendiente>) * 4</pendiente>
+                    </cadena>  
+                    <elemento>Tp</elemento>  
+					<relNodos>12</relNodos>
+                    <valor>Tp.vs=null</valor>					
+                </paso>
+				
+				<paso id="16">
+                    <tipo> derivacion </tipo>
+                   <nuevaRegla refRegla="R8">Tp= λ               
+                   </nuevaRegla>
+                    <widthRegla>6</widthRegla>
+                      <cadena>
+                        <leido>( 2 + 3</leido>
+                        <pendiente>) * 4</pendiente>
+                    </cadena>  
+                    <elemento>λ</elemento>  
+					<relNodos>15</relNodos>
+					<accionSemanticaEjecutada>
+						<nodo>
+							<refNodo>15</refNodo>
+							<atributos>Tp.vs=5</atributos>
+						</nodo>						
+						<nodo>
+							<refNodo>12</refNodo>
+							<atributos>T.valor=5</atributos>
+						</nodo>									
+					</accionSemanticaEjecutada>	
+                    <valor></valor>					
+                </paso>
+                 <paso id="17">
+                    <tipo> despDes </tipo>                   
+                      <cadena>
+                         <leido>( 2 + 3</leido>
+                        <pendiente>) * 4</pendiente>
+                    </cadena>  
+                    <elemento>Ep1</elemento> 
+					<relNodos>10</relNodos>									
+                    <valor>Ep.vh=5 Ep.vs=null</valor>         
+                </paso>
+
+                <paso id="18">
+                    <tipo> derivacion </tipo>
+					<nuevaRegla refRegla="R9">Ep::= λ              
+                   </nuevaRegla>
+                    <widthRegla>7</widthRegla>
+                    <cadena>
+                        <leido>( 2 + 3</leido>
+                        <pendiente>) * 4</pendiente>
+                    </cadena>
+                    <elemento>λ</elemento>
+					<relNodos>17</relNodos>
+                   <valor></valor>
+				   <accionSemanticaEjecutada>
+						<nodo>
+							<refNodo>17</refNodo>
+							<atributos>Ep.vh=5 Ep.vs=5</atributos>
+						</nodo>						
+						<nodo>
+							<refNodo>10</refNodo>
+							<atributos>Ep.vh=3 Ep.vs=5</atributos>
+						</nodo>	
+						
+											
+					</accionSemanticaEjecutada>
+				  
+                </paso>
+				
+				<paso id="19">
+                    <tipo> despDes </tipo>                   
+                      <cadena>
+                         <leido>( 2 + 3 )</leido>
+                        <pendiente>* 4</pendiente>
+                    </cadena>  
+                    <elemento>)</elemento> 
+					<relNodos>2</relNodos>									
+                    <valor></valor>
+					<accionSemanticaEjecutada>
+						<nodo>
+							<refNodo>2</refNodo>
+							<atributos>F.valor=5</atributos>
+						</nodo>						
+						
+											
+					</accionSemanticaEjecutada>
+                </paso>
+				
+				<paso id="20">
+                    <tipo> despDes </tipo>                   
+                      <cadena>
+                         <leido>( 2 + 3 )</leido>
+                        <pendiente>* 4</pendiente>
+                    </cadena>  
+                    <elemento>Tp</elemento> 
+					<relNodos>1</relNodos>									
+                    <valor>Tp.vh=5</valor>
+					
+                </paso>
+				
+				<paso id="21">
+                    <tipo>derivacion</tipo>
+					<nuevaRegla refRegla="R6">Tp::= * F Tp1             
+                   </nuevaRegla>
+                    <widthRegla>11</widthRegla>
+                      <cadena>
+                         <leido>( 2 + 3 ) *</leido>
+                        <pendiente>4</pendiente>
+                    </cadena>  
+                    <elemento>*</elemento> 
+					<relNodos>20</relNodos>									
+                    <valor></valor>					
+                </paso>
+				
+				<paso id="22">
+                    <tipo> despDes </tipo>                   
+                      <cadena>
+                         <leido>( 2 + 3 ) *</leido>
+                        <pendiente>4</pendiente>
+                    </cadena>  
+                    <elemento>F</elemento> 
+					<relNodos>20</relNodos>									
+                    <valor>F.valor=null</valor>
+					
+                </paso>
+				
+				<paso id="23">
+                    <tipo> derivacion</tipo> 
+					<nuevaRegla refRegla="R9">F::= num             
+                   </nuevaRegla>
+                    <widthRegla>10</widthRegla>
+                      <cadena>
+                         <leido>( 2 + 3 ) * 4</leido>
+                        <pendiente></pendiente>
+                    </cadena> 					
+                    <elemento>num</elemento> 
+					<relNodos>22</relNodos>									
+                    <valor>num.valex=4</valor>
+					<accionSemanticaEjecutada>
+						<nodo>
+							<refNodo>22</refNodo>
+							<atributos>F.valor=0</atributos>
+						</nodo>	
+						
+						<nodo>
+							<refNodo>20</refNodo>
+							<atributos>Tp.vh=5 Tp.vs=null</atributos>
+						</nodo>	
+						
+											
+					</accionSemanticaEjecutada>
+					
+                </paso>
+				
+				<paso id="24">
+                    <tipo> despDes </tipo>                   
+                      <cadena>
+                         <leido>( 2 + 3 ) * 4</leido>
+                        <pendiente></pendiente>
+                    </cadena>  
+                    <elemento>Tp1</elemento> 
+					<relNodos>20</relNodos>									
+                    <valor>Tp1.vh=20 Tp.vs=null</valor>					
+                </paso>
+				
+				<paso id="25">
+                    <tipo> derivacion </tipo>
+					<nuevaRegla refRegla="R8">Tp::= λ              
+                   </nuevaRegla>
+                    <widthRegla>11</widthRegla>
+                    <cadena>
+                        <leido>( 2 + 3 ) * 4</leido>
+                        <pendiente></pendiente>
+                    </cadena>
+                    <elemento>λ</elemento>
+					<relNodos>24</relNodos>
+                   <valor></valor>
+				   <accionSemanticaEjecutada>
+						<nodo>
+							<refNodo>24</refNodo>
+							<atributos>Tp1.vh=20 Tp.vs=20</atributos>
+						</nodo>						
+						<nodo>
+							<refNodo>20</refNodo>
+							<atributos>Tp.vh=5 Tp.vs=20</atributos>
+						</nodo>	
+						<nodo>
+							<refNodo>1</refNodo>
+							<atributos>T.vs=20</atributos>
+						</nodo>	
+						
+											
+					</accionSemanticaEjecutada>
+				  
+                </paso>
+				
+				<paso id="26">
+                    <tipo> despDes </tipo>                   
+                      <cadena>
+                         <leido>( 2 + 3 ) * 4</leido>
+                        <pendiente></pendiente>
+                    </cadena>  
+                    <elemento>Ep</elemento> 
+					<relNodos>0</relNodos>									
+                    <valor>Ep.vh=20 Ep.vs=null</valor>					
+                </paso>
+				
+				<paso id="27">
+                    <tipo> derivacion </tipo>
+					<nuevaRegla refRegla="R4">Ep::= λ              
+                   </nuevaRegla>
+                    <widthRegla>12</widthRegla>
+                    <cadena>
+                        <leido>( 2 + 3 ) * 4</leido>
+                        <pendiente></pendiente>
+                    </cadena>
+                    <elemento>λ</elemento>
+					<relNodos>26</relNodos>
+                   <valor></valor>
+				   <accionSemanticaEjecutada>
+						<nodo>
+							<refNodo>26</refNodo>
+							<atributos>Ep.vh=20 Ep.vs=20</atributos>
+						</nodo>						
+						<nodo>
+							<refNodo>0</refNodo>
+							<atributos>E.valor=20</atributos>
+						</nodo>	
+						
+						
+											
+					</accionSemanticaEjecutada>
+				  
+                </paso>
+            </contenido>
+        </espec>  
+
+</raiz>

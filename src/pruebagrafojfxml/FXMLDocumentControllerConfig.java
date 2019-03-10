@@ -253,6 +253,19 @@ private Configuracion lectConf;
         color=Color.web(lectConf.getColorLeido());
         labelreadChain.setTextFill(color);
         labelreadChain.setFont(new Font(lectConf.getLetraCadena()));
+        if(lectConf.getLetraArbol()>15){
+            noTerminal1.setWidth(50+labelNoTerminal1.getText().length()-3+lectConf.getLetraArbol()); 
+                       // noTerminal1.setHeight(50+/*labelNoTerminal1.getText().length()+*/val);
+            noTerminal2.setWidth(50+labelNoTerminal1.getText().length()-3+lectConf.getLetraArbol());
+            terminal.setWidth(50+labelNoTerminal1.getText().length()-3+lectConf.getLetraArbol());
+        }
+       
+        double heigth=labelpendChain.getFont().getSize()+10;
+        double width=labelpendChain.getFont().getSize()+10*labelpendChain.getText().length();
+        readChainR.setWidth(width); 
+        readChainR.setHeight(heigth);       
+        pendChainR.setWidth(width);
+        pendChainR.setHeight(heigth);
 //        FicheroXML ejemplo = new FicheroXML();
 //        //ejemplo.cargarXml("C:\\Users\\adgao\\Documents\\universidad\\TFG\\TFG-Anterior\\TFG-Anterior\\TFGv0\\traductores\\descend2.xml");      
 //        mT=inicializarModificaciones();
@@ -304,6 +317,22 @@ private Configuracion lectConf;
                 labelNoTerminal1.setFont(new Font(val));
                 labelNoTerminal2.setFont(new Font(val));
                 labelTerminal.setFont(new Font(val));
+                if(val>15){
+                    noTerminal1.setWidth(50+labelNoTerminal1.getText().length()-3+val); 
+                   // noTerminal1.setHeight(50+/*labelNoTerminal1.getText().length()+*/val);
+                    noTerminal2.setWidth(50+labelNoTerminal1.getText().length()-3+val);
+                    terminal.setWidth(50+labelNoTerminal1.getText().length()-3+val); 
+                }
+                else{
+                    noTerminal1.setWidth(50); 
+                   // noTerminal1.setHeight(50+/*labelNoTerminal1.getText().length()+*/val);
+                    noTerminal2.setWidth(50);
+                    terminal.setWidth(50); 
+                    
+                    
+                }
+                //noTerminal2.setHeight(50+/*labelNoTerminal1.getText().length()+*/val);
+                //terminal.setHeight(50+/*labelNoTerminal1.getText().length()+*/val);        
                 treeSize=val;
                 //mT.setSizeLetraArbol(val);                
                 //modificarArbol();
@@ -318,6 +347,12 @@ private Configuracion lectConf;
                 Integer val= (Integer)sizeFuenteCadena.getValue();
                 labelpendChain.setFont(new Font(val));
                 labelreadChain.setFont(new Font(val));
+                double heigth=labelpendChain.getFont().getSize()+10;
+                double width=labelpendChain.getFont().getSize()+10*labelpendChain.getText().length();
+                readChainR.setWidth(width); 
+                readChainR.setHeight(heigth);
+                pendChainR.setWidth(width);
+                pendChainR.setHeight(heigth);
                 chainSize=val;
                 //mT.setSizeCadena(val);                
                 //modificarArbol();
