@@ -200,7 +200,6 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     private FicheroXML ejemplo;
-    //private int contador=0;
     private Grafo graph;
     private Gramatica grammar;
     private CadenaEntrada entryChain;
@@ -308,7 +307,12 @@ public class FXMLDocumentController implements Initializable {
 ////    
 ////    Nodo n=graph.getNodos().get(Integer.parseInt(ejemplo.getListaPasos().get(contador+1).getElemento().split(" ")[1]));
 ////      graph.insertarNodo(n, pane, ejemplo.getListaPasos().get(contador+1).getElemento().split(" ")[0], 250, 500);
-    }    
+    } 
+    /**
+     * scale the pane with the graph
+     * @param zoom 
+     * percentage of scaling
+     */
     public void zoom(double zoom ){
         paneGrafo.setScaleX(zoom);
         paneGrafo.setScaleY(zoom);
@@ -320,11 +324,11 @@ public class FXMLDocumentController implements Initializable {
         fileChooser.setTitle("Open Resource File");
         fileChooser.setInitialDirectory(new File(".//traductores"));
         String path=null;
-        if(tipo.equals("xml")){
-            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("xml", "*.xml"));
-            File file=fileChooser.showOpenDialog(PruebaGrafoJFXML.getStage());
-            path=file.getAbsolutePath();
-        }
+        //if(tipo.equals("xml")){
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("xml", "*.xml"));
+        File file=fileChooser.showOpenDialog(PruebaGrafoJFXML.getStage());
+        path=file.getAbsolutePath();
+        //}
         ejemplo = new FicheroXML();
         //ejemplo.cargarXml("C:\\Users\\adgao\\Documents\\universidad\\TFG\\TFG-Anterior\\TFG-Anterior\\VisTDS\\traductores\\descend.xml"); 
         ejemplo.cargarXml(path); 
