@@ -10,8 +10,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -39,7 +41,10 @@ private Pane panelPadre;
 private Configuracion config;
 private String tipoTraductor;
 private int nivelAnterior;
-    public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelPadre,Configuracion config,String tipoTraductor) {
+private HashMap<Integer, Integer> sibling;
+//private HashMap<Integer,Rectangle> ruleRect;//relates the level of the node to the corresponding rectangle
+private HashMap<Integer,Double>posXAnteriores;
+public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelPadre,Configuracion config,String tipoTraductor) {
       nodos=new HashMap<>();
       this.ejemplo=xml;
       this.posXAnterior=(ejemplo.getNumNodos()-1)*50/2;
@@ -54,8 +59,12 @@ private int nivelAnterior;
       this.nivelAnterior=0;
       this.heigth=0;
       this.width=0;
+     // this.ruleRect=new HashMap<>();
+      this.sibling=new HashMap<>();
+      this.posXAnteriores=new HashMap<>();
       obtainStepsProcess();
       addHandlingListennerChain();
+      assignAllSiblings();
     }
     /**
      * Obtain a map with the step where a element of the chain is process
@@ -115,10 +124,10 @@ private int nivelAnterior;
      * position in axis Y
      * @return the node inserted
      */
-    public Nodo insertarNodo(Nodo parent,String simbolo,Double posX,Double posY){
+    public Nodo insertarNodo(Nodo parent,String simbolo,Double posX,Double posY,String value){
       
       
-       Nodo nodo=new Nodo(simbolo,parent,isTerminal(simbolo),config.getLetraArbol());
+       Nodo nodo=new Nodo(simbolo,parent,isTerminal(simbolo),config.getLetraArbol(),value);
        nodo.setPosX(posX);
        nodo.getRectangle().setX(posX);
        nodo.setPosY(posY);
@@ -166,10 +175,10 @@ private int nivelAnterior;
      * position in axis Y
      * @return the node inserted
      */
-    public Nodo insertarNodoA(String parents,String simbolo,Double posX,Double posY){
+    public Nodo insertarNodoA(String parents,String simbolo,Double posX,Double posY,String value){
       
       
-       Nodo nodo=new Nodo(simbolo,null,isTerminal(simbolo),config.getLetraArbol());
+       Nodo nodo=new Nodo(simbolo,null,isTerminal(simbolo),config.getLetraArbol(),value);
        nodo.setPosX(posX);
        nodo.getRectangle().setX(posX);
        nodo.setPosY(posY);
@@ -247,7 +256,7 @@ private int nivelAnterior;
     for(int i =1;i<simbolos.length;i++){
         if(!simbolos[i].equals(hijo.getSimbolo())){
             Boolean terminal=isTerminal(simbolos[i]);
-            nodo=new Nodo(simbolos[i],parent,terminal,config.getLetraArbol());
+            nodo=new Nodo(simbolos[i],parent,terminal,config.getLetraArbol(),"Elemento de la pila");
             nodo.getRectangle().setFill(Color.RED);
             
             nodo.getRectangle().setOpacity(0.50);
@@ -383,6 +392,77 @@ private int nivelAnterior;
         } 
          return nodoNotExec;
     }
+    /**
+     * add the respectives left siblings to the nodes in one step
+     * @param siblings 
+     * String with the nodes that produce another node
+     */
+    public void assignSiblings(String[] siblings){
+        for(int i=1;i<siblings.length;i++){
+            
+            if(i>1)
+                sibling.put(Integer.parseInt(siblings[i]), Integer.parseInt(siblings[i-1]));
+            else
+                sibling.put(Integer.parseInt(siblings[i]),null );
+        }
+    }
+    /**
+     * assign the siblings of the nodes in all steps
+     */
+    public void assignAllSiblings(){
+        
+        List<Informacion> pasos=ejemplo.getListaPasos();
+        for(Informacion info:pasos){
+           if(info.getElemento().split(" ").length>1){
+               assignSiblings(info.getElemento().split(" "));
+           } 
+        }
+    }
+    /**
+     * Assign the events to the respective rectangle
+     * @param rectReg 
+     * rectangle to assign the events.
+     */
+    public void assingRectanglesEvents(Rectangle rectReg){
+        rectReg.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+            @Override
+            public void handle(MouseEvent event) {
+
+                System.out.println(event.getSource());
+                gramatica.cambiarFormaRegla(gramatica.getRelRectRegla().get(event.getSource()));
+            }
+
+        });
+        rectReg.setOnMouseEntered(new EventHandler<MouseEvent>(){
+
+            @Override
+            public void handle(MouseEvent event) {
+
+                System.out.println(event.getSource());
+                Rectangle rect=(Rectangle)event.getSource();
+                
+                rect.setFill(Color.YELLOW);
+
+                gramatica.drawRectangle(gramatica.getRelRectRegla().get(event.getSource()));
+                Tooltip t = new Tooltip(gramatica.getRelRectRegla().get(event.getSource()).getValor());
+                Tooltip.install(rect, t);
+                
+            }
+
+        });
+        rectReg.setOnMouseExited(new EventHandler<MouseEvent>(){
+
+            @Override
+            public void handle(MouseEvent event) {
+                Rectangle rect=(Rectangle)event.getSource();
+                rect.setFill(Color.BLACK);
+                System.out.println(event.getSource());
+                gramatica.erasedRectangle(gramatica.getRelRectRegla().get(event.getSource()));
+            }
+
+        });
+    }
     public int construirAsc(int pasoSolicitado){
          int nivel=0;
             
@@ -393,13 +473,24 @@ private int nivelAnterior;
                 if(i==0){
                     
                     String simbolo=ejemplo.getListaPasos().get(i).getElemento().split(" ")[0];
-                    Nodo primero= insertarNodoA(null, simbolo, 10.0, 300.0);
+                    String value=ejemplo.getListaPasos().get(i).getValor();
+                    Nodo primero= insertarNodoA(null, simbolo, 10.0, 300.0,value);
                     nivelAnterior=nivel;
                     //posYAnterior=300.0;
                     width=primero.getRectangle().getWidth();
                     heigth=primero.getRectangle().getHeight();
                     setPosXAnterior(primero.getPosX());
-                    
+                    posXAnteriores.put(i, primero.getPosX());
+                    Rectangle rectReg=new Rectangle(primero.getRectangle().getWidth()+10, primero.getRectangle().getHeight()+10);
+                    rectReg.setX(primero.getPosX()-5);
+                    rectReg.setY(primero.getPosY()-5);
+                    rectReg.setOpacity(0.5);
+                    primero.setRectRgla(rectReg);
+                    panelPadre.getChildren().add(0,rectReg);
+                    gramatica.getRelRectRegla().put(rectReg, ejemplo.getListaPasos().get(i).getRegla());
+                    assingRectanglesEvents(rectReg);
+                    primero.setWidthRectRgla(rectReg.getWidth());
+                    //this.ruleRect.put(nivel,rectReg);
                 }
                 else{
                     if(nivelAnterior>nivel){
@@ -412,9 +503,39 @@ private int nivelAnterior;
                     if(ejemplo.getListaPasos().get(i).getElemento().split(" ").length==1){
 
                         posXAnterior+=10.0+width;
+                        posXAnteriores.put(i, posXAnterior);
                         String simbolo=ejemplo.getListaPasos().get(i).getElemento().split(" ")[0];
-                        Nodo node= insertarNodoA(null, simbolo, posXAnterior, posYAnterior);
-
+                        String value=ejemplo.getListaPasos().get(i).getValor();
+                        Nodo node= insertarNodoA(null, simbolo, posXAnterior, posYAnterior,value);
+                        node.setLeftSibling(nodos.get(sibling.get(i)));
+                        Rectangle r=null;
+                        //Rectangle r=this.ruleRect.get(nivel);
+//                        if(ejemplo.getListaPasos().get(i).getRegla()!=null){
+//                            if(r!=null){
+//                                ruleRect.remove(nivel);
+//                                r=null;
+//                            }
+//                        }
+                        if(node.getLeftSibling()!=null)
+                            r=node.getLeftSibling().getRectRgla();
+                        if (r!=null){
+                            r.setWidth(r.getWidth()+node.getRectangle().getWidth()+(node.getPosX()-node.getLeftSibling().getPosX()-node.getRectangle().getWidth()));
+                            node.setRectRgla(r);
+                            node.setWidthRectRgla(r.getWidth());
+                        }
+                        else{
+                            Rectangle rectReg=new Rectangle(node.getRectangle().getWidth()+10, node.getRectangle().getHeight()+10);
+                            rectReg.setX(node.getPosX()-5);
+                            rectReg.setY(node.getPosY()-5);
+                            rectReg.setOpacity(0.5);
+                            node.setRectRgla(rectReg);
+                            node.setWidthRectRgla(rectReg.getWidth());
+                            panelPadre.getChildren().add(0,rectReg);
+                            gramatica.getRelRectRegla().put(rectReg, ejemplo.getListaPasos().get(i).getRegla());
+                            assingRectanglesEvents(rectReg);
+                            node.setRectRgla(rectReg);
+                           // this.ruleRect.put(nivel,rectReg);
+                        }
                     }
                     else{
                        Nodo firstParent=nodos.get(Integer.parseInt(ejemplo.getListaPasos().get(i).getElemento().split(" ")[1]));
@@ -424,15 +545,49 @@ private int nivelAnterior;
                        Double aux3=aux2/parentsNumber;
                        Double aux4=aux1+aux3;
                        double posX=0.0;
+                       
                        if(ejemplo.getListaPasos().get(i).getElemento().split(" ").length>2)
                             posX=firstParent.getPosX()+((firstParent.getRectangle().getWidth()+(parentsNumber-1)*(firstParent.getRectangle().getWidth()+10))/parentsNumber);
                        else
                             posX=firstParent.getPosX()+((parentsNumber-1)*(firstParent.getRectangle().getWidth()+10)/parentsNumber);
                        String simbolo=ejemplo.getListaPasos().get(i).getElemento().split(" ")[0];
-                       Nodo node= insertarNodoA(ejemplo.getListaPasos().get(i).getElemento(), simbolo, posX, posYAnterior);
+                       String value=ejemplo.getListaPasos().get(i).getValor();
+                       Nodo node= insertarNodoA(ejemplo.getListaPasos().get(i).getElemento(), simbolo, posX, posYAnterior,value);
+                       posXAnteriores.put(i, posXAnterior);
+                       node.setLeftSibling(nodos.get(sibling.get(i)));
+                       Rectangle r=null;
+                       if(node.getLeftSibling()!=null)
+                            r=node.getLeftSibling().getRectRgla();//this.ruleRect.get(nivel);
+//                       if(ejemplo.getListaPasos().get(i).getRegla()!=null){
+//                            if(r!=null){
+//                                ruleRect.remove(nivel);
+//                                r=null;
+//                            }
+//                        }
+                       if(i<ejemplo.getListaPasos().size()-1){
+                           if (r!=null){
+                                r.setWidth(r.getWidth()+node.getRectangle().getWidth()+(node.getPosX()-node.getLeftSibling().getPosX()-node.getRectangle().getWidth()));
+                                node.setRectRgla(r);
+                                node.setWidthRectRgla(r.getWidth());
+                            }
+                            else{
+                                Rectangle rectReg=new Rectangle(node.getRectangle().getWidth()+10, node.getRectangle().getHeight()+10);
+                                rectReg.setX(node.getPosX()-5);
+                                rectReg.setY(node.getPosY()-5);
+                                rectReg.setOpacity(0.5);
+                                node.setRectRgla(rectReg);
+                                panelPadre.getChildren().add(0,rectReg);
+                                gramatica.getRelRectRegla().put(rectReg, ejemplo.getListaPasos().get(i).getRegla());
+                                assingRectanglesEvents(rectReg);
+                                node.setRectRgla(rectReg);
+                                node.setWidthRectRgla(rectReg.getWidth());
+                               // this.ruleRect.put(nivel,rectReg);
+                            }
+                       }
                     }
                     nivelAnterior=nivel;
                 }
+            updatedValues(ejemplo.getListaPasos().get(i).getSimbolosActualizados());
             }
           return pasoSolicitado;
     }
@@ -441,7 +596,7 @@ private int nivelAnterior;
                 //if is the root
                 if(i==0){
                    String simbolo=ejemplo.getListaPasos().get(contador).getElemento().split(" ")[0];
-                   Nodo raiz= insertarNodo(null, simbolo, ejemplo.getNumNodos()*50/2.0, 10.0);
+                   Nodo raiz= insertarNodo(null, simbolo, ejemplo.getNumNodos()*50/2.0, 10.0,null);
                    setPosXAnterior(0);
 
                 }
@@ -451,7 +606,8 @@ private int nivelAnterior;
                     //if is the first child
                     if(parent.getChildren().isEmpty()){
                         String simbolo=ejemplo.getListaPasos().get(i).getElemento().split(" ")[0];
-                        Nodo hijo=insertarNodo(parent, simbolo, posXAnterior,(parent.getRectangle().getHeight()*2)+parent.getPosY());
+                        String value=ejemplo.getListaPasos().get(i).getValor();
+                        Nodo hijo=insertarNodo(parent, simbolo, posXAnterior,(parent.getRectangle().getHeight()*2)+parent.getPosY(),value);
 
                         parent.getChildren().add(hijo);
                         //moveSiblings(hijo);
@@ -506,7 +662,8 @@ private int nivelAnterior;
                     }   
                     else{
                         String simbolo=ejemplo.getListaPasos().get(i).getElemento().split(" ")[0];
-                        Nodo hijo=insertarNodo(parent, simbolo,posXAnterior+parent.getRectangle().getWidth()+10,(parent.getRectangle().getHeight()*2)+parent.getPosY());
+                        String value=ejemplo.getListaPasos().get(i).getValor();
+                        Nodo hijo=insertarNodo(parent, simbolo,posXAnterior+parent.getRectangle().getWidth()+10,(parent.getRectangle().getHeight()*2)+parent.getPosY(),value);
                         parent.getChildren().add(hijo);
 
                         //hijo.setHermanosDelHermano(hijo);
@@ -528,6 +685,7 @@ private int nivelAnterior;
 
                     }
                 }
+                updatedValues(ejemplo.getListaPasos().get(i).getSimbolosActualizados());
             }
         return pasoSolicitado;
     }
@@ -571,7 +729,17 @@ private int nivelAnterior;
     }
     public void eliminarAsc(int pasoSolicitado ){
         for(int i=contador-1;i>=pasoSolicitado;i-- ){
+            
             Nodo elemElim=nodos.get(i);
+            //int nivel=ejemplo.getMapa().get(ejemplo.getListaPasos().get(i).getId()).getNivel();
+            if(ejemplo.getListaPasos().get(i).getRegla()!=null){
+               panelPadre.getChildren().remove(elemElim.getRectRgla());
+               //this.ruleRect.remove(nivel);
+            }
+            else{
+                 if(i<ejemplo.getNumNodos()-1)
+                    elemElim.getRectRgla().setWidth(elemElim.getLeftSibling().getWidthRectRgla());
+            }
             if(i==0){
                panelPadre.getChildren().removeAll(elemElim.getRectangle(),elemElim.getLabel());
                posXAnterior=10;
@@ -580,14 +748,14 @@ private int nivelAnterior;
             }
             else if(elemElim.getLines().isEmpty()){
                panelPadre.getChildren().removeAll(elemElim.getRectangle(),elemElim.getLabel());
-               posXAnterior=nodos.get(i-1).getPosX();
+               posXAnterior=posXAnteriores.get(i-1);
                posYAnterior=nodos.get(i-1).getPosY();
                nivelAnterior=ejemplo.getMapa().get(i-1).getNivel();
             }
             else{
                 panelPadre.getChildren().removeAll(elemElim.getRectangle(),elemElim.getLabel());
                 panelPadre.getChildren().removeAll(elemElim.getLines());
-                posXAnterior=nodos.get(i-1).getPosX();
+                posXAnterior=posXAnteriores.get(i-1);;
                 posYAnterior=nodos.get(i-1).getPosY();  
                 nivelAnterior=ejemplo.getMapa().get(i-1).getNivel();
             }
@@ -608,6 +776,18 @@ private int nivelAnterior;
 //                }
 //                eliminarNodo(elemElim, i);
 //                } 
+        
+    }
+    /**
+    * update the value of the symbols in the list
+    * @param symbolsUpdated 
+    * list of symbols to update the value
+    */
+    public void updatedValues(List<Simbolo> symbolsUpdated){
+        for(Simbolo s:symbolsUpdated){
+           Nodo n=nodos.get(s.getId());
+           n.setValue(s.getValor());
+        }
         
     }
     /**

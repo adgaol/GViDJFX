@@ -142,75 +142,92 @@
                 <altura>5</altura>
                 <nodo id="16">
                     <elemento>EXP</elemento>
-                    <nivel>1</nivel>               
+                    <nivel>1</nivel>  
+                    <terminal>false</terminal>              
                 </nodo>
 
                 <nodo id="6">
                     <elemento>B</elemento>
-                    <nivel>2</nivel>               
+                    <nivel>2</nivel>     
+                    <terminal>false</terminal>           
                 </nodo>
                 <nodo id="14">
                     <elemento>A</elemento>
-                    <nivel>2</nivel>               
+                    <nivel>2</nivel>           
+                    <terminal>false</terminal>     
                 </nodo>
                 <nodo id="15">
                     <elemento>;</elemento>
-                    <nivel>2</nivel>               
+                    <nivel>2</nivel>           
+                    <terminal>true</terminal>     
                 </nodo>
 
                 <nodo id="0">
                     <elemento>num</elemento>
                     <nivel>3</nivel> 
+                    <terminal>true</terminal> 
                 </nodo>
                 <nodo id="5">
                     <elemento>C</elemento>
-                    <nivel>3</nivel> 
+                    <nivel>3</nivel>
+                    <terminal>false</terminal>  
                 </nodo>
                 <nodo id="7">
                     <elemento>+</elemento>
                     <nivel>3</nivel> 
+                    <terminal>true</terminal> 
                 </nodo>           
                 <nodo id="11">
                     <elemento>B</elemento>
-                    <nivel>3</nivel> 
+                    <nivel>3</nivel>
+                    <terminal>false</terminal>  
                 </nodo>
                 <nodo id="13">
                     <elemento>A1</elemento>
                     <nivel>3</nivel> 
+                    <terminal>false</terminal> 
                 </nodo>
 
                 <nodo id="1">
                     <elemento>*</elemento>
                     <nivel>4</nivel> 
+                    <terminal>true</terminal> 
                 </nodo>
                 <nodo id="2">
                     <elemento>num</elemento>
-                    <nivel>4</nivel> 
+                    <nivel>4</nivel>
+                    <terminal>true</terminal>  
                 </nodo>
                 <nodo id="4">
                     <elemento>C1</elemento>
-                    <nivel>4</nivel> 
+                    <nivel>4</nivel>
+                    <terminal>false</terminal>  
                 </nodo>
                 <nodo id="8">
                     <elemento>num</elemento>
                     <nivel>4</nivel> 
+                    <terminal>true</terminal> 
                 </nodo>
                 <nodo id="10">
                     <elemento>C</elemento>
-                    <nivel>4</nivel> 
+                    <nivel>4</nivel>
+                    <terminal>false</terminal>  
                 </nodo>
                 <nodo id="12">
                     <elemento>λ</elemento>
                     <nivel>4</nivel> 
+                    <terminal>true</terminal> 
                 </nodo>
 
                 <nodo id="3">
                     <elemento>λ</elemento>
-                    <nivel>5</nivel> 
+                    <nivel>5</nivel>
+                    <terminal>true</terminal>  
                 </nodo>
                 <nodo id="9">
                     <elemento>λ</elemento>
-                    <nivel>5</nivel> 
+                    <nivel>5</nivel>
+                    <terminal>true</terminal>  
                 </nodo>
             </arbol>
 
