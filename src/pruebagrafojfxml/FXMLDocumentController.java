@@ -18,6 +18,7 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventDispatcher;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -211,6 +212,8 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
       elegirArchivo("xml");  
+      grafo.addEventFilter(KeyEvent.KEY_RELEASED,
+                event ->handleKeyAction(event));
 //      ejemplo = new FicheroXML();
 //      ejemplo.cargarXml("C:\\Users\\adgao\\Documents\\universidad\\TFG\\TFG-Anterior\\TFG-Anterior\\VisTDS\\traductores\\descend.xml"); 
 //  //    HashMap rectangles=new HashMap();
@@ -335,6 +338,7 @@ public class FXMLDocumentController implements Initializable {
 
         configuration=new Configuracion();
         configuration.cargarConfiguracion("./config/configActual.xml");
+        
         paneGrafo=new Pane();  
         graphGroup=new Group();
         graphGroup.getChildren().add(paneGrafo);
@@ -344,9 +348,12 @@ public class FXMLDocumentController implements Initializable {
         paneCadenaEntrada=new Pane();  
         cadenaEntrada.setContent(paneCadenaEntrada);
 //       
-//        
-        grafo.addEventFilter(KeyEvent.KEY_RELEASED,
-                event ->handleKeyAction(event));
+//      
+//        grafo.removeEventFilter(KeyEvent.KEY_RELEASED,
+//                event ->handleKeyAction(event));
+//        grafo.addEventFilter(KeyEvent.KEY_RELEASED,
+//                event ->handleKeyAction(event));
+        
 //      
         entryChain=new CadenaEntrada(ejemplo.getCadena(),paneCadenaEntrada,configuration);
         entryChain.construir();
@@ -359,7 +366,7 @@ public class FXMLDocumentController implements Initializable {
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                System.out.println(sliderZoom.getValue());
                 zoom((sliderZoom.getValue())/100);
-
+               
                 configuration.guardarConfiguracion(".//config//configActual.xml",
                          configuration.getLetraArbol(),configuration.getLetraTraductor(),configuration.getLetraCadena(),
                          configuration.getColorTerminal(),configuration.getColorNoTerminal(),configuration.getLetraTerminal(),configuration.getLetraNoTerminal(),configuration.getColorLeido(),configuration.getColorPend(),configuration.getColorAccSem(),configuration.getTipoLetra(),configuration.getSizeAcciones(),(int)sliderZoom.getValue());
@@ -368,7 +375,8 @@ public class FXMLDocumentController implements Initializable {
 
         });
         System.out.println(sliderZoom.getValue());
-        sliderZoom.setValue(configuration.getZoom());
+        
         zoom((sliderZoom.getValue())/100);
+        sliderZoom.setValue(configuration.getZoom());
     }
 }

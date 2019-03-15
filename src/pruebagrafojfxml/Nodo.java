@@ -37,10 +37,13 @@ public class Nodo {
     public Nodo(String simbolo,Nodo parent,Boolean isTerminal,int font,String value) {
         this.simbolo = simbolo;
         this.font=font;
-        if((font<=15) && (simbolo.length()<=3))
-            this.rectangle = new Rectangle(50,50);
-        else
-            this.rectangle=new Rectangle(50+this.simbolo.length()-3+font,50);
+//        if((font<=15) && (simbolo.length()<=3))
+        this.rectangle = new Rectangle(50,50);
+//        else
+//            this.rectangle=new Rectangle(50+this.simbolo.length()-3+font,50);
+        if((font>15) && (simbolo.length()>3)){
+            rectangle.setWidth(50+this.simbolo.length()-3+font);
+        }
         this.hermanos=new HashMap<>();
         this.parent = parent;
         this.children = new LinkedList<>();

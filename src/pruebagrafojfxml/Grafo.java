@@ -91,6 +91,7 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
     public void addHandlingListennerChain(){
         
         HashMap<String,Rectangle> elements=cadena.getRectanglesChain();
+        HashMap<String,Label> labels=cadena.getLabels();
         for(Rectangle r:elements.values()){
             r.setOnMouseClicked(new EventHandler<MouseEvent>(){
 
@@ -102,6 +103,26 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                         step=ejemplo.getNumNodos();
                     else
                         step= stepProcess.get(rect.getId()/*cadena.getRectanglesText().get(rect.getId())*/);
+                    System.out.println(step);
+                    if(contador<step)
+                        contador=construir(step);
+                    else if(contador>step)
+                        eliminar(step);
+                }
+
+            }); 
+        }
+        for(Label l:labels.values()){
+            l.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+                @Override
+                public void handle(MouseEvent event) {
+                    Label l=(Label)event.getSource();
+                    int step=0;
+                    if(l.getText().equals("EOF"))
+                        step=ejemplo.getNumNodos();
+                    else
+                        step= stepProcess.get(l.getText()/*cadena.getRectanglesText().get(rect.getId())*/);
                     System.out.println(step);
                     if(contador<step)
                         contador=construir(step);

@@ -75,7 +75,7 @@ private int font;
             //rectanglesText.put(r.getId(), elem);
             labels.put(elem, l);
             panelPadre.getChildren().addAll(r,l);
-            posX+=width+10;
+            posX+=width+20;
         }
     }/**
      * update the appearance of the chain 
@@ -93,8 +93,11 @@ private int font;
            execToCompare.add(exec[i]); 
         }
         Color colorAct=null;
+//        int posChain=0;
+//        Label labelPast=null;
         for (String elem:rectanglesChain.keySet()){
             Label label=labels.get(elem);
+            
             if(execToCompare.contains(elem)){
                 rectanglesChain.get(elem).setOpacity(1.0);
                 colorAct=Color.web(config.getColorLeido());
@@ -112,21 +115,30 @@ private int font;
             //if(config.getLetraCadena()>15){
             double heigth=label.getFont().getSize()+10;
             double width=label.getFont().getSize()+10*label.getText().length();
+            //Double diff=Math.abs(width-rectanglesChain.get(elem).getWidth());
             rectanglesChain.get(elem).setWidth(width);
             rectanglesChain.get(elem).setHeight(heigth);
-            if(font<config.getLetraCadena()){
-            label.setLayoutX(label.getLayoutX()+config.getLetraCadena()+10);
             
-            rectanglesChain.get(elem).setLayoutX(rectanglesChain.get(elem).getLayoutX()+config.getLetraCadena()+10);
-            }
-            else if(font>config.getLetraCadena()){
-            label.setLayoutX(label.getLayoutX()-config.getLetraCadena()-10);
-            
-            rectanglesChain.get(elem).setLayoutX(rectanglesChain.get(elem).getLayoutX()-config.getLetraCadena()-10);  
-            }
+//            if(posChain!=0){
+//                
+//                if(font<config.getLetraCadena()){
+//                Double x=label.getLayoutX();
+//                label.setLayoutX(label.getLayoutX()+diff/*config.getLetraCadena()*/);
+//                x=label.getLayoutX()+diff;
+//                rectanglesChain.get(elem).setLayoutX(rectanglesChain.get(elem).getLayoutX()+diff);
+//                }
+//                else if(font>config.getLetraCadena()){
+//                    Double x=label.getLayoutX();
+//                    label.setLayoutX(label.getLayoutX()-config.getLetraCadena()-diff);
+//                    x=label.getLayoutX()-config.getLetraCadena()-diff;
+//
+//                rectanglesChain.get(elem).setLayoutX(rectanglesChain.get(elem).getLayoutX()-config.getLetraCadena()-diff);  
+//                }
+//            }
             
             //}
        // }
+            //posChain++;
         }
         font=config.getLetraCadena();
         Label label=labels.get("EOF");
@@ -135,6 +147,7 @@ private int font;
             colorAct=Color.web(config.getColorLeido());
             label.setTextFill(colorAct);
             label.setFont(new Font(config.getLetraCadena()));
+            
         }
         else{
             rectanglesChain.get("EOF").setOpacity(0.5);
@@ -143,6 +156,7 @@ private int font;
             label.setFont(new Font(config.getLetraCadena()));
             
         }
+        font=config.getLetraCadena();
     }
 
     public HashMap<String, Rectangle> getRectanglesChain() {
@@ -152,7 +166,7 @@ private int font;
     public void setRectanglesChain(HashMap<String, Rectangle> rectanglesChain) {
         this.rectanglesChain = rectanglesChain;
     }
-
+    
 //    public HashMap<String, String> getRectanglesText() {
 //        return rectanglesText;
 //    }
@@ -160,5 +174,13 @@ private int font;
 //    public void setRectanglesText(HashMap<String, String> rectanglesText) {
 //        this.rectanglesText = rectanglesText;
 //    }
+
+    public HashMap<String, Label> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(HashMap<String, Label> labels) {
+        this.labels = labels;
+    }
     
 }
