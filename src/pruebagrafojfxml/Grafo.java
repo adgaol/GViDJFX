@@ -155,8 +155,8 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
        nodo.getRectangle().setY(posY);
        Label label=new Label(simbolo);
        label.setFont(new Font(config.getLetraArbol()));
-       label.setLayoutX(posX+nodo.getRectangle().getWidth()/3);
-       label.setLayoutY(posY+nodo.getRectangle().getHeight()/3);
+       label.setLayoutX(posX+nodo.getRectangle().getWidth()/2-(label.getText().length()*(config.getLetraArbol()/2)/2));
+       label.setLayoutY(posY+nodo.getRectangle().getHeight()/2-config.getLetraArbol());
        if(!isTerminal(simbolo)){
           Color colorRectangle=Color.web(config.getColorNoTerminal());
           nodo.getRectangle().setFill(colorRectangle);
@@ -206,8 +206,8 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
        nodo.getRectangle().setY(posY);
        Label label=new Label(simbolo);
        label.setFont(new Font(config.getLetraArbol()));
-       label.setLayoutX(posX+nodo.getRectangle().getWidth()/3);
-       label.setLayoutY(posY+nodo.getRectangle().getHeight()/3);
+       label.setLayoutX(posX+nodo.getRectangle().getWidth()/2-(label.getText().length()*(config.getLetraArbol()/2)/2));
+       label.setLayoutY(posY+nodo.getRectangle().getHeight()/2-config.getLetraArbol());
        if(!isTerminal(simbolo)){
           Color colorRectangle=Color.web(config.getColorNoTerminal());
           nodo.getRectangle().setFill(colorRectangle);
@@ -274,7 +274,13 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
     String[] simbolos=regla.getValor().split(" ");
     Nodo nodo=null;
     Double nPosX=posX;
+    double widthAux=0.0;
     for(int i =1;i<simbolos.length;i++){
+        if(i==2){
+            widthAux=hijo.getRectangle().getWidth();
+        }
+        else if(i>2)
+            widthAux=hijo.getHermanos().get(simbolos[i-1]).getRectangle().getWidth();
         if(!simbolos[i].equals(hijo.getSimbolo())){
             Boolean terminal=isTerminal(simbolos[i]);
             nodo=new Nodo(simbolos[i],parent,terminal,config.getLetraArbol(),"Elemento de la pila");
@@ -282,15 +288,15 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
             
             nodo.getRectangle().setOpacity(0.50);
             
-            nPosX+=nodo.getRectangle().getWidth()+10;
+            nPosX+=widthAux+10;
             nodo.getRectangle().setX(nPosX);
             nodo.setPosX(nPosX);
             nodo.setPosY(posY);
             nodo.getRectangle().setY(posY);
             Label label=new Label(simbolos[i]);
             label.setFont(new Font(config.getLetraArbol()));
-            label.setLayoutX(nPosX+nodo.getRectangle().getWidth()/3);
-            label.setLayoutY(posY+nodo.getRectangle().getHeight()/3);
+            label.setLayoutX(nPosX+nodo.getRectangle().getWidth()/2-(label.getText().length()*(config.getLetraArbol()/2)/2));
+            label.setLayoutY(posY+nodo.getRectangle().getHeight()/2-config.getLetraArbol());
             if(!terminal){
               Color colorRectangle=Color.web(config.getColorNoTerminal());
               nodo.getRectangle().setFill(colorRectangle);
@@ -335,13 +341,14 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
     public HashSet<Nodo> insertarNodoNotExec(Collection<Nodo> nodosHermanos,Double posX,Double posY,Nodo hijo){
       HashSet<Nodo> nodesInserted=new HashSet<>();
     
-    
+    Double widthAux=hijo.getRectangle().getWidth();
     Double nPosX=posX;
     for(Nodo n:nodosHermanos){
+        
         if(!hijo.getSimbolo().equals(n.getSimbolo())){
             
             
-            nPosX+=n.getRectangle().getWidth()+10;
+            nPosX+=widthAux+10;
             
             n.setPosX(nPosX);
             n.getRectangle().setX(nPosX);
@@ -349,12 +356,13 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
             n.getRectangle().setY(posY);
            
             
-            n.getLabel().setLayoutX(nPosX+n.getRectangle().getWidth()/3);
-            n.getLabel().setLayoutY(posY+n.getRectangle().getHeight()/3);
+            n.getLabel().setLayoutX(nPosX+n.getRectangle().getWidth()/2-(n.getLabel().getText().length()*(config.getLetraArbol()/2)/2));
+            n.getLabel().setLayoutY(posY+n.getRectangle().getHeight()/2-config.getLetraArbol());
             
             nodesInserted.add(n);
             hijo.getHermanos().put(n.getSimbolo(), n);
             panelPadre.getChildren().addAll(n.getRectangle(),n.getLabel());
+            widthAux=n.getRectangle().getWidth();
         }
     }
        
@@ -495,7 +503,7 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                     
                     String simbolo=ejemplo.getListaPasos().get(i).getElemento().split(" ")[0];
                     String value=ejemplo.getListaPasos().get(i).getValor();
-                    Nodo primero= insertarNodoA(null, simbolo, 10.0, 300.0,value);
+                    Nodo primero= insertarNodoA(null, simbolo, 20.0, 300.0,value);
                     nivelAnterior=nivel;
                     //posYAnterior=300.0;
                     width=primero.getRectangle().getWidth();
@@ -512,6 +520,7 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                     assingRectanglesEvents(rectReg);
                     primero.setWidthRectRgla(rectReg.getWidth());
                     //this.ruleRect.put(nivel,rectReg);
+                    posXAnterior+=10+primero.getRectangle().getWidth();
                 }
                 else{
                     if(nivelAnterior>nivel){
@@ -523,8 +532,7 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                     
                     if(ejemplo.getListaPasos().get(i).getElemento().split(" ").length==1){
 
-                        posXAnterior+=10.0+width;
-                        posXAnteriores.put(i, posXAnterior);
+                        
                         String simbolo=ejemplo.getListaPasos().get(i).getElemento().split(" ")[0];
                         String value=ejemplo.getListaPasos().get(i).getValor();
                         Nodo node= insertarNodoA(null, simbolo, posXAnterior, posYAnterior,value);
@@ -540,8 +548,12 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                         if(node.getLeftSibling()!=null)
                             r=node.getLeftSibling().getRectRgla();
                         if (r!=null){
-                            r.setWidth(r.getWidth()+node.getRectangle().getWidth()+(node.getPosX()-node.getLeftSibling().getPosX()-node.getRectangle().getWidth()));
-                            node.setRectRgla(r);
+                            System.out.println(r.getWidth()+node.getRectangle().getWidth());
+                            System.out.println((node.getPosX()/*-node.getLeftSibling().getPosX()/*-node.getRectangle().getWidth()*/));
+                            System.out.println(r.getWidth()+node.getRectangle().getWidth()+(node.getPosX()-node.getLeftSibling().getPosX()-node.getRectangle().getWidth()));
+                            r.setWidth(r.getWidth()+node.getRectangle().getWidth()+10+(node.getPosX()-(node.getLeftSibling().getPosX()+node.getRectangle().getWidth())));
+                            
+                            node.setRectRgla(r);//130+
                             node.setWidthRectRgla(r.getWidth());
                         }
                         else{
@@ -557,9 +569,13 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                             node.setRectRgla(rectReg);
                            // this.ruleRect.put(nivel,rectReg);
                         }
+                        posXAnterior+=10.0+node.getRectangle().getWidth();
+                        posXAnteriores.put(i, posXAnterior);
+                        //width=node.getRectangle().getWidth();
                     }
                     else{
                        Nodo firstParent=nodos.get(Integer.parseInt(ejemplo.getListaPasos().get(i).getElemento().split(" ")[1]));
+                       
                        int parentsNumber=ejemplo.getListaPasos().get(i).getElemento().split(" ").length-1;
                        double aux1=firstParent.getPosX();
                        double aux2=firstParent.getRectangle().getWidth()+(parentsNumber-1)*(firstParent.getRectangle().getWidth()+10);
@@ -568,9 +584,9 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                        double posX=0.0;
                        
                        if(ejemplo.getListaPasos().get(i).getElemento().split(" ").length>2)
-                            posX=firstParent.getPosX()+((firstParent.getRectangle().getWidth()+(parentsNumber-1)*(firstParent.getRectangle().getWidth()+10))/parentsNumber);
+                            posX=firstParent.getPosX()+((firstParent.getRectangle().getWidth()+(parentsNumber-1)*(firstParent.getRectangle().getWidth()+10))/2);//parentsNumber);
                        else
-                            posX=firstParent.getPosX()+((parentsNumber-1)*(firstParent.getRectangle().getWidth()+10)/parentsNumber);
+                            posX=firstParent.getPosX()+((parentsNumber-1)*(firstParent.getRectangle().getWidth()+10)/2);//parentsNumber);
                        String simbolo=ejemplo.getListaPasos().get(i).getElemento().split(" ")[0];
                        String value=ejemplo.getListaPasos().get(i).getValor();
                        Nodo node= insertarNodoA(ejemplo.getListaPasos().get(i).getElemento(), simbolo, posX, posYAnterior,value);
@@ -618,7 +634,7 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                 if(i==0){
                    String simbolo=ejemplo.getListaPasos().get(contador).getElemento().split(" ")[0];
                    Nodo raiz= insertarNodo(null, simbolo, ejemplo.getNumNodos()*50/2.0, 10.0,null);
-                   setPosXAnterior(0);
+                   setPosXAnterior(20);
 
                 }
                 else{
@@ -638,7 +654,7 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                             insertarNodoNotExec(parent, regla, posXAnterior, hijo.getPosY(),hijo);
 
                         }
-                        Rectangle rectReg=new Rectangle(hijo.getRectangle().getWidth()+(hijo.getRectangle().getWidth()+10)*hijo.getHermanos().size()+10, hijo.getRectangle().getWidth()+20);
+                        Rectangle rectReg=new Rectangle(hijo.getRectangle().getWidth()+widthNoExecuteNodes(hijo)+10, hijo.getRectangle().getHeight()+20);
                         rectReg.setX(hijo.getPosX()-5);
                         rectReg.setY(hijo.getPosY()-5);
                         rectReg.setOpacity(0.5);
@@ -684,7 +700,7 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                     else{
                         String simbolo=ejemplo.getListaPasos().get(i).getElemento().split(" ")[0];
                         String value=ejemplo.getListaPasos().get(i).getValor();
-                        Nodo hijo=insertarNodo(parent, simbolo,posXAnterior+parent.getRectangle().getWidth()+10,(parent.getRectangle().getHeight()*2)+parent.getPosY(),value);
+                        Nodo hijo=insertarNodo(parent, simbolo,posXAnterior+parent.getChildren().getLast().getRectangle().getWidth()+10,(parent.getRectangle().getHeight()*2)+parent.getPosY(),value);
                         parent.getChildren().add(hijo);
 
                         //hijo.setHermanosDelHermano(hijo);
@@ -709,6 +725,20 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                 updatedValues(ejemplo.getListaPasos().get(i).getSimbolosActualizados());
             }
         return pasoSolicitado;
+    }
+    /**
+     * 
+     * @param nodo
+     * the node with the siblings
+     * @return 
+     * the width of the siblings nodes
+     */
+    public Double widthNoExecuteNodes(Nodo nodo){
+        Double width=0.0;
+        for(Nodo hermano:nodo.getHermanos().values()){
+            width+=hermano.getRectangle().getWidth()+10;
+        }
+        return width;
     }
     /**
      * build the tree to the solicited step
@@ -763,7 +793,7 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
             }
             if(i==0){
                panelPadre.getChildren().removeAll(elemElim.getRectangle(),elemElim.getLabel());
-               posXAnterior=10;
+               posXAnterior=20;
                posYAnterior=300;
                nivelAnterior=0;
             }

@@ -5,10 +5,12 @@
  */
 package pruebagrafojfxml;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import javafx.scene.control.Label;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
@@ -38,12 +40,13 @@ public class Nodo {
         this.simbolo = simbolo;
         this.font=font;
 //        if((font<=15) && (simbolo.length()<=3))
-        this.rectangle = new Rectangle(50,50);
+        this.rectangle = new Rectangle(100,50);
+        this.rectangle.setStroke(Paint.valueOf("000000"));
 //        else
 //            this.rectangle=new Rectangle(50+this.simbolo.length()-3+font,50);
-        if((font>15) && (simbolo.length()>3)){
-            rectangle.setWidth(50+this.simbolo.length()-3+font);
-        }
+//        if((font>15) && (simbolo.length()>=3)){
+//            rectangle.setWidth(50+this.simbolo.length()-3+font);
+//        }
         this.hermanos=new HashMap<>();
         this.parent = parent;
         this.children = new LinkedList<>();

@@ -9,6 +9,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -72,7 +73,7 @@
                 </Menu>
                   <Menu mnemonicParsing="false" text="Ayuda">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Ver ayuda" />
+                      <MenuItem mnemonicParsing="false" onAction="#handleOpenHelp" text="Ver ayuda" />
                         <MenuItem mnemonicParsing="false" text="Acerca de" />
                     </items>
                   </Menu>
@@ -100,7 +101,8 @@
                                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="168.0" minWidth="10.0" prefWidth="89.0" />
                                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="350.0" minWidth="10.0" prefWidth="350.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="66.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="124.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="93.0" minWidth="10.0" prefWidth="72.0" />
                                 </columnConstraints>
                                 <rowConstraints>
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -113,7 +115,8 @@
                                           <Insets />
                                        </GridPane.margin>
                                     </Button>
-                                    <Button fx:id="masZoom" mnemonicParsing="false" onAction="#handleMasMenosZoom" prefHeight="25.0" prefWidth="31.0" text="+" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
+                                    <Button fx:id="masZoom" mnemonicParsing="false" onAction="#handleMasMenosZoom" prefHeight="25.0" prefWidth="31.0" text="+" GridPane.columnIndex="4" GridPane.halignment="CENTER" />
+                                    <TextField fx:id="inputZoom" onAction="#handleInputZoom" GridPane.columnIndex="3" />
                                  </children>
                               </GridPane>
                            </bottom>
@@ -159,10 +162,10 @@
                                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                             </columnConstraints>
                                              <children>
-                                                <Button mnemonicParsing="false" onAction="#handleIrInicioAction" prefHeight="50.0" prefWidth="69.0" text="Inicio" />
-                                                <Button mnemonicParsing="false" onAction="#handleAnteriorAction" prefHeight="50.0" prefWidth="69.0" text="Anterior" GridPane.columnIndex="1" />
-                                                <Button mnemonicParsing="false" onAction="#handleSiguienteAction" prefHeight="50.0" prefWidth="69.0" text="Siguiente" GridPane.columnIndex="2" />
-                                                <Button mnemonicParsing="false" onAction="#handleIrFinAction" prefHeight="50.0" prefWidth="69.0" text="Fin" GridPane.columnIndex="3" />
+                                                <Button fx:id="inicioButton" mnemonicParsing="false" onAction="#handleIrInicioAction" prefHeight="50.0" prefWidth="69.0" text="Inicio" />
+                                                <Button fx:id="anteriorButton" mnemonicParsing="false" onAction="#handleAnteriorAction" prefHeight="50.0" prefWidth="69.0" text="Anterior" GridPane.columnIndex="1" />
+                                                <Button fx:id="siguienteButton" mnemonicParsing="false" onAction="#handleSiguienteAction" prefHeight="50.0" prefWidth="69.0" text="Siguiente" GridPane.columnIndex="2" />
+                                                <Button fx:id="finButton" mnemonicParsing="false" onAction="#handleIrFinAction" prefHeight="50.0" prefWidth="69.0" text="Fin" GridPane.columnIndex="3" />
                                              </children>
                                              <rowConstraints>
                                                 <RowConstraints />
@@ -170,7 +173,7 @@
                                           </GridPane>
                                           <ScrollPane fx:id="cadenaEntrada" prefHeight="200.0" prefWidth="200.0" style="-fx-background: white;">
                                             <content>
-                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="151.0" prefWidth="200.0" />
                                             </content>
                                           </ScrollPane>
                                        </children>

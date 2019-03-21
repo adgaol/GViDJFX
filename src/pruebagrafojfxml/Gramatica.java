@@ -166,7 +166,7 @@ private Configuracion config;
         for(Regla r: reglas){
             idRegla.put(r.getId(), r);
             double posXAnterior=10;
-            ArrayList<Label> labels=formarReglaCorta(r);
+            ArrayList<Label> labels=formarReglaLarga(r);
             for(Label l:labels){
                 l.setLayoutX(posXAnterior);
                 l.setLayoutY(posYAnterior);
@@ -178,7 +178,7 @@ private Configuracion config;
             posYAnterior+=40;
             
             reglaLabel.put(r.getId(), labels);
-            formaReglas.put(r.getId(), false);
+            formaReglas.put(r.getId(), true);
             
         }
     }
@@ -203,7 +203,8 @@ private Configuracion config;
                 posXAnterior=posXAnterior+ls.getFont().getSize()/2*ls.getText().length()+20;
                 width+=ls.getText().length()*ls.getFont().getSize()/2+20;
             }
-            ruleRectGramm.get(regla.getId()).setWidth(width);
+            if(!ruleRectGramm.isEmpty())
+                ruleRectGramm.get(regla.getId()).setWidth(width);
             formaReglas.put(regla.getId(), false);
             reglaLabel.put(regla.getId(), l);
         }
@@ -216,7 +217,8 @@ private Configuracion config;
                 posXAnterior=posXAnterior+ls.getFont().getSize()/2*ls.getText().length()+20;
                 width+=ls.getText().length()*ls.getFont().getSize()/2+20;
             }
-            ruleRectGramm.get(regla.getId()).setWidth(width);
+            if(!ruleRectGramm.isEmpty())
+                ruleRectGramm.get(regla.getId()).setWidth(width);
             formaReglas.put(regla.getId(), true); 
             reglaLabel.put(regla.getId(), l);
         }
@@ -260,7 +262,9 @@ private Configuracion config;
      */
     public void updateGrammar(){
         for(String ids:reglaLabel.keySet()){
-            
+            Regla regla=idRegla.get(ids);
+            cambiarFormaRegla(regla);
+            cambiarFormaRegla(regla);
             for(Label l:reglaLabel.get(ids)){
                 Color color=null;
                 if(isActions(ruleActions.get(ids),l.getText())){

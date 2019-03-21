@@ -5,6 +5,8 @@
  */
 package pruebagrafojfxml;
 
+import com.sun.javafx.application.HostServicesDelegate;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
+import javafx.application.HostServices;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -30,11 +33,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -49,7 +54,8 @@ import javafx.stage.WindowEvent;
  * @author adgao
  */
 public class FXMLDocumentController implements Initializable {
-    
+    @FXML
+    private TextField inputZoom;
     @FXML
     private ScrollPane grafo;
     @FXML
@@ -59,6 +65,14 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button masZoom;
     @FXML
+    private Button inicioButton;
+    @FXML
+    private Button finButton;
+    @FXML
+    private Button anteriorButton;
+    @FXML
+    private Button siguienteButton;
+    @FXML
     private Slider sliderZoom;
     @FXML
     private void handleMasMenosZoom(ActionEvent event) {
@@ -66,17 +80,48 @@ public class FXMLDocumentController implements Initializable {
             
             zoom((sliderZoom.getValue()+10)/100);
             sliderZoom.setValue((int)(sliderZoom.getValue()+10));
+            inputZoom.setText(sliderZoom.getValue()+"");
         }
         else{
           
            zoom((sliderZoom.getValue()-10)/100);
            sliderZoom.setValue((int)(sliderZoom.getValue()-10));
+           inputZoom.setText(sliderZoom.getValue()+"");
         }
         configuration.guardarConfiguracion(".//config//configActual.xml",
                          configuration.getLetraArbol(),configuration.getLetraTraductor(),configuration.getLetraCadena(),
                          configuration.getColorTerminal(),configuration.getColorNoTerminal(),configuration.getLetraTerminal(),configuration.getLetraNoTerminal(),configuration.getColorLeido(),configuration.getColorPend(),configuration.getColorAccSem(),configuration.getTipoLetra(),configuration.getSizeAcciones(),(int)sliderZoom.getValue());
            
     }
+    @FXML
+    private void handleInputZoom(ActionEvent event) {
+        try{
+        Double value= Double.parseDouble(inputZoom.getText()); 
+        zoom((value)/100);
+        sliderZoom.setValue(value);
+        
+        configuration.guardarConfiguracion(".//config//configActual.xml",
+                         configuration.getLetraArbol(),configuration.getLetraTraductor(),configuration.getLetraCadena(),
+                         configuration.getColorTerminal(),configuration.getColorNoTerminal(),configuration.getLetraTerminal(),configuration.getLetraNoTerminal(),configuration.getColorLeido(),configuration.getColorPend(),configuration.getColorAccSem(),configuration.getTipoLetra(),configuration.getSizeAcciones(),(int)sliderZoom.getValue());
+        
+        }
+        catch(Exception e){
+            inputZoom.setText("no valido");
+        }
+           
+    }
+    @FXML
+    public void handleOpenHelp(ActionEvent event) throws IOException {
+        
+            //int cont=contador;
+        File file = new File("./manual/manualUsuario.pdf");
+        Desktop.getDesktop().open(file);
+//        HostServices hostServices = ;
+//        hostServices.showDocument(file.getAbsolutePath());
+
+
+    }
+
     @FXML
     public void handleOpenConfiguration(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocumentConfig.fxml"));
@@ -131,30 +176,59 @@ public class FXMLDocumentController implements Initializable {
     }
     @FXML
     private void handleAnteriorAction(ActionEvent event) {
-         if(0<graph.getContador()){
-            System.out.println("LEFT");
-            graph.eliminar( graph.getContador()-1);
-         }
+        if(0<graph.getContador()){
+        System.out.println("LEFT");
+        graph.eliminar( graph.getContador()-1);
+        }
+        if(0==graph.getContador()){
+
+        anteriorButton.setTextFill(Color.GRAY);
+        inicioButton.setTextFill(Color.GRAY);
+        }
+        finButton.setTextFill(Color.BLACK);
+        siguienteButton.setTextFill(Color.BLACK);
 //        label.setText("Hello World!");
     }
     @FXML
     private void handleSiguienteAction(ActionEvent event) {
         if(ejemplo.getNumNodos()>graph.getContador()){
-                System.out.println("RIGHT");
-                graph.construir(graph.getContador()+1);
+            System.out.println("RIGHT");
+            graph.construir(graph.getContador()+1);
         }
+        if(ejemplo.getNumNodos()==graph.getContador()){
+
+         siguienteButton.setTextFill(Color.GRAY);
+         finButton.setTextFill(Color.GRAY);
+        }
+        inicioButton.setTextFill(Color.BLACK);
+        anteriorButton.setTextFill(Color.BLACK);
+        
 //        label.setText("Hello World!");
     }
     @FXML
     private void handleIrFinAction(ActionEvent event) {
         System.out.println("Fin");
         graph.construir(ejemplo.getNumNodos());
+        if(ejemplo.getNumNodos()==graph.getContador()){
+
+         siguienteButton.setTextFill(Color.GRAY);
+         finButton.setTextFill(Color.GRAY);
+        }
+        inicioButton.setTextFill(Color.BLACK);
+        anteriorButton.setTextFill(Color.BLACK);
 //        label.setText("Hello World!");
     }
     @FXML
     private void handleIrInicioAction(ActionEvent event) {
         System.out.println("Inicio");
-            graph.eliminar(0);
+        graph.eliminar(0);
+        if(0==graph.getContador()){
+            
+            anteriorButton.setTextFill(Color.GRAY);
+            inicioButton.setTextFill(Color.GRAY);
+        }
+        finButton.setTextFill(Color.BLACK);
+        siguienteButton.setTextFill(Color.BLACK);
 //        label.setText("Hello World!");
     }
 
@@ -170,9 +244,17 @@ public class FXMLDocumentController implements Initializable {
             if(0<graph.getContador()){
             System.out.println("LEFT");
             graph.eliminar( graph.getContador()-1);
+            if(0==graph.getContador()){
+
+                anteriorButton.setTextFill(Color.GRAY);
+                inicioButton.setTextFill(Color.GRAY);
+            }
+            finButton.setTextFill(Color.BLACK);
+            siguienteButton.setTextFill(Color.BLACK);
             //contador--;
             // graphPane.requestFocus();
             }
+            
         }
         else if (event.getCode()==KeyCode.RIGHT){
             if(ejemplo.getNumNodos()>graph.getContador()){
@@ -181,10 +263,24 @@ public class FXMLDocumentController implements Initializable {
                 //this.contador+=1;
              //graphPane.requestFocus();
             }
+            if(ejemplo.getNumNodos()==graph.getContador()){
+            
+                siguienteButton.setTextFill(Color.GRAY);
+                finButton.setTextFill(Color.GRAY);
+            }
+            inicioButton.setTextFill(Color.BLACK);
+            anteriorButton.setTextFill(Color.BLACK);
         }
         else if (event.getCode()==KeyCode.HOME){
             System.out.println("Inicio");
             graph.eliminar(0);
+            if(0==graph.getContador()){
+            
+                anteriorButton.setTextFill(Color.GRAY);
+                inicioButton.setTextFill(Color.GRAY);
+            }
+            finButton.setTextFill(Color.BLACK);
+            siguienteButton.setTextFill(Color.BLACK);
            // irInicio();
              //graphPane.requestFocus();
             
@@ -192,6 +288,13 @@ public class FXMLDocumentController implements Initializable {
         else if (event.getCode()==KeyCode.END){
             System.out.println("Fin");
             graph.construir(ejemplo.getNumNodos());
+            if(ejemplo.getNumNodos()==graph.getContador()){
+            
+                siguienteButton.setTextFill(Color.GRAY);
+                finButton.setTextFill(Color.GRAY);
+            }
+            inicioButton.setTextFill(Color.BLACK);
+            anteriorButton.setTextFill(Color.BLACK);
             //irFin();
              //graphPane.requestFocus();
             
@@ -332,13 +435,17 @@ public class FXMLDocumentController implements Initializable {
         File file=fileChooser.showOpenDialog(PruebaGrafoJFXML.getStage());
         path=file.getAbsolutePath();
         //}
+        configuration=new Configuracion();
         ejemplo = new FicheroXML();
         //ejemplo.cargarXml("C:\\Users\\adgao\\Documents\\universidad\\TFG\\TFG-Anterior\\TFG-Anterior\\VisTDS\\traductores\\descend.xml"); 
         ejemplo.cargarXml(path); 
 
-        configuration=new Configuracion();
-        configuration.cargarConfiguracion("./config/configActual.xml");
         
+        configuration.cargarConfiguracion("./config/configActual.xml");
+        inicioButton.setTextFill(Color.GRAY);
+        anteriorButton.setTextFill(Color.GRAY);
+        finButton.setTextFill(Color.BLACK);
+        siguienteButton.setTextFill(Color.BLACK);
         paneGrafo=new Pane();  
         graphGroup=new Group();
         graphGroup.getChildren().add(paneGrafo);
@@ -374,9 +481,11 @@ public class FXMLDocumentController implements Initializable {
             }
 
         });
-        System.out.println(sliderZoom.getValue());
         
-        zoom((sliderZoom.getValue())/100);
+        System.out.println(sliderZoom.getValue());
         sliderZoom.setValue(configuration.getZoom());
+        inputZoom.setText(sliderZoom.getValue()+"");
+        zoom((sliderZoom.getValue())/100);
+        
     }
 }

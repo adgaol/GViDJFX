@@ -119,6 +119,17 @@ private int chainSize;
 private String actionType;
 //private ModificacionesTemp mT;
 private Configuracion lectConf;
+//@FXML
+///**
+// * save the new configuration
+// */
+//    public void handleNewFont(ActionEvent event) throws IOException {
+//        Object o=event.getSource();
+//        if (o.equals(sizeFuenteArbol)){
+//            
+//        }
+//        
+//    }
 @FXML
 /**
  * save the new configuration
@@ -253,13 +264,13 @@ private Configuracion lectConf;
         color=Color.web(lectConf.getColorLeido());
         labelreadChain.setTextFill(color);
         labelreadChain.setFont(new Font(lectConf.getLetraCadena()));
-        if(lectConf.getLetraArbol()>15){
-            noTerminal1.setWidth(50+labelNoTerminal1.getText().length()-3+lectConf.getLetraArbol()); 
-                       // noTerminal1.setHeight(50+/*labelNoTerminal1.getText().length()+*/val);
-            noTerminal2.setWidth(50+labelNoTerminal1.getText().length()-3+lectConf.getLetraArbol());
-            terminal.setWidth(50+labelNoTerminal1.getText().length()-3+lectConf.getLetraArbol());
-        }
-       
+//        if(lectConf.getLetraArbol()>15){
+//            noTerminal1.setWidth(50+labelNoTerminal1.getText().length()-3+lectConf.getLetraArbol()); 
+//                       // noTerminal1.setHeight(50+/*labelNoTerminal1.getText().length()+*/val);
+//            noTerminal2.setWidth(50+labelNoTerminal1.getText().length()-3+lectConf.getLetraArbol());
+//            terminal.setWidth(50+labelNoTerminal1.getText().length()-3+lectConf.getLetraArbol());
+//        }
+//       
         double heigth=labelpendChain.getFont().getSize()+10;
         double width=labelpendChain.getFont().getSize()+10*labelpendChain.getText().length();
         readChainR.setWidth(width); 
@@ -267,90 +278,136 @@ private Configuracion lectConf;
         pendChainR.setWidth(width);
         pendChainR.setHeight(heigth);
 
-        ObservableList<Integer> optionsSizeLetraArbol = FXCollections.observableArrayList( 8,10,13,15,18,20);       
+        ObservableList<String> optionsSizeLetraArbol = FXCollections.observableArrayList( "8","10","13","15","18","20");       
         sizeFuenteArbol.setItems(optionsSizeLetraArbol);
-        sizeFuenteArbol.setValue(lectConf.getLetraArbol());
-        sizeFuenteArbol.valueProperty().addListener(new ChangeListener<Integer>() {
+        sizeFuenteArbol.setValue(lectConf.getLetraArbol()+"");
+        sizeFuenteArbol.setPromptText(lectConf.getLetraArbol()+"");
+        
+        sizeFuenteArbol.setEditable(true);
+        //sizeFuenteArbol.setOnAction();
+        sizeFuenteArbol.valueProperty().addListener(new ChangeListener<String>() {
             @Override 
-            public void changed(ObservableValue ov, Integer t, Integer t1) {
-                Integer val= (Integer)sizeFuenteArbol.getValue();
-                labelNoTerminal1.setFont(new Font(val));
-                labelNoTerminal2.setFont(new Font(val));
-                labelTerminal.setFont(new Font(val));
-                if(val>15){
-                    noTerminal1.setWidth(50+labelNoTerminal1.getText().length()-3+val); 
-                   // noTerminal1.setHeight(50+/*labelNoTerminal1.getText().length()+*/val);
-                    noTerminal2.setWidth(50+labelNoTerminal1.getText().length()-3+val);
-                    terminal.setWidth(50+labelNoTerminal1.getText().length()-3+val); 
+            public void changed(ObservableValue ov, String t, String t1) {
+                String valAux=sizeFuenteArbol.getValue().toString();
+                try{
+                    Integer val= Integer.parseInt(valAux);
+                    labelNoTerminal1.setFont(new Font(val));
+                    labelNoTerminal2.setFont(new Font(val));
+                    labelTerminal.setFont(new Font(val));
+                    /*if(treeSize<val){
+                    labelNoTerminal1.setLayoutX(labelNoTerminal1.getLayoutX()+(labelNoTerminal1.getText().length()*(val/2)/2));
+                    labelNoTerminal2.setLayoutX(labelNoTerminal2.getLayoutX()+(labelNoTerminal2.getText().length()*(val/2)/2));
+                    labelTerminal.setLayoutX(labelTerminal.getLayoutX()+(labelTerminal.getText().length()*(val/2)/2));
+                    }
+                    else{
+                    labelNoTerminal1.setLayoutX(labelNoTerminal1.getLayoutX()-(labelNoTerminal1.getText().length()*(val/2)/2));
+                    labelNoTerminal2.setLayoutX(labelNoTerminal2.getLayoutX()-(labelNoTerminal2.getText().length()*(val/2)/2));
+                    labelTerminal.setLayoutX(labelTerminal.getLayoutX()-(labelTerminal.getText().length()*(val/2)/2));
+                    }*/
+//                    if(val>15){
+//                        noTerminal1.setWidth(50+labelNoTerminal1.getText().length()-3+val); 
+//                       // noTerminal1.setHeight(50+/*labelNoTerminal1.getText().length()+*/val);
+//                        noTerminal2.setWidth(50+labelNoTerminal1.getText().length()-3+val);
+//                        terminal.setWidth(50+labelNoTerminal1.getText().length()-3+val); 
+//                    }
+//                    else{
+//                        noTerminal1.setWidth(50); 
+//                       // noTerminal1.setHeight(50+/*labelNoTerminal1.getText().length()+*/val);
+//                        noTerminal2.setWidth(50);
+//                        terminal.setWidth(50); 
+//
+//
+//                    }
+                    //noTerminal2.setHeight(50+/*labelNoTerminal1.getText().length()+*/val);
+                    //terminal.setHeight(50+/*labelNoTerminal1.getText().length()+*/val);        
+                    treeSize=val;
                 }
-                else{
-                    noTerminal1.setWidth(50); 
-                   // noTerminal1.setHeight(50+/*labelNoTerminal1.getText().length()+*/val);
-                    noTerminal2.setWidth(50);
-                    terminal.setWidth(50); 
-                    
+                catch(Exception e){
                     
                 }
-                //noTerminal2.setHeight(50+/*labelNoTerminal1.getText().length()+*/val);
-                //terminal.setHeight(50+/*labelNoTerminal1.getText().length()+*/val);        
-                treeSize=val;
                 //mT.setSizeLetraArbol(val);                
                 //modificarArbol();
             }    
         });
-        ObservableList<Integer> optionsSizeLetraCadena = FXCollections.observableArrayList( 8,10,13,15,18,20);
+        ObservableList<String> optionsSizeLetraCadena = FXCollections.observableArrayList( "8","10","13","15","18","20");
         sizeFuenteCadena.setItems(optionsSizeLetraCadena);
-        sizeFuenteCadena.setValue(lectConf.getLetraCadena());
-        sizeFuenteCadena.valueProperty().addListener(new ChangeListener<Integer>() {
+        sizeFuenteCadena.setValue(lectConf.getLetraCadena()+"");
+        sizeFuenteCadena.setPromptText(lectConf.getLetraCadena()+"");
+        
+        sizeFuenteCadena.setEditable(true);
+        sizeFuenteCadena.valueProperty().addListener(new ChangeListener<String>() {
             @Override 
-            public void changed(ObservableValue ov, Integer t, Integer t1) {
-                Integer val= (Integer)sizeFuenteCadena.getValue();
-                labelpendChain.setFont(new Font(val));
-                labelreadChain.setFont(new Font(val));
-                double heigth=labelpendChain.getFont().getSize()+10;
-                double width=labelpendChain.getFont().getSize()+10*labelpendChain.getText().length();
-                readChainR.setWidth(width); 
-                readChainR.setHeight(heigth);
-                pendChainR.setWidth(width);
-                pendChainR.setHeight(heigth);
-                chainSize=val;
+            public void changed(ObservableValue ov, String t, String t1) {
+                String valAux=sizeFuenteCadena.getValue().toString();
+                try{
+                    Integer val= Integer.parseInt(valAux);
+                    labelpendChain.setFont(new Font(val));
+                    labelreadChain.setFont(new Font(val));
+                    double heigth=labelpendChain.getFont().getSize()+10;
+                    double width=labelpendChain.getFont().getSize()+10*labelpendChain.getText().length();
+                    readChainR.setWidth(width); 
+                    readChainR.setHeight(heigth);
+                    pendChainR.setWidth(width);
+                    pendChainR.setHeight(heigth);
+                    chainSize=val;
+                }
+                catch(Exception e){
+                    
+                }
                 //mT.setSizeCadena(val);                
                 //modificarArbol();
             }    
         });
-        ObservableList<Integer> optionsSizeLetraTraductor = FXCollections.observableArrayList( 8,10,13,15,18,20);
+        ObservableList<String> optionsSizeLetraTraductor = FXCollections.observableArrayList( "8","10","13","15","18","20");
         sizeFuenteTraduc.setItems(optionsSizeLetraTraductor);
-        sizeFuenteTraduc.setValue(lectConf.getLetraTraductor());
-        sizeFuenteTraduc.valueProperty().addListener(new ChangeListener<Integer>() {
+        sizeFuenteTraduc.setValue(lectConf.getLetraTraductor()+"");
+        sizeFuenteTraduc.setPromptText(lectConf.getLetraTraductor()+"");
+        
+        sizeFuenteTraduc.setEditable(true);
+        sizeFuenteTraduc.valueProperty().addListener(new ChangeListener<String>() {
             @Override 
-            public void changed(ObservableValue ov, Integer t, Integer t1) {
-                Integer val= (Integer)sizeFuenteTraduc.getValue();
-                grammarNoTerminal1.setFont(new Font(val));
-                grammarNoTerminal2.setFont(new Font(val));
-                grammarTerminal.setFont(new Font(val));
-                grammarSize=val;
+            public void changed(ObservableValue ov, String t, String t1) {
+                String valAux=sizeFuenteTraduc.getValue().toString();
+                try{
+                    Integer val= Integer.parseInt(valAux);
+                    grammarNoTerminal1.setFont(new Font(val));
+                    grammarNoTerminal2.setFont(new Font(val));
+                    grammarTerminal.setFont(new Font(val));
+                    grammarSize=val;
+                }
+                catch(Exception e){
+                    
+                }
                 //mT.setSizeLetraTraductor(val);                
                 //modificarArbol();
             }    
         });
         actionSize=lectConf.getSizeAcciones();
-        ObservableList<Integer> optionsSizeLetraSemanticAct = FXCollections.observableArrayList( 8,10,13,15,18,20);       
+        ObservableList<String> optionsSizeLetraSemanticAct = FXCollections.observableArrayList( "8","10","13","15","18","20");       
         sizeFountSemanticAct.setItems(optionsSizeLetraSemanticAct);
-        sizeFountSemanticAct.setValue(lectConf.getSizeAcciones());
-        sizeFountSemanticAct.valueProperty().addListener(new ChangeListener<Integer>() {
+        sizeFountSemanticAct.setValue(lectConf.getSizeAcciones()+"");
+        sizeFountSemanticAct.setPromptText(lectConf.getLetraTraductor()+"");
+        
+        sizeFountSemanticAct.setEditable(true);
+        sizeFountSemanticAct.valueProperty().addListener(new ChangeListener<String>() {
             @Override 
-            public void changed(ObservableValue ov, Integer t, Integer t1) {
-                Integer val= (Integer)sizeFountSemanticAct.getValue();
-                action.setFont(new Font(val));
-                actionSize=val;
-                
+            public void changed(ObservableValue ov, String t, String t1) {
+                String valAux=sizeFountSemanticAct.getValue().toString();
+                try{
+                    Integer val= Integer.parseInt(valAux);
+                    action.setFont(new Font(val));
+                    actionSize=val;
+                }
+                catch(Exception e){
+                    
+                }
                 //mT.setSizeAcciones(val);                
                 //modificarArbol();
             }    
         });
         ObservableList<String> optionsFountType = FXCollections.observableArrayList( "Times new Roman","Arial","Calibri","Courier","Broadway","Informal Roman","Verdana");       
         fountTypeSemanticAct.setItems(optionsFountType);
-        fountTypeSemanticAct.setValue(lectConf.getTipoLetra());
+        fountTypeSemanticAct.setValue(lectConf.getTipoLetra()+"");
         fountTypeSemanticAct.valueProperty().addListener(new ChangeListener<String>() {
             @Override 
             public void changed(ObservableValue ov, String t, String t1) {

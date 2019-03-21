@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
@@ -15,26 +16,30 @@
    <children>
       <SplitPane dividerPositions="0.6166484118291348" layoutX="238.0" layoutY="82.0" prefHeight="462.0" prefWidth="912.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background: white;">
                <children>
                   <Button fx:id="aceptButton" layoutY="387.0" mnemonicParsing="false" onAction="#handleAcept" prefHeight="30.0" prefWidth="280.0" text="Aceptar" AnchorPane.bottomAnchor="0.0" />
                   <Button fx:id="cancelButton" layoutX="280.0" layoutY="431.0" mnemonicParsing="false" onAction="#handleCancel" prefHeight="30.0" prefWidth="280.0" text="Cancelar" AnchorPane.bottomAnchor="0.0" />
-                  <Rectangle fx:id="noTerminal1" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" layoutX="223.0" layoutY="51.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle fx:id="terminal" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" layoutX="173.0" layoutY="137.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Rectangle fx:id="noTerminal2" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" layoutX="273.0" layoutY="137.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                  <Line endY="-14.0" layoutX="248.0" layoutY="115.0" startX="-50.0" startY="22.0" />
-                  <Line endX="-25.0" endY="-131.0" layoutX="323.0" layoutY="268.0" startX="-74.29290771484375" startY="-167.70709228515625" />
-                  <Label fx:id="labelNoTerminal1" layoutX="239.0" layoutY="68.0" text="EXP" />
-                  <Label fx:id="labelTerminal" layoutX="188.0" layoutY="154.0" text="num" />
-                  <Label fx:id="labelNoTerminal2" layoutX="294.0" layoutY="154.0" text="A" />
-                  <Label fx:id="grammarNoTerminal1" layoutX="137.0" layoutY="260.0" text="EXP::=" />
-                  <Label fx:id="grammarTerminal" layoutX="192.0" layoutY="260.0" text="num" />
-                  <Label fx:id="grammarNoTerminal2" layoutX="248.0" layoutY="260.0" text="A" />
-                  <Label fx:id="action" layoutX="299.0" layoutY="260.0" text="print(valor)" />
-                  <Rectangle fx:id="readChainR" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="30.0" layoutX="208.0" layoutY="335.0" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                  <Rectangle fx:id="pendChainR" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="30.0" layoutX="258.0" layoutY="335.0" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                  <Label fx:id="labelreadChain" layoutX="213.0" layoutY="334.0" text="4" />
-                  <Label fx:id="labelpendChain" layoutX="259.0" layoutY="334.0" text="+" />
+                  <Pane prefHeight="504.0" prefWidth="560.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Rectangle fx:id="noTerminal1" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" layoutX="312.0" layoutY="151.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
+                        <Rectangle fx:id="terminal" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" layoutX="152.0" layoutY="151.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
+                        <Rectangle fx:id="noTerminal2" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" layoutX="223.0" layoutY="58.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
+                        <Line endY="75.0" layoutX="362.0" layoutY="76.0" startX="-83.29290771484375" startY="30.292892456054688" />
+                        <Label fx:id="labelNoTerminal1" layoutX="268.0" layoutY="75.0" text="EXP" />
+                        <Label fx:id="labelTerminal" layoutX="190.0" layoutY="168.0" text="num" />
+                        <Label fx:id="labelNoTerminal2" layoutX="358.0" layoutY="168.0" text="A" />
+                        <Label fx:id="grammarNoTerminal1" layoutX="169.0" layoutY="252.0" text="EXP::=" />
+                        <Label fx:id="grammarTerminal" layoutX="221.0" layoutY="252.0" text="num" />
+                        <Label fx:id="grammarNoTerminal2" layoutX="283.0" layoutY="252.0" text="A" />
+                        <Label fx:id="action" layoutX="333.0" layoutY="252.0" text="print(valor)" />
+                        <Rectangle fx:id="readChainR" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="30.0" layoutX="199.0" layoutY="351.0" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                        <Rectangle fx:id="pendChainR" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="30.0" layoutX="258.0" layoutY="351.0" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                        <Label fx:id="labelreadChain" layoutX="210.0" layoutY="350.0" text="4" />
+                        <Label fx:id="labelpendChain" layoutX="263.0" layoutY="350.0" text="+" />
+                        <Line endX="76.0" endY="-23.414215087890625" layoutX="202.0" layoutY="129.0" startX="6.0" startY="22.0" />
+                     </children>
+                  </Pane>
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
