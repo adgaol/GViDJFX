@@ -36,7 +36,10 @@ public class Nodo {
    private ArrayList<Line> lines;
    private Double widthRectRgla;
    private String value;
-    public Nodo(String simbolo,Nodo parent,Boolean isTerminal,int font,String value) {
+   
+   private int id;
+    public Nodo(int id,String simbolo,Nodo parent,Boolean isTerminal,int font,String value) {
+        this.id=id;
         this.simbolo = simbolo;
         this.font=font;
 //        if((font<=15) && (simbolo.length()<=3))
@@ -53,6 +56,7 @@ public class Nodo {
         this.isTerminal=isTerminal;
         this.lines=new ArrayList<>();
         this.value=value;
+        
         if(parent!=null && !parent.getChildren().isEmpty())
             this.LeftSibling=parent.getChildren().getLast();
     }
@@ -189,6 +193,16 @@ public class Nodo {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
     
 }

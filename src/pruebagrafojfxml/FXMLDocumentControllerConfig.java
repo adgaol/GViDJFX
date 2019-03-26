@@ -168,6 +168,7 @@ private Configuracion lectConf;
             readChainR.setFill(coo);
             colorBackgroundTerminals=coo.toString();
             
+            
         }
         else if(e.equals(fontColorTerminals)){
             javafx.scene.paint.Color coo=fontColorTerminals.getValue();   

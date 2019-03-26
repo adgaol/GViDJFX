@@ -11,12 +11,17 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -44,6 +49,7 @@ private int nivelAnterior;
 private HashMap<Integer, Integer> sibling;
 //private HashMap<Integer,Rectangle> ruleRect;//relates the level of the node to the corresponding rectangle
 private HashMap<Integer,Double>posXAnteriores;
+private HashMap<Integer,HashMap<String, Double>>posSiblings;
 public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelPadre,Configuracion config,String tipoTraductor) {
       nodos=new HashMap<>();
       this.ejemplo=xml;
@@ -62,8 +68,9 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
      // this.ruleRect=new HashMap<>();
       this.sibling=new HashMap<>();
       this.posXAnteriores=new HashMap<>();
+      this.posSiblings=new HashMap<>();
       obtainStepsProcess();
-      addHandlingListennerChain();
+      //addHandlingListennerChain();
       assignAllSiblings();
     }
     /**
@@ -84,57 +91,11 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
             pos++;
         }
     }
-    /**
-     * add a listenner to the rectangle of the chain.When you click in someone the graph go to the
-     * step where the element of the chain is process
-     */
-    public void addHandlingListennerChain(){
-        
-        HashMap<String,Rectangle> elements=cadena.getRectanglesChain();
-        HashMap<String,Label> labels=cadena.getLabels();
-        for(Rectangle r:elements.values()){
-            r.setOnMouseClicked(new EventHandler<MouseEvent>(){
-
-                @Override
-                public void handle(MouseEvent event) {
-                    Rectangle rect=(Rectangle)event.getSource();
-                    int step=0;
-                    if(rect.getId().equals("EOF"))
-                        step=ejemplo.getNumNodos();
-                    else
-                        step= stepProcess.get(rect.getId()/*cadena.getRectanglesText().get(rect.getId())*/);
-                    System.out.println(step);
-                    if(contador<step)
-                        contador=construir(step);
-                    else if(contador>step)
-                        eliminar(step);
-                }
-
-            }); 
-        }
-        for(Label l:labels.values()){
-            l.setOnMouseClicked(new EventHandler<MouseEvent>(){
-
-                @Override
-                public void handle(MouseEvent event) {
-                    Label l=(Label)event.getSource();
-                    int step=0;
-                    if(l.getText().equals("EOF"))
-                        step=ejemplo.getNumNodos();
-                    else
-                        step= stepProcess.get(l.getText()/*cadena.getRectanglesText().get(rect.getId())*/);
-                    System.out.println(step);
-                    if(contador<step)
-                        contador=construir(step);
-                    else if(contador>step)
-                        eliminar(step);
-                }
-
-            }); 
-        }
-    }
+ 
     /**
      * insert one node
+     * @param id
+     * id of the new node
      * @param parent
      * parent of the node
      * @param simbolo
@@ -143,12 +104,14 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
      * position in axis X
      * @param posY
      * position in axis Y
+     * @param value
+     * value of the new node
      * @return the node inserted
      */
-    public Nodo insertarNodo(Nodo parent,String simbolo,Double posX,Double posY,String value){
+    public Nodo insertarNodo(int id,Nodo parent,String simbolo,Double posX,Double posY,String value){
       
       
-       Nodo nodo=new Nodo(simbolo,parent,isTerminal(simbolo),config.getLetraArbol(),value);
+       Nodo nodo=new Nodo(id,simbolo,parent,isTerminal(simbolo),config.getLetraArbol(),value);
        nodo.setPosX(posX);
        nodo.getRectangle().setX(posX);
        nodo.setPosY(posY);
@@ -199,7 +162,7 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
     public Nodo insertarNodoA(String parents,String simbolo,Double posX,Double posY,String value){
       
       
-       Nodo nodo=new Nodo(simbolo,null,isTerminal(simbolo),config.getLetraArbol(),value);
+       Nodo nodo=new Nodo(contador,simbolo,null,isTerminal(simbolo),config.getLetraArbol(),value);
        nodo.setPosX(posX);
        nodo.getRectangle().setX(posX);
        nodo.setPosY(posY);
@@ -275,6 +238,8 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
     Nodo nodo=null;
     Double nPosX=posX;
     double widthAux=0.0;
+    HashMap<String,Double> siblings=new HashMap<>();
+    posSiblings.put(hijo.getId(), siblings);
     for(int i =1;i<simbolos.length;i++){
         if(i==2){
             widthAux=hijo.getRectangle().getWidth();
@@ -283,7 +248,7 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
             widthAux=hijo.getHermanos().get(simbolos[i-1]).getRectangle().getWidth();
         if(!simbolos[i].equals(hijo.getSimbolo())){
             Boolean terminal=isTerminal(simbolos[i]);
-            nodo=new Nodo(simbolos[i],parent,terminal,config.getLetraArbol(),"Elemento de la pila");
+            nodo=new Nodo(hijo.getId(),simbolos[i],parent,terminal,config.getLetraArbol(),"Elemento de la pila");
             nodo.getRectangle().setFill(Color.RED);
             
             nodo.getRectangle().setOpacity(0.50);
@@ -291,6 +256,7 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
             nPosX+=widthAux+10;
             nodo.getRectangle().setX(nPosX);
             nodo.setPosX(nPosX);
+            siblings.put(nodo.getSimbolo(), nPosX);
             nodo.setPosY(posY);
             nodo.getRectangle().setY(posY);
             Label label=new Label(simbolos[i]);
@@ -343,13 +309,15 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
     
     Double widthAux=hijo.getRectangle().getWidth();
     Double nPosX=posX;
+    HashMap<String,Double> siblings=new HashMap<>();
+    posSiblings.put(hijo.getId(), siblings);
     for(Nodo n:nodosHermanos){
         
         if(!hijo.getSimbolo().equals(n.getSimbolo())){
             
             
             nPosX+=widthAux+10;
-            
+            siblings.put(n.getSimbolo(), nPosX);
             n.setPosX(nPosX);
             n.getRectangle().setX(nPosX);
             n.setPosY(posY);
@@ -463,6 +431,23 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
             }
 
         });
+        rectReg.setOnKeyPressed(new EventHandler<KeyEvent>(){
+
+                @Override
+                public void handle(KeyEvent event) {
+                    Rectangle rect=(Rectangle)event.getSource();
+                    if(event.getCode()==KeyCode.ENTER){
+                       System.out.println(event.getSource());
+                       gramatica.cambiarFormaRegla(gramatica.getRelRectRegla().get(event.getSource()));
+                    }    
+                    else{
+                        
+                    }    
+                    
+                }
+                
+
+            }); 
         rectReg.setOnMouseEntered(new EventHandler<MouseEvent>(){
 
             @Override
@@ -491,6 +476,25 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
             }
 
         });
+        rectReg.focusedProperty().addListener(new ChangeListener<Boolean>(){
+                @Override
+                public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue)
+                {
+                    if (newPropertyValue)
+                    {
+//                        System.out.println(event.getSource());
+//                        Rectangle rect=(Rectangle)event.getSource();
+//                         System.out.println(event.getSource());
+                         rectReg.setFill(Color.YELLOW);
+                       
+                      
+                    }
+                    else
+                    {
+                         rectReg.setFill(Color.BLACK); 
+                    }
+                }
+            });
     }
     public int construirAsc(int pasoSolicitado){
          int nivel=0;
@@ -514,6 +518,7 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                     rectReg.setX(primero.getPosX()-5);
                     rectReg.setY(primero.getPosY()-5);
                     rectReg.setOpacity(0.5);
+                    rectReg.setFocusTraversable(true);
                     primero.setRectRgla(rectReg);
                     panelPadre.getChildren().add(0,rectReg);
                     gramatica.getRelRectRegla().put(rectReg, ejemplo.getListaPasos().get(i).getRegla());
@@ -560,6 +565,7 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                             Rectangle rectReg=new Rectangle(node.getRectangle().getWidth()+10, node.getRectangle().getHeight()+10);
                             rectReg.setX(node.getPosX()-5);
                             rectReg.setY(node.getPosY()-5);
+                            rectReg.setFocusTraversable(true);
                             rectReg.setOpacity(0.5);
                             node.setRectRgla(rectReg);
                             node.setWidthRectRgla(rectReg.getWidth());
@@ -609,6 +615,7 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                             }
                             else{
                                 Rectangle rectReg=new Rectangle(node.getRectangle().getWidth()+10, node.getRectangle().getHeight()+10);
+                                rectReg.setFocusTraversable(true);
                                 rectReg.setX(node.getPosX()-5);
                                 rectReg.setY(node.getPosY()-5);
                                 rectReg.setOpacity(0.5);
@@ -633,7 +640,7 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                 //if is the root
                 if(i==0){
                    String simbolo=ejemplo.getListaPasos().get(contador).getElemento().split(" ")[0];
-                   Nodo raiz= insertarNodo(null, simbolo, ejemplo.getNumNodos()*50/2.0, 10.0,null);
+                   Nodo raiz= insertarNodo(i,null, simbolo, ejemplo.getNumNodos()*50/2.0, 10.0,null);
                    setPosXAnterior(20);
 
                 }
@@ -644,7 +651,7 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                     if(parent.getChildren().isEmpty()){
                         String simbolo=ejemplo.getListaPasos().get(i).getElemento().split(" ")[0];
                         String value=ejemplo.getListaPasos().get(i).getValor();
-                        Nodo hijo=insertarNodo(parent, simbolo, posXAnterior,(parent.getRectangle().getHeight()*2)+parent.getPosY(),value);
+                        Nodo hijo=insertarNodo(i,parent, simbolo, posXAnterior,(parent.getRectangle().getHeight()*2)+parent.getPosY(),value);
 
                         parent.getChildren().add(hijo);
                         //moveSiblings(hijo);
@@ -658,49 +665,51 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                         rectReg.setX(hijo.getPosX()-5);
                         rectReg.setY(hijo.getPosY()-5);
                         rectReg.setOpacity(0.5);
+                        rectReg.setFocusTraversable(true);
                         hijo.setRectRgla(rectReg);
                         panelPadre.getChildren().add(0,rectReg);
                         gramatica.getRelRectRegla().put(rectReg, regla);
-                        rectReg.setOnMouseClicked(new EventHandler<MouseEvent>(){
-
-                            @Override
-                            public void handle(MouseEvent event) {
-
-                                System.out.println(event.getSource());
-                                gramatica.cambiarFormaRegla(gramatica.getRelRectRegla().get(event.getSource()));
-                            }
-
-                        });
-                        rectReg.setOnMouseEntered(new EventHandler<MouseEvent>(){
-
-                            @Override
-                            public void handle(MouseEvent event) {
-
-                                System.out.println(event.getSource());
-                                Rectangle rect=(Rectangle)event.getSource();
-                                rect.setFill(Color.YELLOW);
-
-                                gramatica.drawRectangle(gramatica.getRelRectRegla().get(event.getSource()));
-                            }
-
-                        });
-                        rectReg.setOnMouseExited(new EventHandler<MouseEvent>(){
-
-                            @Override
-                            public void handle(MouseEvent event) {
-                                Rectangle rect=(Rectangle)event.getSource();
-                                rect.setFill(Color.BLACK);
-                                System.out.println(event.getSource());
-                                gramatica.erasedRectangle(gramatica.getRelRectRegla().get(event.getSource()));
-                            }
-
-                        });
+                        assingRectanglesEvents(rectReg);
+//                        rectReg.setOnMouseClicked(new EventHandler<MouseEvent>(){
+//
+//                            @Override
+//                            public void handle(MouseEvent event) {
+//
+//                                System.out.println(event.getSource());
+//                                gramatica.cambiarFormaRegla(gramatica.getRelRectRegla().get(event.getSource()));
+//                            }
+//
+//                        });
+//                        rectReg.setOnMouseEntered(new EventHandler<MouseEvent>(){
+//
+//                            @Override
+//                            public void handle(MouseEvent event) {
+//
+//                                System.out.println(event.getSource());
+//                                Rectangle rect=(Rectangle)event.getSource();
+//                                rect.setFill(Color.YELLOW);
+//
+//                                gramatica.drawRectangle(gramatica.getRelRectRegla().get(event.getSource()));
+//                            }
+//
+//                        });
+//                        rectReg.setOnMouseExited(new EventHandler<MouseEvent>(){
+//
+//                            @Override
+//                            public void handle(MouseEvent event) {
+//                                Rectangle rect=(Rectangle)event.getSource();
+//                                rect.setFill(Color.BLACK);
+//                                System.out.println(event.getSource());
+//                                gramatica.erasedRectangle(gramatica.getRelRectRegla().get(event.getSource()));
+//                            }
+//
+//                        });
                         setPosXAnterior(hijo.getPosX());
                     }   
                     else{
                         String simbolo=ejemplo.getListaPasos().get(i).getElemento().split(" ")[0];
                         String value=ejemplo.getListaPasos().get(i).getValor();
-                        Nodo hijo=insertarNodo(parent, simbolo,posXAnterior+parent.getChildren().getLast().getRectangle().getWidth()+10,(parent.getRectangle().getHeight()*2)+parent.getPosY(),value);
+                        Nodo hijo=insertarNodo(i,parent, simbolo,posXAnterior+parent.getChildren().getLast().getRectangle().getWidth()+10,(parent.getRectangle().getHeight()*2)+parent.getPosY(),value);
                         parent.getChildren().add(hijo);
 
                         //hijo.setHermanosDelHermano(hijo);
@@ -772,11 +781,27 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                 Nodo nodoNotExec=   this.NodoNotExec(elemElim);
                 if(nodoNotExec!=null){
                     nodoNotExec.getRectangle().setX(nodoNotExec.getPosX());
+                    
                     nodoNotExec.getLabel().setLayoutX(nodoNotExec.getPosX()+nodoNotExec.getRectangle().getWidth()/3);
+                    recover(elemElim);
                     panelPadre.getChildren().addAll(nodoNotExec.getRectangle(),nodoNotExec.getLabel());
                 }
                 eliminarNodo(elemElim, i);
                 } 
+    }
+    /**
+     * Recover the position of the not execute siblings of the node
+     * @param elemElim 
+     * node to remove
+     */
+    public void recover(Nodo elemElim){
+        Nodo leftsibling=elemElim.getLeftSibling();
+        for(Nodo hermano:leftsibling.getHermanos().values()){
+           if(!posSiblings.get(leftsibling.getId()).isEmpty()) {
+                hermano.getRectangle().setX(posSiblings.get(leftsibling.getId()).get(hermano.getSimbolo()));
+                hermano.getLabel().setLayoutX(posSiblings.get(leftsibling.getId()).get(hermano.getSimbolo())+hermano.getRectangle().getWidth()/2-(hermano.getLabel().getText().length()*(config.getLetraArbol()/2)/2));
+           }
+        }
     }
     public void eliminarAsc(int pasoSolicitado ){
         for(int i=contador-1;i>=pasoSolicitado;i-- ){
@@ -905,6 +930,14 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
 
     public void setContador(int contador) {
         this.contador = contador;
+    }
+
+    public HashMap<String, Integer> getStepProcess() {
+        return stepProcess;
+    }
+
+    public void setStepProcess(HashMap<String, Integer> stepProcess) {
+        this.stepProcess = stepProcess;
     }
     
 }

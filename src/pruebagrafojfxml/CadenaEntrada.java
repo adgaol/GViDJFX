@@ -8,9 +8,15 @@ package pruebagrafojfxml;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
@@ -60,6 +66,52 @@ private int font;
             double heigth=l.getFont().getSize()+10;
             double width=l.getFont().getSize()+10*l.getText().length();
             Rectangle r=new Rectangle(width,heigth);
+            r.setFocusTraversable(true);
+            r.setOnMouseEntered(new EventHandler<MouseEvent>(){
+
+                @Override
+                public void handle(MouseEvent event) {
+
+              
+                      r.setStroke(Paint.valueOf("0000ff"));  
+                      
+                    
+                
+                }
+
+            });
+            r.setOnMouseExited(new EventHandler<MouseEvent>(){
+
+            @Override
+            public void handle(MouseEvent event) {
+
+
+                      r.setStroke(Paint.valueOf("ffffff"));  
+
+
+
+            }
+
+            });
+            r.focusedProperty().addListener(new ChangeListener<Boolean>(){
+                @Override
+                public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue)
+                {
+                    if (newPropertyValue)
+                    {
+                      r.setStroke(Paint.valueOf("0000ff"));  
+                      
+                    }
+                    else
+                    {
+                      r.setStroke(Paint.valueOf("ffffff"));  
+                    }
+                }
+            });
+//            if(r.isFocused()){
+//                r.setStroke(Paint.valueOf("33ff3f"));
+//            }
+//            else
             r.setOpacity(0.5);
             l.setLayoutX(posX+width/4);
             l.setLayoutY(posY);
