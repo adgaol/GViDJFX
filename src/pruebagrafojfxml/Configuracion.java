@@ -28,7 +28,9 @@ public class Configuracion {
     private int letraArbol,letraTraductor,letraCadena,sizeAcciones;
     private String colorTerminal,colorNoTerminal,letraTerminal,letraNoTerminal,colorLeido,colorPend;
     private String colorAccSem,tipoLetra;
-    private int zoom;
+    private int zoomGraph;
+    private int zoomChain;
+    private int zoomGrammar;
     public Configuracion() {
     }
     /**
@@ -62,7 +64,9 @@ public class Configuracion {
                 obtenerTamLetras(tabla.getChild("tamLetras"));
                 obtenerColores(tabla.getChild("colores"));
                 obtenerAccSem(tabla.getChild("accSem"));
-                zoom=Integer.parseInt(tabla.getChildText("zoom"));
+                zoomGraph=Integer.parseInt(tabla.getChildText("zoomGraph"));
+                zoomGrammar=Integer.parseInt(tabla.getChildText("zoomGrammar"));
+                zoomChain=Integer.parseInt(tabla.getChildText("zoomChain"));
             }
         }catch(Exception e){
             
@@ -102,7 +106,7 @@ public class Configuracion {
      */
     public void guardarConfiguracion(String ruta,int tArbol, int tTraductor, int tCadena, 
             String cTerminales, String cNoTerminales,String letraTerminales, String letraNoTerminales,
-            String leido, String pend,String colorAccSem, String tipoLetra, int sizeAcciones,int z){
+            String leido, String pend,String colorAccSem, String tipoLetra, int sizeAcciones,int zGraph,int zGrammar,int zChain){
         this.ruta=ruta;
         //Se crea un SAXBuilder para poder parsear el archivo
         SAXBuilder builder = new SAXBuilder();
@@ -127,8 +131,12 @@ public class Configuracion {
                 cambiarTamLetras(tabla.getChild("tamLetras"),tArbol,tTraductor,tCadena);
                 cambiarColores(tabla.getChild("colores"),cTerminales,cNoTerminales,letraTerminales,letraNoTerminales,leido,pend);
                 cambiarAccSem(tabla.getChild("accSem"),colorAccSem,tipoLetra,sizeAcciones);
-                Element zoom=tabla.getChild("zoom");
-                zoom.setText(Integer.toString(z));
+                Element zoom=tabla.getChild("zoomGraph");
+                zoom.setText(Integer.toString(zGraph));
+                Element zoomGrammar=tabla.getChild("zoomGrammar");
+                zoomGrammar.setText(Integer.toString(zGrammar));
+                Element zoomChain=tabla.getChild("zoomChain");
+                zoomChain.setText(Integer.toString(zChain));
             }
         XMLOutputter xmlOut = new XMLOutputter(Format.getPrettyFormat());
 
@@ -268,20 +276,31 @@ public class Configuracion {
     public void setColorNoTerminal(String colorNoTerminal) {
         this.colorNoTerminal = colorNoTerminal;
     }
-/**
- * 
- * @return zoom
- */
-    public int getZoom() {
-        return zoom;
+
+    public int getZoomGraph() {
+        return zoomGraph;
     }
-/**
- * 
- * @param zoom 
- */
-    public void setZoom(int zoom) {
-        this.zoom = zoom;
+
+    public void setZoomGraph(int zoomGraph) {
+        this.zoomGraph = zoomGraph;
     }
+
+    public int getZoomChain() {
+        return zoomChain;
+    }
+
+    public void setZoomChain(int zoomChain) {
+        this.zoomChain = zoomChain;
+    }
+
+    public int getZoomGrammar() {
+        return zoomGrammar;
+    }
+
+    public void setZoomGrammar(int zoomGrammar) {
+        this.zoomGrammar = zoomGrammar;
+    }
+
 /**
  * change the size of the letters
  * @param letras

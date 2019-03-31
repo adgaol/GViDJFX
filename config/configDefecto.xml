@@ -18,6 +18,8 @@
       	<tipoLetra>times new roman</tipoLetra>
 		<sizeAcciones>13</sizeAcciones>
      </accSem>
-	<zoom>100</zoom>
+	<zoomGraph>100</zoomGraph>
+    <zoomGrammar>100</zoomGrammar>
+    <zoomChain>100</zoomChain>
     </config>
 </tables>

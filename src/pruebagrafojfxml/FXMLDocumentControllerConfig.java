@@ -137,7 +137,9 @@ private Configuracion lectConf;
     public void handleAcept(ActionEvent event) throws IOException {
         
         Configuracion conf = new Configuracion();
-        conf.guardarConfiguracion(".//config//configActual.xml",treeSize,grammarSize,chainSize,colorBackgroundTerminals,colorBackgroundNoTerminals,colorTextTerminals,colorTextNoTerminals,colorReadChain,colorPendChain,colorAction,actionType,actionSize,lectConf.getZoom());
+        conf.guardarConfiguracion(".//config//configActual.xml",treeSize,grammarSize,chainSize,colorBackgroundTerminals,
+                colorBackgroundNoTerminals,colorTextTerminals,colorTextNoTerminals,colorReadChain,colorPendChain,
+                colorAction,actionType,actionSize,lectConf.getZoomGraph(),lectConf.getZoomGrammar(),lectConf.getZoomChain());
         // get a handle to the stage
         Stage stage = (Stage) aceptButton.getScene().getWindow();
         // do what you have to do
