@@ -31,6 +31,7 @@ public class Configuracion {
     private int zoomGraph;
     private int zoomChain;
     private int zoomGrammar;
+    private Boolean ocultarTutorial;
     public Configuracion() {
     }
     /**
@@ -67,6 +68,7 @@ public class Configuracion {
                 zoomGraph=Integer.parseInt(tabla.getChildText("zoomGraph"));
                 zoomGrammar=Integer.parseInt(tabla.getChildText("zoomGrammar"));
                 zoomChain=Integer.parseInt(tabla.getChildText("zoomChain"));
+                ocultarTutorial=Boolean.parseBoolean(tabla.getChildText("ocultarTutorial"));
             }
         }catch(Exception e){
             
@@ -106,7 +108,8 @@ public class Configuracion {
      */
     public void guardarConfiguracion(String ruta,int tArbol, int tTraductor, int tCadena, 
             String cTerminales, String cNoTerminales,String letraTerminales, String letraNoTerminales,
-            String leido, String pend,String colorAccSem, String tipoLetra, int sizeAcciones,int zGraph,int zGrammar,int zChain){
+            String leido, String pend,String colorAccSem, String tipoLetra, int sizeAcciones,int zGraph,int zGrammar,
+            int zChain){
         this.ruta=ruta;
         //Se crea un SAXBuilder para poder parsear el archivo
         SAXBuilder builder = new SAXBuilder();
@@ -137,6 +140,46 @@ public class Configuracion {
                 zoomGrammar.setText(Integer.toString(zGrammar));
                 Element zoomChain=tabla.getChild("zoomChain");
                 zoomChain.setText(Integer.toString(zChain));
+                
+            }
+        XMLOutputter xmlOut = new XMLOutputter(Format.getPrettyFormat());
+
+            FileWriter fw = new FileWriter(new File(ruta));
+
+            xmlOut.output(document, fw);
+
+            fw.close();
+
+      
+        }catch(Exception e){
+            
+        }
+    }
+    public void guardarConfiguracionOcultarTutorial(String ruta,Boolean ocultTutorial){
+        this.ruta=ruta;
+        //Se crea un SAXBuilder para poder parsear el archivo
+        SAXBuilder builder = new SAXBuilder();
+        //File xmlFile = new File( "src\\pruebaxml\\archivo.xml" );
+        File xmlFile = new File( ruta );
+        try
+        {
+            //Se crea el documento a traves del archivo
+            Document document = (Document) builder.build( xmlFile );
+
+            //Se obtiene la raiz 'tables'
+            Element rootNode = document.getRootElement();
+
+            //Se obtiene la lista de hijos de la raiz 'tables'
+            List list = rootNode.getChildren();
+
+            //Se recorre la lista de hijos de 'tables'
+            for ( int i = 0; i < list.size(); i++ )
+            {
+                //Se obtiene el elemento 'tabla'
+                Element tabla = (Element) list.get(i);
+                
+                Element ocultarTutorial=tabla.getChild("ocultarTutorial");
+                ocultarTutorial.setText(Boolean.toString(ocultTutorial));
             }
         XMLOutputter xmlOut = new XMLOutputter(Format.getPrettyFormat());
 
@@ -480,6 +523,14 @@ public class Configuracion {
         this.sizeAcciones = sizeAcciones;
     }
 
+    public Boolean getOcultarTutorial() {
+        return ocultarTutorial;
+    }
+
+    public void setOcultarTutorial(Boolean ocultarTutorial) {
+        this.ocultarTutorial = ocultarTutorial;
+    }
+    
    
     
    

@@ -12,7 +12,7 @@
          <children>
             <TextField fx:id="newName" layoutX="116.0" layoutY="27.0" />
             <Label layoutX="53.0" layoutY="27.0" prefHeight="25.0" prefWidth="53.0" text="Nombre:" />
-            <Button fx:id="aceptButton" layoutX="145.0" layoutY="61.0" mnemonicParsing="false" onAction="#handleSave" prefHeight="25.0" prefWidth="91.0" text="Aceptar" />
+            <Button fx:id="aceptButton" layoutX="145.0" layoutY="61.0" mnemonicParsing="false" onAction="#handleSave" prefHeight="25.0" prefWidth="91.0" text="Guardar" />
          </children>
       </Pane>
    </children>

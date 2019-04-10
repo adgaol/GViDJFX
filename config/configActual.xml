@@ -22,5 +22,6 @@
     <zoomGraph>100</zoomGraph>
     <zoomGrammar>100</zoomGrammar>
     <zoomChain>100</zoomChain>
+    <ocultarTutorial>false</ocultarTutorial>
   </config>
 </tables>

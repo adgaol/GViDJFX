@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.ComboBox?>
@@ -70,59 +71,255 @@
             </AnchorPane>
           <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <Separator layoutY="103.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="2.0" prefWidth="350.0" AnchorPane.topAnchor="105.0" />
-                  <Separator layoutY="200.0" prefWidth="350.0" AnchorPane.topAnchor="210.0" />
-                  <Separator layoutY="300.0" prefWidth="350.0" AnchorPane.topAnchor="315.0" />
-                  <Separator layoutX="-4.0" layoutY="398.0" prefWidth="350.0" AnchorPane.topAnchor="420.0" />
-                  <Label layoutX="7.0" text="Símbolos">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="25.0" layoutY="22.0" text="Tamaño fuente en el árbol:" AnchorPane.topAnchor="22.0" />
-                  <Label layoutX="25.0" layoutY="52.0" text="Tamaño fuente en el traductor:" AnchorPane.topAnchor="52.0" />
-                  <Label layoutX="25.0" layoutY="82.0" text="Tamaño fuente en la cadena de entrada:" AnchorPane.topAnchor="82.0" />
-                  <ComboBox fx:id="sizeFuenteArbol" layoutX="272.0" layoutY="18.0" prefHeight="25.0" prefWidth="61.0" AnchorPane.topAnchor="18.0" />
-                  <ComboBox fx:id="sizeFuenteTraduc" layoutX="272.0" layoutY="48.0" prefHeight="3.0" prefWidth="61.0" AnchorPane.topAnchor="48.0" />
-                  <ComboBox fx:id="sizeFuenteCadena" layoutX="272.0" layoutY="78.0" prefHeight="3.0" prefWidth="61.0" AnchorPane.topAnchor="78.0" />
-                  <Label layoutX="11.0" layoutY="108.0" text="Símbolos terminales">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="24.0" layoutY="140.0" text="Color de fondo" />
-                  <Label layoutX="24.0" layoutY="177.0" text="Color de fuente" />
-                  <ColorPicker fx:id="backgroundColorTerminals" layoutX="203.0" layoutY="136.0" onAction="#handleChooseColor" />
-                  <ColorPicker fx:id="fontColorTerminals" layoutX="203.0" layoutY="173.0" onAction="#handleChooseColor" />
-                  <Label layoutX="11.0" layoutY="213.0" text="Símbolos no terminales">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="24.0" layoutY="241.0" text="Color de fondo" />
-                  <Label layoutX="24.0" layoutY="278.0" text="Color de fuente" />
-                  <ColorPicker fx:id="backgroundColorNoTerminals" layoutX="203.0" layoutY="237.0" onAction="#handleChooseColor" />
-                  <ColorPicker fx:id="fontColorNoTerminals" layoutX="203.0" layoutY="274.0" onAction="#handleChooseColor" />
-                  <Label layoutX="14.0" layoutY="318.0" text="Cadena de entrada">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="27.0" layoutY="346.0" text="Parte procesada" />
-                  <Label layoutX="27.0" layoutY="383.0" text="Parte pendiente" />
-                  <ColorPicker fx:id="readPart" layoutX="206.0" layoutY="342.0" onAction="#handleChooseColor" />
-                  <ColorPicker fx:id="pendPart" layoutX="206.0" layoutY="379.0" onAction="#handleChooseColor" />
-                  <Label layoutX="12.0" layoutY="423.0" text="Acciones semánticas">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="30.0" layoutY="445.0" text="Tipo de fuente" />
-                  <Label layoutX="30.0" layoutY="475.0" text="Color de fuente" />
-                  <Label layoutX="30.0" layoutY="505.0" text="Tamaño de fuente " />
-                  <ComboBox fx:id="fountTypeSemanticAct" layoutX="204.0" layoutY="441.0" prefHeight="25.0" prefWidth="138.0" />
-                  <ColorPicker fx:id="colorFountSemanticAct" layoutX="203.0" layoutY="471.0" onAction="#handleChooseColor" />
-                  <ComboBox fx:id="sizeFountSemanticAct" layoutX="277.0" layoutY="501.0" prefHeight="3.0" prefWidth="61.0" />
+                  <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="536.0" prefWidth="347.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columnConstraints>
+                      <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="65.0" prefHeight="107.0" valignment="TOP" vgrow="ALWAYS" />
+                        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="0.0" prefHeight="91.0" valignment="TOP" vgrow="ALWAYS" />
+                        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="102.0" valignment="TOP" vgrow="ALWAYS" />
+                        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="101.0" valignment="TOP" vgrow="ALWAYS" />
+                        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="104.0" valignment="TOP" vgrow="ALWAYS" />
+                    </rowConstraints>
+                     <children>
+                        <GridPane>
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="104.0" valignment="CENTER" vgrow="ALWAYS" />
+                            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="0.0" prefHeight="3.0" vgrow="ALWAYS" />
+                          </rowConstraints>
+                           <children>
+                              <GridPane>
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="257.0" />
+                                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="90.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="19.0" vgrow="ALWAYS" />
+                                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="23.0" vgrow="ALWAYS" />
+                                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="0.0" prefHeight="32.0" vgrow="ALWAYS" />
+                                    <RowConstraints maxHeight="1.7976931348623157E308" minHeight="3.0" prefHeight="24.0" vgrow="ALWAYS" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label text="Símbolos" GridPane.rowIndex="0">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets left="10.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label text="Tamaño fuente en el árbol:" GridPane.halignment="LEFT" GridPane.rowIndex="1">
+                                       <GridPane.margin>
+                                          <Insets left="25.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label text="Tamaño fuente en el traductor:" GridPane.halignment="LEFT" GridPane.rowIndex="2">
+                                       <GridPane.margin>
+                                          <Insets left="25.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label text="Tamaño fuente en la cadena de entrada:" GridPane.halignment="LEFT" GridPane.rowIndex="3">
+                                       <GridPane.margin>
+                                          <Insets left="25.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <ComboBox fx:id="sizeFuenteArbol" prefHeight="25.0" prefWidth="61.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                                    <ComboBox fx:id="sizeFuenteTraduc" prefHeight="3.0" prefWidth="61.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                                    <ComboBox fx:id="sizeFuenteCadena" prefHeight="3.0" prefWidth="61.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                                 </children>
+                              </GridPane>
+                              <Separator prefWidth="200.0" GridPane.rowIndex="1" />
+                           </children>
+                        </GridPane>
+                        <GridPane GridPane.rowIndex="1">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="85.0" valignment="CENTER" vgrow="ALWAYS" />
+                            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="2.0" prefHeight="6.0" valignment="CENTER" vgrow="ALWAYS" />
+                          </rowConstraints>
+                           <children>
+                              <Separator prefWidth="350.0" GridPane.rowIndex="1" />
+                              <GridPane>
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="24.0" valignment="CENTER" vgrow="ALWAYS" />
+                                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="34.0" valignment="CENTER" vgrow="ALWAYS" />
+                                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="38.0" valignment="CENTER" vgrow="ALWAYS" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label text="Símbolos terminales">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets left="10.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label text="Color de fondo" GridPane.rowIndex="1">
+                                       <GridPane.margin>
+                                          <Insets left="25.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <ColorPicker fx:id="backgroundColorTerminals" onAction="#handleChooseColor" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                                    <Label text="Color de fuente" GridPane.rowIndex="2">
+                                       <GridPane.margin>
+                                          <Insets left="25.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <ColorPicker fx:id="fontColorTerminals" onAction="#handleChooseColor" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </GridPane>
+                        <GridPane GridPane.rowIndex="2">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="85.0" valignment="CENTER" vgrow="ALWAYS" />
+                            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="4.0" prefHeight="17.0" valignment="CENTER" vgrow="ALWAYS" />
+                          </rowConstraints>
+                           <children>
+                              <Separator prefWidth="350.0" GridPane.rowIndex="1" />
+                              <GridPane>
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                    <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="25.0" valignment="CENTER" vgrow="ALWAYS" />
+                                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="34.0" valignment="CENTER" vgrow="ALWAYS" />
+                                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="44.0" valignment="CENTER" vgrow="ALWAYS" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label text="Símbolos no terminales">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets left="10.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label text="Color de fondo" GridPane.rowIndex="1">
+                                       <GridPane.margin>
+                                          <Insets left="25.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <ColorPicker fx:id="backgroundColorNoTerminals" onAction="#handleChooseColor" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                                    <Label text="Color de fuente" GridPane.rowIndex="2">
+                                       <GridPane.margin>
+                                          <Insets left="25.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <ColorPicker fx:id="fontColorNoTerminals" onAction="#handleChooseColor" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                                       <GridPane.margin>
+                                          <Insets />
+                                       </GridPane.margin>
+                                    </ColorPicker>
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </GridPane>
+                        <GridPane GridPane.rowIndex="3">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="100.0" valignment="CENTER" vgrow="ALWAYS" />
+                            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="9.0" prefHeight="9.0" valignment="CENTER" vgrow="ALWAYS" />
+                          </rowConstraints>
+                           <children>
+                              <Separator prefWidth="350.0" GridPane.rowIndex="1" />
+                              <GridPane>
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="20.0" valignment="CENTER" vgrow="ALWAYS" />
+                                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="36.0" valignment="CENTER" vgrow="ALWAYS" />
+                                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="42.0" valignment="CENTER" vgrow="ALWAYS" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label text="Cadena de entrada">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets left="10.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label text="Parte procesada" GridPane.rowIndex="1">
+                                       <GridPane.margin>
+                                          <Insets left="25.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label text="Parte pendiente" GridPane.rowIndex="2">
+                                       <GridPane.margin>
+                                          <Insets left="25.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <ColorPicker fx:id="readPart" onAction="#handleChooseColor" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                                    <ColorPicker fx:id="pendPart" onAction="#handleChooseColor" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </GridPane>
+                        <GridPane prefHeight="131.0" prefWidth="347.0" GridPane.rowIndex="4">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                              <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="20.0" valignment="CENTER" vgrow="ALWAYS" />
+                            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="27.0" valignment="CENTER" vgrow="ALWAYS" />
+                            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+                            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="28.0" valignment="CENTER" vgrow="ALWAYS" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Color de fuente" GridPane.rowIndex="2">
+                                 <GridPane.margin>
+                                    <Insets left="25.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <Label text="Acciones semánticas">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                                 <GridPane.margin>
+                                    <Insets left="10.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <Label text="Tipo de fuente" GridPane.rowIndex="1">
+                                 <GridPane.margin>
+                                    <Insets left="25.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <ComboBox fx:id="fountTypeSemanticAct" prefHeight="25.0" prefWidth="138.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                              <Label text="Tamaño de fuente " GridPane.rowIndex="3">
+                                 <GridPane.margin>
+                                    <Insets left="25.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <ColorPicker fx:id="colorFountSemanticAct" onAction="#handleChooseColor" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                              <ComboBox fx:id="sizeFountSemanticAct" prefHeight="3.0" prefWidth="61.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+                                 <GridPane.margin>
+                                    <Insets left="110.0" right="20.0" />
+                                 </GridPane.margin>
+                              </ComboBox>
+                           </children>
+                        </GridPane>
+                     </children>
+                  </GridPane>
                </children>
             </AnchorPane>
         </items>

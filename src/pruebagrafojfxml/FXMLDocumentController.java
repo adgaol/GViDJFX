@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.HostServices;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -92,10 +94,11 @@ public class FXMLDocumentController implements Initializable {
             inputZoom.setText(sliderZoom.getValue()+"");
         }
         else{
-          
-           zoom((sliderZoom.getValue()-10)/100);
-           sliderZoom.setValue((int)(sliderZoom.getValue()-10));
-           inputZoom.setText(sliderZoom.getValue()+"");
+          if((sliderZoom.getValue()-10)>=0){
+                zoom((sliderZoom.getValue()-10)/100);
+                sliderZoom.setValue((int)(sliderZoom.getValue()-10));
+                inputZoom.setText(sliderZoom.getValue()+"");
+          }
         }
         configuration.guardarConfiguracion(".//config//configActual.xml",
                          configuration.getLetraArbol(),configuration.getLetraTraductor(),configuration.getLetraCadena(),
@@ -114,11 +117,14 @@ public class FXMLDocumentController implements Initializable {
             inputZoomGrammar.setText(zoomGrammar+"");
         }
         else{
+            if((zoomGrammar-10)>=0){
+                
           
-           zoomGrammar-=10;
-            zoomGrammar(zoomGrammar/100);
-            
-            inputZoomGrammar.setText(zoomGrammar+"");
+                zoomGrammar-=10;
+                zoomGrammar(zoomGrammar/100);
+
+                inputZoomGrammar.setText(zoomGrammar+"");
+            }
         }
         configuration.guardarConfiguracion(".//config//configActual.xml",
                          configuration.getLetraArbol(),configuration.getLetraTraductor(),configuration.getLetraCadena(),
@@ -137,11 +143,12 @@ public class FXMLDocumentController implements Initializable {
             inputZoomChain.setText(zoomChain+"");
         }
         else{
-          
-           zoomChain-=10;
-            zoomChain(zoomChain/100);
-            
-            inputZoomGrammar.setText(zoomChain+"");
+            if((zoomChain-10)>=0){
+                zoomChain-=10;
+                zoomChain(zoomChain/100);
+
+                inputZoomGrammar.setText(zoomChain+"");
+            }
         }
         configuration.guardarConfiguracion(".//config//configActual.xml",
                          configuration.getLetraArbol(),configuration.getLetraTraductor(),configuration.getLetraCadena(),
@@ -186,16 +193,19 @@ public class FXMLDocumentController implements Initializable {
     private void handleInputZoom(ActionEvent event) {
         try{
         Double value= Double.parseDouble(inputZoom.getText()); 
-        zoom((value)/100);
-        sliderZoom.setValue(value);
-        
-        configuration.guardarConfiguracion(".//config//configActual.xml",
-                         configuration.getLetraArbol(),configuration.getLetraTraductor(),configuration.getLetraCadena(),
-                         configuration.getColorTerminal(),configuration.getColorNoTerminal(),configuration.getLetraTerminal(),
-                         configuration.getLetraNoTerminal(),configuration.getColorLeido(),configuration.getColorPend(),
-                         configuration.getColorAccSem(),configuration.getTipoLetra(),configuration.getSizeAcciones(),
-                         (int)sliderZoom.getValue(),zoomGrammar.intValue(),zoomChain.intValue());
-        
+            if(value>=0){
+                zoom((value)/100);
+                sliderZoom.setValue(value);
+
+                configuration.guardarConfiguracion(".//config//configActual.xml",
+                                 configuration.getLetraArbol(),configuration.getLetraTraductor(),configuration.getLetraCadena(),
+                                 configuration.getColorTerminal(),configuration.getColorNoTerminal(),configuration.getLetraTerminal(),
+                                 configuration.getLetraNoTerminal(),configuration.getColorLeido(),configuration.getColorPend(),
+                                 configuration.getColorAccSem(),configuration.getTipoLetra(),configuration.getSizeAcciones(),
+                                 (int)sliderZoom.getValue(),zoomGrammar.intValue(),zoomChain.intValue());
+            }
+            else
+                inputZoom.setText("no valido");
         }
         catch(Exception e){
             inputZoom.setText("no valido");
@@ -205,17 +215,20 @@ public class FXMLDocumentController implements Initializable {
      @FXML
     private void handleInputZoomGrammar(ActionEvent event) {
         try{
-        Double value= Double.parseDouble(inputZoomGrammar.getText()); 
-        zoomGrammar((value)/100);
-        zoomGrammar=value;
-        
-        configuration.guardarConfiguracion(".//config//configActual.xml",
-             configuration.getLetraArbol(),configuration.getLetraTraductor(),configuration.getLetraCadena(),
-             configuration.getColorTerminal(),configuration.getColorNoTerminal(),configuration.getLetraTerminal(),
-             configuration.getLetraNoTerminal(),configuration.getColorLeido(),configuration.getColorPend(),
-             configuration.getColorAccSem(),configuration.getTipoLetra(),configuration.getSizeAcciones(),
-             (int)sliderZoom.getValue(),zoomGrammar.intValue(),zoomChain.intValue());
+            Double value= Double.parseDouble(inputZoomGrammar.getText()); 
+            if(value>=0){
+                zoomGrammar((value)/100);
+                zoomGrammar=value;
 
+                configuration.guardarConfiguracion(".//config//configActual.xml",
+                     configuration.getLetraArbol(),configuration.getLetraTraductor(),configuration.getLetraCadena(),
+                     configuration.getColorTerminal(),configuration.getColorNoTerminal(),configuration.getLetraTerminal(),
+                     configuration.getLetraNoTerminal(),configuration.getColorLeido(),configuration.getColorPend(),
+                     configuration.getColorAccSem(),configuration.getTipoLetra(),configuration.getSizeAcciones(),
+                     (int)sliderZoom.getValue(),zoomGrammar.intValue(),zoomChain.intValue());
+            }
+            else
+                inputZoomGrammar.setText("no valido");
         }
         catch(Exception e){
             inputZoomGrammar.setText("no valido");
@@ -225,17 +238,20 @@ public class FXMLDocumentController implements Initializable {
      @FXML
     private void handleInputZoomChain(ActionEvent event) {
         try{
-        Double value= Double.parseDouble(inputZoomChain.getText()); 
-        zoomChain((value)/100);
-        zoomChain=value;
-        
-        configuration.guardarConfiguracion(".//config//configActual.xml",
-             configuration.getLetraArbol(),configuration.getLetraTraductor(),configuration.getLetraCadena(),
-             configuration.getColorTerminal(),configuration.getColorNoTerminal(),configuration.getLetraTerminal(),
-             configuration.getLetraNoTerminal(),configuration.getColorLeido(),configuration.getColorPend(),
-             configuration.getColorAccSem(),configuration.getTipoLetra(),configuration.getSizeAcciones(),
-             (int)sliderZoom.getValue(),zoomGrammar.intValue(),zoomChain.intValue());
+            Double value= Double.parseDouble(inputZoomChain.getText());
+            if(value>=0){
+                zoomChain((value)/100);
+                zoomChain=value;
 
+                configuration.guardarConfiguracion(".//config//configActual.xml",
+                     configuration.getLetraArbol(),configuration.getLetraTraductor(),configuration.getLetraCadena(),
+                     configuration.getColorTerminal(),configuration.getColorNoTerminal(),configuration.getLetraTerminal(),
+                     configuration.getLetraNoTerminal(),configuration.getColorLeido(),configuration.getColorPend(),
+                     configuration.getColorAccSem(),configuration.getTipoLetra(),configuration.getSizeAcciones(),
+                     (int)sliderZoom.getValue(),zoomGrammar.intValue(),zoomChain.intValue());
+            }
+            else
+                inputZoomChain.setText("no valido");
         }
         catch(Exception e){
             inputZoomChain.setText("no valido");
@@ -307,7 +323,7 @@ public class FXMLDocumentController implements Initializable {
                          configuration.getLetraNoTerminal(),configuration.getColorLeido(),configuration.getColorPend(),
                          configuration.getColorAccSem(),configuration.getTipoLetra(),configuration.getSizeAcciones(),
                          configuration.getZoomGraph(),configuration.getZoomGrammar(),configuration.getZoomChain());
-
+            configuration.guardarConfiguracionOcultarTutorial(".//config//configActual.xml", configuration.getOcultarTutorial());
 
     }
     @FXML
@@ -483,12 +499,17 @@ public class FXMLDocumentController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-      grafo.requestFocus();
-      grafo.setFocusTraversable(true);
-      
-      
-      elegirArchivo("xml");  
-      grafo.addEventFilter(KeyEvent.KEY_RELEASED,
+        grafo.requestFocus();
+        grafo.setFocusTraversable(true);
+        configuration=new Configuracion();
+        configuration.cargarConfiguracion("./config/configActual.xml");
+
+        elegirArchivo("xml");
+        
+//        } catch (IOException ex) {
+//            System.out.println("!!!");
+//        }
+        grafo.addEventFilter(KeyEvent.KEY_RELEASED,
                 event ->handleKeyAction(event));
 //      ejemplo = new FicheroXML();
 //      ejemplo.cargarXml("C:\\Users\\adgao\\Documents\\universidad\\TFG\\TFG-Anterior\\TFG-Anterior\\VisTDS\\traductores\\descend.xml"); 
@@ -618,13 +639,13 @@ public class FXMLDocumentController implements Initializable {
         File file=fileChooser.showOpenDialog(PruebaGrafoJFXML.getStage());
         path=file.getAbsolutePath();
         //}
-        configuration=new Configuracion();
+        
         ejemplo = new FicheroXML();
         //ejemplo.cargarXml("C:\\Users\\adgao\\Documents\\universidad\\TFG\\TFG-Anterior\\TFG-Anterior\\VisTDS\\traductores\\descend.xml"); 
         ejemplo.cargarXml(path); 
 
         
-        configuration.cargarConfiguracion("./config/configActual.xml");
+        
         inicioButton.setTextFill(Color.GRAY);
         anteriorButton.setTextFill(Color.GRAY);
         finButton.setTextFill(Color.BLACK);
@@ -839,5 +860,8 @@ public class FXMLDocumentController implements Initializable {
         grammar.updateGrammar();
         entryChain.actualizarCadena(graph.getContador());
     }
-     
+    
+
+
+    
 }

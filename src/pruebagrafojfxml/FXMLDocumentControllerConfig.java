@@ -27,6 +27,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
+import javafx.scene.layout.Background;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -169,8 +171,35 @@ private Configuracion lectConf;
             pendChainR.setFill(coo);
             readChainR.setFill(coo);
             colorBackgroundTerminals=coo.toString();
+            if(!compararColores(coo, fontColorTerminals.getValue())){
+                fontColorTerminals.setStyle("-fx-border-color:yellow");
+                backgroundColorTerminals.setStyle("-fx-border-color:red");
+                fontColorTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
+                backgroundColorTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
+            }
+            else if(!compararColores(coo, pendPart.getValue())){
+                pendPart.setStyle("-fx-border-color:yellow");
+                backgroundColorTerminals.setStyle("-fx-border-color:red");
+                pendPart.setTooltip(new Tooltip("Colores poco compatibles"));
+                backgroundColorTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
+            }
             
-            
+            else if(!compararColores(coo, readPart.getValue())){
+                readPart.setStyle("-fx-border-color:yellow");
+                backgroundColorTerminals.setStyle("-fx-border-color:red");
+                readPart.setTooltip(new Tooltip("Colores poco compatibles"));
+                backgroundColorTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
+            }
+            else{
+                readPart.setStyle(null);
+                backgroundColorTerminals.setStyle(null);
+                readPart.setTooltip(null);
+                backgroundColorTerminals.setTooltip(null);
+                fontColorTerminals.setStyle(null);
+                fontColorTerminals.setTooltip(null);
+                pendPart.setStyle(null);
+                pendPart.setTooltip(null);
+            }
         }
         else if(e.equals(fontColorTerminals)){
             javafx.scene.paint.Color coo=fontColorTerminals.getValue();   
@@ -178,6 +207,18 @@ private Configuracion lectConf;
             labelTerminal.setTextFill(coo);
             grammarTerminal.setTextFill(coo);
             colorTextTerminals=coo.toString();
+            if(!compararColores(coo, backgroundColorTerminals.getValue())){
+                fontColorTerminals.setStyle("-fx-border-color:yellow");
+                backgroundColorTerminals.setStyle("-fx-border-color:red");
+                fontColorTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
+                backgroundColorTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
+            }
+            else{
+                fontColorTerminals.setStyle(null);
+                backgroundColorTerminals.setStyle(null);
+                fontColorTerminals.setTooltip(null);
+                backgroundColorTerminals.setTooltip(null);
+            }
         }
         else if(e.equals(fontColorNoTerminals)){
             javafx.scene.paint.Color coo=fontColorNoTerminals.getValue();   
@@ -187,6 +228,18 @@ private Configuracion lectConf;
             grammarNoTerminal1.setTextFill(coo);
             grammarNoTerminal2.setTextFill(coo);
             colorTextNoTerminals=coo.toString();
+            if(!compararColores(coo, backgroundColorNoTerminals.getValue())){
+                fontColorNoTerminals.setStyle("-fx-border-color:yellow");
+                backgroundColorNoTerminals.setStyle("-fx-border-color:red");
+                fontColorNoTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
+                backgroundColorNoTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
+            }
+            else{
+                fontColorNoTerminals.setStyle(null);
+                backgroundColorNoTerminals.setStyle(null);
+                fontColorNoTerminals.setTooltip(null);
+                backgroundColorNoTerminals.setTooltip(null);
+            }
         }
         
         else if(e.equals(backgroundColorNoTerminals)){
@@ -195,6 +248,18 @@ private Configuracion lectConf;
             noTerminal1.setFill(coo);
             noTerminal2.setFill(coo);
             colorBackgroundNoTerminals=coo.toString();
+            if(!compararColores(coo, fontColorNoTerminals.getValue())){
+                fontColorNoTerminals.setStyle("-fx-border-color:yellow");
+                backgroundColorNoTerminals.setStyle("-fx-border-color:red");
+                fontColorNoTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
+                backgroundColorNoTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
+            }
+            else{
+                fontColorNoTerminals.setStyle(null);
+                backgroundColorNoTerminals.setStyle(null);
+                fontColorNoTerminals.setTooltip(null);
+                backgroundColorNoTerminals.setTooltip(null);
+            }
               
         }
         else if(e.equals(pendPart)){
@@ -202,12 +267,36 @@ private Configuracion lectConf;
             System.out.println(coo);
             labelpendChain.setTextFill(coo);
             colorPendChain=coo.toString();
+            if(!compararColores(coo, backgroundColorTerminals.getValue())){
+                pendPart.setStyle("-fx-border-color:yellow");
+                backgroundColorTerminals.setStyle("-fx-border-color:red");
+                pendPart.setTooltip(new Tooltip("Colores poco compatibles"));
+                backgroundColorTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
+            }
+            else{
+                pendPart.setStyle(null);
+                backgroundColorTerminals.setStyle(null);
+                pendPart.setTooltip(null);
+                backgroundColorTerminals.setTooltip(null);
+            }
         }
         else if(e.equals(readPart)){
             javafx.scene.paint.Color coo=readPart.getValue();   
             System.out.println(coo);
             labelreadChain.setTextFill(coo);
             colorReadChain=coo.toString();
+            if(!compararColores(coo, backgroundColorTerminals.getValue())){
+                readPart.setStyle("-fx-border-color:yellow");
+                backgroundColorTerminals.setStyle("-fx-border-color:red");
+                readPart.setTooltip(new Tooltip("Colores poco compatibles"));
+                backgroundColorTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
+            }
+            else{
+                readPart.setStyle(null);
+                backgroundColorTerminals.setStyle(null);
+                readPart.setTooltip(null);
+                backgroundColorTerminals.setTooltip(null);
+            }
         }
         else if(e.equals(colorFountSemanticAct)){
             javafx.scene.paint.Color coo=colorFountSemanticAct.getValue();   
@@ -437,8 +526,60 @@ private Configuracion lectConf;
         color=Color.web(lectConf.getColorAccSem());
         colorFountSemanticAct.setValue(color);
         fountTypeSemanticAct.setValue(lectConf.getTipoLetra());
+        if(!compararColores(backgroundColorTerminals.getValue(), fontColorTerminals.getValue())){
+            fontColorTerminals.setStyle("-fx-border-color:yellow");
+            backgroundColorTerminals.setStyle("-fx-border-color:red");
+            fontColorTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
+            backgroundColorTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
+        }
+        if(!compararColores(backgroundColorTerminals.getValue(), pendPart.getValue())){
+            pendPart.setStyle("-fx-border-color:yellow");
+            backgroundColorTerminals.setStyle("-fx-border-color:red");
+            pendPart.setTooltip(new Tooltip("Colores poco compatibles"));
+            backgroundColorTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
+        }
+            
+        if(!compararColores(backgroundColorTerminals.getValue(), readPart.getValue())){
+            readPart.setStyle("-fx-border-color:yellow");
+            backgroundColorTerminals.setStyle("-fx-border-color:red");
+            readPart.setTooltip(new Tooltip("Colores poco compatibles"));
+            backgroundColorTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
+        }
+        
+        if(!compararColores(fontColorNoTerminals.getValue(), backgroundColorNoTerminals.getValue())){
+            fontColorNoTerminals.setStyle("-fx-border-color:yellow");
+            backgroundColorNoTerminals.setStyle("-fx-border-color:red");
+            fontColorNoTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
+            backgroundColorNoTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
+        }
+        
     }
-
+    /**
+     * 
+     * @param c1
+     * @param c2
+     * @return 
+     */
+    public boolean compararColores(Color c1,Color c2){
+        boolean noSePuede=true;
+        if( !(Math.abs(c1.getHue()-c2.getHue())>35))  {
+            
+            if((Math.abs(c1.getSaturation()-c2.getSaturation())>0.79)&&(Math.abs(c1.getBrightness()-c2.getBrightness())>0.16))            
+                noSePuede=true;
+            else 
+                noSePuede=false;
+        }
+        else{
+            if( !(Math.abs(c1.getHue()-c2.getHue())>50))  {
+                if((Math.abs(c1.getSaturation()-c2.getSaturation())>0.79)&&(Math.abs(c1.getBrightness()-c2.getBrightness())>0.16))            
+                    noSePuede=true;
+                else 
+                    noSePuede=false;
+            }
+        }
+        return noSePuede;
+        
+    }
  /**
   * Recive a color in format Swing and transform it into a format javaFX
   * @param color

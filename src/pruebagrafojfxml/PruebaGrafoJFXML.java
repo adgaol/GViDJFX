@@ -5,10 +5,12 @@
  */
 package pruebagrafojfxml;
 
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -33,6 +35,7 @@ public class PruebaGrafoJFXML extends Application {
         setStage(stage);
         stage.setScene(scene);
         stage.show();
+        verTutorial();
     }
 
     /**
@@ -41,5 +44,26 @@ public class PruebaGrafoJFXML extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+    public void verTutorial() throws IOException {
+        
+        Configuracion configuration=new Configuracion();
+        configuration.cargarConfiguracion("./config/configActual.xml");
+        if(!configuration.getOcultarTutorial()){
+            Parent root = FXMLLoader.load(getClass().getResource("FXMLDocumentVerTutorial.fxml"));
+
+            Scene scene = new Scene(root);
+            Stage configurationScreen=new Stage();
+            configurationScreen.setScene(scene);
+            configurationScreen.initModality(Modality.WINDOW_MODAL);
+            configurationScreen.setTitle("Ver Tutorial");
+                // Specifies the owner Window (parent) for new window
+                Stage p1=PruebaGrafoJFXML.getStage();
+            configurationScreen.initOwner(PruebaGrafoJFXML.getStage());
+               //configuration.onCloseRequestProperty().addListener();
+                // Set position of second window, related to primary window.
+                //newWindow.setX(primaryStage.getX() + 200);
+                //newWindow.setY(primaryStage.getY() + 100);
+            configurationScreen.show();
+        }
+    }
 }
