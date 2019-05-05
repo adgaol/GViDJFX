@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane focusTraversable="true" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pruebagrafojfxml.FXMLDocumentController">
+   <children>
+      <GridPane prefHeight="600.0" prefWidth="980.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="185.0" minHeight="0.0" prefHeight="23.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="579.0" minHeight="10.0" prefHeight="577.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+      </GridPane>
+      <BorderPane prefHeight="600.0" prefWidth="980.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <MenuBar prefHeight="25.0" prefWidth="980.0" BorderPane.alignment="CENTER">
+              <menus>
+                <Menu fx:id="Archivo" mnemonicParsing="false" text="_Archivo">
+                  <items>
+                        <Menu mnemonicParsing="false" text="Nuevo">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Traductor" />
+                              <MenuItem mnemonicParsing="false" text="Cadena" />
+                          </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Cargar">
+                          <items>
+                            <MenuItem mnemonicParsing="false" onAction="#handleCargarArchivo" text="Traductor" />
+                          <MenuItem mnemonicParsing="false" text="Cadena" />
+                          </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Guardar">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Traductor" />
+                              <MenuItem mnemonicParsing="false" text="Cadena" />
+                          </items>
+                        </Menu>
+                  </items>
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="A" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                </Menu>
+                <Menu mnemonicParsing="false" text="_Ejecución">
+                  <items>
+                    <MenuItem mnemonicParsing="false" onAction="#handleIrInicioAction" text="Inicio" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleAnteriorAction" text="Anterior" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleSiguienteAction" text="siguiente" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleIrFinAction" text="Fin" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="_Configuración">
+                  <items>
+                    <MenuItem mnemonicParsing="false" onAction="#handleOpenConfiguration" text="Editar configuración" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleDefaultConfiguration" text="Restablecer configuración por defecto" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleNewConfiguration" text="Guardar configuración" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleCargarConfiguracion" text="Cargar configuración" />
+                  </items>
+                </Menu>
+                  <Menu mnemonicParsing="false" text="A_yuda">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#handleOpenHelp" text="Ver ayuda" />
+                        <MenuItem mnemonicParsing="false" text="Acerca de" />
+                    </items>
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="A" control="UP" meta="UP" shift="UP" shortcut="ANY" />
+                     </accelerator>
+                  </Menu>
+              </menus>
+            </MenuBar>
+         </top>
+         <center>
+            <SplitPane dividerPositions="0.7123745819397993" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="577.0" prefWidth="980.0" BorderPane.alignment="CENTER">
+              <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                     <children>
+                        <GridPane prefHeight="575.0" prefWidth="694.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="527.0" minHeight="10.0" prefHeight="523.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="282.0" minHeight="10.0" prefHeight="52.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                        </GridPane>
+                        <BorderPane prefHeight="573.0" prefWidth="694.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <bottom>
+                              <GridPane prefHeight="42.0" prefWidth="694.0" BorderPane.alignment="CENTER">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="168.0" minWidth="10.0" prefWidth="89.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="350.0" minWidth="10.0" prefWidth="350.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="66.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="124.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="93.0" minWidth="10.0" prefWidth="72.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label prefHeight="25.0" prefWidth="44.0" text="Zoom" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Slider fx:id="sliderZoom" majorTickUnit="50.0" max="300.0" min="50.0" minorTickCount="10" prefHeight="38.0" prefWidth="269.0" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.valignment="CENTER" />
+                                    <Button layoutX="5.0" mnemonicParsing="false" onAction="#handleMasMenosZoom" prefHeight="25.0" prefWidth="31.0" text="-" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                       <GridPane.margin>
+                                          <Insets />
+                                       </GridPane.margin>
+                                    </Button>
+                                    <Button fx:id="masZoom" mnemonicParsing="false" onAction="#handleMasMenosZoom" prefHeight="25.0" prefWidth="31.0" text="+" GridPane.columnIndex="4" GridPane.halignment="CENTER" />
+                                    <TextField fx:id="inputZoom" onAction="#handleInputZoom" GridPane.columnIndex="3" />
+                                 </children>
+                              </GridPane>
+                           </bottom>
+                           <center>
+                              <ScrollPane fx:id="grafo" prefHeight="507.0" prefWidth="694.0" style="-fx-background: white;" BorderPane.alignment="CENTER">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                                </content>
+                              </ScrollPane>
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                     <children>
+                        <SplitPane dividerPositions="0.6637478108581436" layoutX="14.0" layoutY="79.0" orientation="VERTICAL" prefHeight="576.0" prefWidth="278.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                 <children>
+                                    <GridPane prefHeight="360.0" prefWidth="276.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints maxHeight="175.0" minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                                        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="330.0" vgrow="ALWAYS" />
+                                      </rowConstraints>
+                                       <children>
+                                          <ScrollPane fx:id="gramatica" maxWidth="1.7976931348623157E308" prefHeight="360.0" prefWidth="276.0" style="-fx-background: white;" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
+                                          <GridPane GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="TOP" GridPane.vgrow="NEVER">
+                                            <columnConstraints>
+                                              <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="74.0" />
+                                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="137.0" />
+                                              <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="68.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                                            </rowConstraints>
+                                             <children>
+                                                <Button mnemonicParsing="false" onAction="#handleMasMenosZoomGrammar" prefHeight="25.0" prefWidth="31.0" text="-" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                                <Button fx:id="masZoomGrammar" mnemonicParsing="false" onAction="#handleMasMenosZoomGrammar" prefHeight="25.0" prefWidth="31.0" text="+" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                                <TextField fx:id="inputZoomGrammar" alignment="CENTER" onAction="#handleInputZoomGrammar" GridPane.columnIndex="1" />
+                                             </children>
+                                          </GridPane>
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                 <children>
+                                    <GridPane prefHeight="205.0" prefWidth="276.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="36.0" vgrow="NEVER" />
+                                        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="115.0" vgrow="ALWAYS" />
+                                        <RowConstraints maxHeight="63.0" minHeight="10.0" prefHeight="52.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <GridPane GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                            </columnConstraints>
+                                             <children>
+                                                <Button fx:id="inicioButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleIrInicioAction" pickOnBounds="false" prefHeight="50.0" prefWidth="69.0" text="Inicio" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+                                                <Button fx:id="anteriorButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleAnteriorAction" prefHeight="50.0" prefWidth="69.0" text="Anterior" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+                                                <Button fx:id="siguienteButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleSiguienteAction" prefHeight="50.0" prefWidth="69.0" text="Siguiente" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+                                                <Button fx:id="finButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleIrFinAction" prefHeight="50.0" prefWidth="69.0" text="Fin" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+                                             </children>
+                                             <rowConstraints>
+                                                <RowConstraints />
+                                             </rowConstraints>
+                                          </GridPane>
+                                          <ScrollPane fx:id="cadenaEntrada" prefHeight="200.0" prefWidth="200.0" style="-fx-background: white;" GridPane.rowIndex="1">
+                                            <content>
+                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="151.0" prefWidth="200.0" />
+                                            </content>
+                                          </ScrollPane>
+                                          <GridPane GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                                            <columnConstraints>
+                                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="70.0" />
+                                              <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="146.0" />
+                                              <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="61.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                                            </rowConstraints>
+                                             <children>
+                                                <Button mnemonicParsing="false" onAction="#handleMasMenosZoomChain" prefHeight="25.0" prefWidth="31.0" text="-" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                                <Button fx:id="masZoomChain" mnemonicParsing="false" onAction="#handleMasMenosZoomChain" prefHeight="25.0" prefWidth="31.0" text="+" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                                <TextField fx:id="inputZoomChain" alignment="CENTER" onAction="#handleInputZoomChain" prefHeight="25.0" prefWidth="144.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                             </children>
+                                          </GridPane>
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </AnchorPane>
+                          </items>
+                        </SplitPane>
+                     </children>
+                  </AnchorPane>
+              </items>
+            </SplitPane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>
