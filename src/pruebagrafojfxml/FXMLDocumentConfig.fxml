@@ -31,24 +31,19 @@
                       <RowConstraints maxHeight="263.0" minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Pane prefHeight="518.0" prefWidth="560.0" style="-fx-background-color: white;">
+                        <Pane fx:id="example" prefHeight="518.0" prefWidth="560.0" style="-fx-background-color: white;">
                            <children>
                               <Rectangle fx:id="noTerminal1" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" layoutX="312.0" layoutY="151.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
                               <Rectangle fx:id="terminal" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" layoutX="152.0" layoutY="151.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
                               <Rectangle fx:id="noTerminal2" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" layoutX="223.0" layoutY="58.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
-                              <Line endY="75.0" layoutX="362.0" layoutY="76.0" startX="-83.29290771484375" startY="30.292892456054688" />
-                              <Label fx:id="labelNoTerminal1" layoutX="268.0" layoutY="75.0" text="EXP" />
-                              <Label fx:id="labelTerminal" layoutX="190.0" layoutY="168.0" text="num" />
-                              <Label fx:id="labelNoTerminal2" layoutX="358.0" layoutY="168.0" text="A" />
+                              <Line endY="75.0" layoutX="362.0" layoutY="76.0" startX="-88.29290771484375" startY="31.292892456054688" />
                               <Label fx:id="grammarNoTerminal1" layoutX="169.0" layoutY="252.0" text="EXP::=" />
                               <Label fx:id="grammarTerminal" layoutX="221.0" layoutY="252.0" text="num" />
                               <Label fx:id="grammarNoTerminal2" layoutX="283.0" layoutY="252.0" text="A" />
                               <Label fx:id="action" layoutX="333.0" layoutY="252.0" text="print(valor)" />
                               <Rectangle fx:id="readChainR" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="30.0" layoutX="199.0" layoutY="351.0" stroke="BLACK" strokeType="INSIDE" width="30.0" />
                               <Rectangle fx:id="pendChainR" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="30.0" layoutX="258.0" layoutY="351.0" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                              <Label fx:id="labelreadChain" layoutX="210.0" layoutY="350.0" text="4" />
-                              <Label fx:id="labelpendChain" layoutX="263.0" layoutY="350.0" text="+" />
-                              <Line endX="76.0" endY="-23.414215087890625" layoutX="202.0" layoutY="129.0" startX="6.0" startY="22.0" />
+                              <Line endX="71.0" endY="-21.0" layoutX="202.0" layoutY="129.0" startX="6.0" startY="22.0" />
                            </children>
                         </Pane>
                         <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="536.0" prefWidth="560.0" GridPane.rowIndex="1">

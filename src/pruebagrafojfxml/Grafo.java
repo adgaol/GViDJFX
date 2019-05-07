@@ -50,6 +50,8 @@ private HashMap<Integer, Integer> sibling;
 //private HashMap<Integer,Rectangle> ruleRect;//relates the level of the node to the corresponding rectangle
 private HashMap<Integer,Double>posXAnteriores;
 private HashMap<Integer,HashMap<String, Double>>posSiblings;
+
+private Double posXMax=0.0;
 public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelPadre,Configuracion config,String tipoTraductor) {
       nodos=new HashMap<>();
       this.ejemplo=xml;
@@ -509,6 +511,8 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                     String value=ejemplo.getListaPasos().get(i).getValor();
                     Nodo primero= insertarNodoA(null, simbolo, 20.0, 300.0,value);
                     nivelAnterior=nivel;
+                    
+                    posXMax=primero.getPosX();
                     //posYAnterior=300.0;
                     width=primero.getRectangle().getWidth();
                     heigth=primero.getRectangle().getHeight();
@@ -526,6 +530,7 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                     primero.setWidthRectRgla(rectReg.getWidth());
                     //this.ruleRect.put(nivel,rectReg);
                     posXAnterior+=10+primero.getRectangle().getWidth();
+                    posXAnteriores.put(i, posXAnterior);
                 }
                 else{
                     if(nivelAnterior>nivel){
@@ -541,6 +546,8 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                         String simbolo=ejemplo.getListaPasos().get(i).getElemento().split(" ")[0];
                         String value=ejemplo.getListaPasos().get(i).getValor();
                         Nodo node= insertarNodoA(null, simbolo, posXAnterior, posYAnterior,value);
+                        
+                        posXMax=Math.max(node.getPosX(), posXMax);
                         node.setLeftSibling(nodos.get(sibling.get(i)));
                         Rectangle r=null;
                         //Rectangle r=this.ruleRect.get(nivel);
@@ -596,6 +603,8 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                        String simbolo=ejemplo.getListaPasos().get(i).getElemento().split(" ")[0];
                        String value=ejemplo.getListaPasos().get(i).getValor();
                        Nodo node= insertarNodoA(ejemplo.getListaPasos().get(i).getElemento(), simbolo, posX, posYAnterior,value);
+                       
+                       posXMax=Math.max(node.getPosX(), posXMax);
                        posXAnteriores.put(i, posXAnterior);
                        node.setLeftSibling(nodos.get(sibling.get(i)));
                        Rectangle r=null;
@@ -652,7 +661,8 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                         String simbolo=ejemplo.getListaPasos().get(i).getElemento().split(" ")[0];
                         String value=ejemplo.getListaPasos().get(i).getValor();
                         Nodo hijo=insertarNodo(i,parent, simbolo, posXAnterior,(parent.getRectangle().getHeight()*2)+parent.getPosY(),value);
-
+                        
+                        posXMax=Math.max(posXMax, hijo.getPosX());
                         parent.getChildren().add(hijo);
                         //moveSiblings(hijo);
                         //eliminarNodoNotExec(hijo, panelPadre);
@@ -711,7 +721,8 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                         String value=ejemplo.getListaPasos().get(i).getValor();
                         Nodo hijo=insertarNodo(i,parent, simbolo,posXAnterior+parent.getChildren().getLast().getRectangle().getWidth()+10,(parent.getRectangle().getHeight()*2)+parent.getPosY(),value);
                         parent.getChildren().add(hijo);
-
+                        
+                        posXMax=Math.max(posXMax, hijo.getPosX());
                         //hijo.setHermanosDelHermano(hijo);
 
                         eliminarNodoNotExec(hijo.getParent().getChildren().getFirst());
@@ -938,6 +949,12 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
 
     public void setStepProcess(HashMap<String, Integer> stepProcess) {
         this.stepProcess = stepProcess;
+    }
+
+   
+
+    public Double getPosXMax() {
+        return posXMax;
     }
     
 }

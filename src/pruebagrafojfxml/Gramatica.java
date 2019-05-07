@@ -269,7 +269,7 @@ private Configuracion config;
                 Color color=null;
                 if(isActions(ruleActions.get(ids),l.getText())){
                     color=Color.web(config.getColorAccSem());
-                    l.setFont(new Font(config.getSizeAcciones()));
+                    l.setFont(new Font(config.getTipoLetra(),config.getSizeAcciones()));
                 }
                 else if(isTerminal(idRegla.get(ids),l.getText())){
                     color=Color.web(config.getLetraTerminal());
@@ -335,6 +335,10 @@ private Configuracion config;
 
     public void setRelRectRegla(HashMap<Rectangle, Regla> relRectRegla) {
         this.relRectRegla = relRectRegla;
+    }
+
+    public HashMap<String, ArrayList<Label>> getReglaLabel() {
+        return reglaLabel;
     }
     
 }

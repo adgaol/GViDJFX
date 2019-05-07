@@ -27,8 +27,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.Background;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -49,15 +51,15 @@ private Rectangle terminal;
 private Rectangle readChainR; 
 @FXML
 private Rectangle pendChainR;
-@FXML
+
 private Label labelreadChain; 
-@FXML
+
 private Label labelpendChain;
-@FXML
+
 private Label labelNoTerminal1; 
-@FXML
+
 private Label labelNoTerminal2;
-@FXML
+
 private Label labelTerminal;
 @FXML
 private Label grammarNoTerminal1;
@@ -95,6 +97,9 @@ private ColorPicker colorFountSemanticAct;
 private javafx.scene.control.Button aceptButton;
 @FXML
 private javafx.scene.control.Button cancelButton;
+@FXML
+private Pane example;
+
 private Grafo arbolEjemplo;
 //private int posYCadena=300;
 //private int posYHijos=100;
@@ -121,6 +126,8 @@ private int chainSize;
 private String actionType;
 //private ModificacionesTemp mT;
 private Configuracion lectConf;
+private Integer maxPosition;
+
 //@FXML
 ///**
 // * save the new configuration
@@ -177,20 +184,20 @@ private Configuracion lectConf;
                 fontColorTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
                 backgroundColorTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
             }
-            else if(!compararColores(coo, pendPart.getValue())){
+            if(!compararColores(coo, pendPart.getValue())){
                 pendPart.setStyle("-fx-border-color:yellow");
                 backgroundColorTerminals.setStyle("-fx-border-color:red");
                 pendPart.setTooltip(new Tooltip("Colores poco compatibles"));
                 backgroundColorTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
             }
             
-            else if(!compararColores(coo, readPart.getValue())){
+            if(!compararColores(coo, readPart.getValue())){
                 readPart.setStyle("-fx-border-color:yellow");
                 backgroundColorTerminals.setStyle("-fx-border-color:red");
                 readPart.setTooltip(new Tooltip("Colores poco compatibles"));
                 backgroundColorTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
             }
-            else{
+            if(compararColores(coo, readPart.getValue()) && compararColores(coo, pendPart.getValue()) && compararColores(coo, fontColorTerminals.getValue())){
                 readPart.setStyle(null);
                 backgroundColorTerminals.setStyle(null);
                 readPart.setTooltip(null);
@@ -214,10 +221,14 @@ private Configuracion lectConf;
                 backgroundColorTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
             }
             else{
+                if(compararColores(backgroundColorTerminals.getValue(), pendPart.getValue())&&compararColores(backgroundColorTerminals.getValue(), readPart.getValue())){
+                    backgroundColorTerminals.setStyle(null);
+                    backgroundColorTerminals.setTooltip(null);
+                }
                 fontColorTerminals.setStyle(null);
-                backgroundColorTerminals.setStyle(null);
+                
                 fontColorTerminals.setTooltip(null);
-                backgroundColorTerminals.setTooltip(null);
+                
             }
         }
         else if(e.equals(fontColorNoTerminals)){
@@ -274,10 +285,16 @@ private Configuracion lectConf;
                 backgroundColorTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
             }
             else{
+               
+                if(compararColores(backgroundColorTerminals.getValue(),fontColorTerminals.getValue())&& compararColores(backgroundColorTerminals.getValue(), readPart.getValue())){
+                    backgroundColorTerminals.setStyle(null);
+                    backgroundColorTerminals.setTooltip(null);
+                }
+                
                 pendPart.setStyle(null);
-                backgroundColorTerminals.setStyle(null);
+                
                 pendPart.setTooltip(null);
-                backgroundColorTerminals.setTooltip(null);
+                
             }
         }
         else if(e.equals(readPart)){
@@ -292,10 +309,14 @@ private Configuracion lectConf;
                 backgroundColorTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
             }
             else{
+                if(compararColores(backgroundColorTerminals.getValue(),fontColorTerminals.getValue())&& compararColores(backgroundColorTerminals.getValue(), pendPart.getValue())){
+                    backgroundColorTerminals.setStyle(null);
+                    backgroundColorTerminals.setTooltip(null);
+                }
                 readPart.setStyle(null);
-                backgroundColorTerminals.setStyle(null);
+                
                 readPart.setTooltip(null);
-                backgroundColorTerminals.setTooltip(null);
+               
             }
         }
         else if(e.equals(colorFountSemanticAct)){
@@ -308,6 +329,7 @@ private Configuracion lectConf;
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
         lectConf= new Configuracion();
         lectConf.cargarConfiguracion("./config/configActual.xml");
         colorBackgroundTerminals=lectConf.getColorTerminal();
@@ -333,16 +355,24 @@ private Configuracion lectConf;
         noTerminal1.setFill(color);
         noTerminal2.setFill(color);
         color=Color.web(lectConf.getLetraTerminal());
+        labelTerminal=new Label("num");
         labelTerminal.setTextFill(color);
         labelTerminal.setFont(new Font(lectConf.getLetraArbol()));
+        labelTerminal.setLayoutX(terminal.getLayoutX()+terminal.getWidth()/2-(labelTerminal.getText().length()*(lectConf.getLetraArbol()/2)/2));
+        labelTerminal.setLayoutY(terminal.getLayoutY()+terminal.getHeight()/2-lectConf.getLetraArbol());
         grammarTerminal.setTextFill(color);
         grammarTerminal.setFont(new Font(lectConf.getLetraTraductor()));
         color=Color.web(lectConf.getLetraNoTerminal());
-        
+        labelNoTerminal1=new Label("A");
         labelNoTerminal1.setTextFill(color);
         labelNoTerminal1.setFont(new Font(lectConf.getLetraArbol()));
+        labelNoTerminal1.setLayoutX(noTerminal1.getLayoutX()+noTerminal1.getWidth()/2-(labelNoTerminal1.getText().length()*(lectConf.getLetraArbol()/2)/2));
+        labelNoTerminal1.setLayoutY(noTerminal1.getLayoutY()+noTerminal1.getHeight()/2-lectConf.getLetraArbol());
+        labelNoTerminal2=new Label("EXP");
         labelNoTerminal2.setTextFill(color);
         labelNoTerminal2.setFont(new Font(lectConf.getLetraArbol()));
+        labelNoTerminal2.setLayoutX(noTerminal2.getLayoutX()+noTerminal2.getWidth()/2-(labelNoTerminal2.getText().length()*(lectConf.getLetraArbol()/2)/2));
+        labelNoTerminal2.setLayoutY(noTerminal2.getLayoutY()+noTerminal2.getHeight()/2-lectConf.getLetraArbol());
         grammarNoTerminal1.setTextFill(color);
         grammarNoTerminal1.setFont(new Font(lectConf.getLetraTraductor()));
         grammarNoTerminal2.setTextFill(color);
@@ -351,20 +381,33 @@ private Configuracion lectConf;
         action.setTextFill(color);
         action.setFont(new Font(lectConf.getTipoLetra(),lectConf.getLetraTraductor()));
         color=Color.web(lectConf.getColorPend());
+        labelpendChain=new Label("+");
         labelpendChain.setTextFill(color);
         labelpendChain.setFont(new Font(lectConf.getLetraCadena()));
+        double heigth=labelpendChain.getFont().getSize()+10;
+        double width=labelpendChain.getFont().getSize()+10*labelpendChain.getText().length();
+        labelpendChain.setLayoutX(pendChainR.getLayoutX()+width/4);
+        labelpendChain.setLayoutY(pendChainR.getLayoutY());
+        
         color=Color.web(lectConf.getColorLeido());
+        labelreadChain=new Label("4");
         labelreadChain.setTextFill(color);
         labelreadChain.setFont(new Font(lectConf.getLetraCadena()));
+        Double aux=readChainR.getLayoutX();
+
+        labelreadChain.setLayoutX(readChainR.getLayoutX()+readChainR.getWidth()/2-(labelreadChain.getText().length()*(lectConf.getLetraCadena()/2)/2));
+        labelreadChain.setLayoutY(readChainR.getLayoutY()+readChainR.getHeight()/2-lectConf.getLetraCadena());
+        
+        labelreadChain.setLayoutX(readChainR.getLayoutX()+width/4);
+        labelreadChain.setLayoutY(readChainR.getLayoutY());
+        example.getChildren().addAll(labelNoTerminal1,labelNoTerminal2,labelTerminal,labelpendChain,labelreadChain);
 //        if(lectConf.getLetraArbol()>15){
 //            noTerminal1.setWidth(50+labelNoTerminal1.getText().length()-3+lectConf.getLetraArbol()); 
 //                       // noTerminal1.setHeight(50+/*labelNoTerminal1.getText().length()+*/val);
-//            noTerminal2.setWidth(50+labelNoTerminal1.getText().length()-3+lectConf.getLetraArbol());
 //            terminal.setWidth(50+labelNoTerminal1.getText().length()-3+lectConf.getLetraArbol());
 //        }
 //       
-        double heigth=labelpendChain.getFont().getSize()+10;
-        double width=labelpendChain.getFont().getSize()+10*labelpendChain.getText().length();
+
         readChainR.setWidth(width); 
         readChainR.setHeight(heigth);       
         pendChainR.setWidth(width);
@@ -386,6 +429,13 @@ private Configuracion lectConf;
                     labelNoTerminal1.setFont(new Font(val));
                     labelNoTerminal2.setFont(new Font(val));
                     labelTerminal.setFont(new Font(val));
+                    labelNoTerminal2.setLayoutX(noTerminal2.getLayoutX()+noTerminal2.getWidth()/2-(labelNoTerminal2.getText().length()*(val/2)/2));
+                    labelNoTerminal2.setLayoutY(noTerminal2.getLayoutY()+noTerminal2.getHeight()/2-val);
+                    labelNoTerminal1.setLayoutX(noTerminal1.getLayoutX()+noTerminal1.getWidth()/2-(labelNoTerminal1.getText().length()*(val/2)/2));
+                    labelNoTerminal1.setLayoutY(noTerminal1.getLayoutY()+noTerminal1.getHeight()/2-val);
+                    labelTerminal.setLayoutX(terminal.getLayoutX()+terminal.getWidth()/2-(labelTerminal.getText().length()*(val/2)/2));
+                    labelTerminal.setLayoutY(terminal.getLayoutY()+terminal.getHeight()/2-val);
+        
                     /*if(treeSize<val){
                     labelNoTerminal1.setLayoutX(labelNoTerminal1.getLayoutX()+(labelNoTerminal1.getText().length()*(val/2)/2));
                     labelNoTerminal2.setLayoutX(labelNoTerminal2.getLayoutX()+(labelNoTerminal2.getText().length()*(val/2)/2));
@@ -442,6 +492,10 @@ private Configuracion lectConf;
                     pendChainR.setWidth(width);
                     pendChainR.setHeight(heigth);
                     chainSize=val;
+                    labelpendChain.setLayoutX(pendChainR.getLayoutX()+width/4);
+                    labelpendChain.setLayoutY(pendChainR.getLayoutY());
+                    labelreadChain.setLayoutX(readChainR.getLayoutX()+width/4);
+                    labelreadChain.setLayoutY(readChainR.getLayoutY());
                 }
                 catch(Exception e){
                     
@@ -500,6 +554,8 @@ private Configuracion lectConf;
         ObservableList<String> optionsFountType = FXCollections.observableArrayList( "Times new Roman","Arial","Calibri","Courier","Broadway","Informal Roman","Verdana");       
         fountTypeSemanticAct.setItems(optionsFountType);
         fountTypeSemanticAct.setValue(lectConf.getTipoLetra()+"");
+        fountTypeSemanticAct.setEditable(true);
+        fountTypeSemanticAct.setPromptText(lectConf.getTipoLetra());
         fountTypeSemanticAct.valueProperty().addListener(new ChangeListener<String>() {
             @Override 
             public void changed(ObservableValue ov, String t, String t1) {
@@ -562,21 +618,25 @@ private Configuracion lectConf;
      */
     public boolean compararColores(Color c1,Color c2){
         boolean noSePuede=true;
-        if( !(Math.abs(c1.getHue()-c2.getHue())>35))  {
+        if( !(Math.abs(c1.getHue()-c2.getHue())>50)||!(Math.abs(c1.getHue()+34-360-c2.getHue())>50)||!(Math.abs(c1.getHue()-c2.getHue()+34-360)>50))  {
             
-            if((Math.abs(c1.getSaturation()-c2.getSaturation())>0.79)&&(Math.abs(c1.getBrightness()-c2.getBrightness())>0.16))            
-                noSePuede=true;
+            if(Math.abs(c1.getSaturation()-c2.getSaturation())>0.70)
+//                if (Math.abs(c1.getBrightness()-c2.getBrightness())>0.16)   
+       
+                        noSePuede=true;
+//                else
+//                    noSePuede=false;
             else 
                 noSePuede=false;
         }
-        else{
-            if( !(Math.abs(c1.getHue()-c2.getHue())>50))  {
-                if((Math.abs(c1.getSaturation()-c2.getSaturation())>0.79)&&(Math.abs(c1.getBrightness()-c2.getBrightness())>0.16))            
-                    noSePuede=true;
-                else 
-                    noSePuede=false;
-            }
-        }
+//        else{
+//            if( c1.getSaturation()<50 && c2.getSaturation()<50 && !(Math.abs(c1.getSaturation()-c2.getSaturation())>20))  {
+////                if((Math.abs(c1.getSaturation()-c2.getSaturation())>0.79)&&(Math.abs(c1.getBrightness()-c2.getBrightness())>0.16))            
+////                    noSePuede=true;
+////                else 
+//                    noSePuede=false;
+//            }
+//        }
         return noSePuede;
         
     }
