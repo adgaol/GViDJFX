@@ -494,10 +494,17 @@ public class FXMLDocumentController implements Initializable {
         graph.eliminar( graph.getContador()-1);
         if(graph.getContador()-1>0){
             Nodo n= graph.getNodos().get(graph.getContador()-1);
-        Double hValue=(n.getRectangle().getLayoutX())/maxXPos;
-        Double vValue=(n.getRectangle().getLayoutY())/maxYPos;
-            if(grafo.getHvalue()!=hValue)
+            Double hValue=(n.getPosX()+sliderZoom.getValue())/maxXPos;
+            Double vValue=(n.getPosY()+sliderZoom.getValue()/50)/maxYPos;
+            if(n.getPosX()*sliderZoom.getValue()/100<grafo.getPrefWidth()){
+               grafo.setHvalue(0); 
+            }
+            else{
+                if(grafo.getHvalue()!=hValue)
                 grafo.setHvalue(hValue);
+            }
+
+
             if(grafo.getVvalue()!=vValue)
                 grafo.setVvalue(vValue);
             
@@ -519,12 +526,12 @@ public class FXMLDocumentController implements Initializable {
             System.out.println("RIGHT");
             graph.construir(graph.getContador()+1);
             Nodo n= graph.getNodos().get(graph.getContador()-1);
-            Double hValue=(n.getRectangle().getLayoutX())/maxXPos;
-            Double vValue=(n.getRectangle().getLayoutY())/maxYPos;
-                if(grafo.getHvalue()!=hValue)
-                    grafo.setHvalue(hValue);
-                if(grafo.getVvalue()!=vValue)
-                    grafo.setVvalue(vValue);
+            Double hValue=(n.getPosX()+sliderZoom.getValue())/maxXPos;
+            Double vValue=(Math.abs(n.getPosY()))/maxYPos;
+            if(grafo.getHvalue()!=hValue)
+                grafo.setHvalue(hValue);
+            if(grafo.getVvalue()!=vValue)
+                grafo.setVvalue(vValue);
         }
         if(ejemplo.getNumNodos()==graph.getContador()){
 
@@ -541,8 +548,8 @@ public class FXMLDocumentController implements Initializable {
         System.out.println("Fin");
         graph.construir(ejemplo.getNumNodos());
         Nodo n= graph.getNodos().get(graph.getContador()-1);
-        Double hValue=(n.getRectangle().getLayoutX())/maxXPos;
-        Double vValue=(n.getRectangle().getLayoutY())/maxYPos;
+        Double hValue=(n.getPosX()+100*sliderZoom.getValue()/100)/maxXPos;
+        Double vValue=(n.getPosY()+50*sliderZoom.getValue()/100)/maxYPos;
         if(grafo.getHvalue()!=hValue)
             grafo.setHvalue(hValue);
         if(grafo.getVvalue()!=vValue)
@@ -594,11 +601,19 @@ public class FXMLDocumentController implements Initializable {
             siguienteButton.setTextFill(Color.BLACK);
             double d=grafo.getHvalue();
             if(graph.getContador()-1>0 ){
+                
                 Nodo n= graph.getNodos().get(graph.getContador()-1);
-                Double hValue=(n.getRectangle().getLayoutX())/maxXPos;
-                Double vValue=(n.getRectangle().getLayoutY())/maxYPos;
-                if(grafo.getHvalue()!=hValue)
+                Double hValue=(n.getPosX()+sliderZoom.getValue())/maxXPos;
+                Double vValue=(n.getPosY()+sliderZoom.getValue()/50)/maxYPos;
+                if(n.getPosX()*sliderZoom.getValue()/100<grafo.getPrefWidth()){
+                   grafo.setHvalue(0); 
+                }
+                else{
+                    if(grafo.getHvalue()!=hValue)
                     grafo.setHvalue(hValue);
+                }
+                
+                
                 if(grafo.getVvalue()!=vValue)
                     grafo.setVvalue(vValue);
                 
@@ -613,14 +628,18 @@ public class FXMLDocumentController implements Initializable {
                 System.out.println("RIGHT");
                 graph.construir(graph.getContador()+1);
                 Nodo n= graph.getNodos().get(graph.getContador()-1);
-                Double hValue=(n.getRectangle().getLayoutX())/maxXPos;
-                Double vValue=(n.getRectangle().getLayoutY())/maxYPos;
+                
+                Double hValue=(n.getPosX()+sliderZoom.getValue())/maxXPos;
+                Double vValue=(Math.abs(n.getPosY()))/maxYPos;
+                
                 if(grafo.getHvalue()!=hValue)
                     grafo.setHvalue(hValue);
                 if(grafo.getVvalue()!=vValue)
                     grafo.setVvalue(vValue);
+               
                 //this.contador+=1;
              //graphPane.requestFocus();
+                System.out.println("");
             }
             if(ejemplo.getNumNodos()==graph.getContador()){
             
@@ -650,8 +669,8 @@ public class FXMLDocumentController implements Initializable {
             System.out.println("Fin");
             graph.construir(ejemplo.getNumNodos());
             Nodo n= graph.getNodos().get(graph.getContador()-1);
-            Double hValue=(n.getRectangle().getLayoutX())/maxXPos;
-            Double vValue=(n.getRectangle().getLayoutY())/maxYPos;
+            Double hValue=(n.getPosX()+100*sliderZoom.getValue()/100)/maxXPos;
+            Double vValue=(n.getPosY()+50*sliderZoom.getValue()/100)/maxYPos;
             if(grafo.getHvalue()!=hValue)
                 grafo.setHvalue(hValue);
             if(grafo.getVvalue()!=vValue)
@@ -948,12 +967,32 @@ public class FXMLDocumentController implements Initializable {
                     if(graph.getContador()<step){
                         graph.setContador(graph.construir(step));
                         Nodo n= graph.getNodos().get(graph.getContador()-1);
-                        grafo.setHvalue(n.getPosX());
+                        Double hValue=(n.getPosX()+sliderZoom.getValue())/maxXPos;
+                        Double vValue=(Math.abs(n.getPosY()))/maxYPos;
+                
+                        if(grafo.getHvalue()!=hValue)
+                            grafo.setHvalue(hValue);
+                        if(grafo.getVvalue()!=vValue)
+                            grafo.setVvalue(vValue);
                     }
                     else if(graph.getContador()>step){
                         graph.eliminar(step);
                         Nodo n= graph.getNodos().get(graph.getContador()-1);
-                        grafo.setHvalue(n.getPosX());
+                        
+                        Double hValue=(n.getPosX()+sliderZoom.getValue())/maxXPos;
+                        Double vValue=(n.getPosY()+sliderZoom.getValue()/2)/maxYPos;
+                        if(n.getPosX()*sliderZoom.getValue()/100<grafo.getPrefWidth()){
+                           grafo.setHvalue(0); 
+                        }
+                        else{
+                            if(grafo.getHvalue()!=hValue)
+                            grafo.setHvalue(hValue);
+                        }
+
+
+                        if(grafo.getVvalue()!=vValue)
+                            grafo.setVvalue(vValue);
+                        
                     }
 
                     inicioButton.setTextFill(Color.BLACK);
@@ -982,12 +1021,30 @@ public class FXMLDocumentController implements Initializable {
                     if(graph.getContador()<step){
                         graph.setContador(graph.construir(step));
                         Nodo n= graph.getNodos().get(graph.getContador()-1);
-                        grafo.setHvalue(n.getPosX());
+                        Double hValue=(n.getPosX()+sliderZoom.getValue())/maxXPos;
+                        Double vValue=(Math.abs(n.getPosY()))/maxYPos;
+                
+                        if(grafo.getHvalue()!=hValue)
+                            grafo.setHvalue(hValue);
+                        if(grafo.getVvalue()!=vValue)
+                            grafo.setVvalue(vValue);
                     }
                     else if(graph.getContador()>step){
                         graph.eliminar(step);
                         Nodo n= graph.getNodos().get(graph.getContador()-1);
-                        grafo.setHvalue(n.getPosX());
+                        Double hValue=(n.getPosX()+sliderZoom.getValue())/maxXPos;
+                        Double vValue=(n.getPosY()+sliderZoom.getValue()/2)/maxYPos;
+                        if(n.getPosX()*sliderZoom.getValue()/100<grafo.getPrefWidth()){
+                           grafo.setHvalue(0); 
+                        }
+                        else{
+                            if(grafo.getHvalue()!=hValue)
+                            grafo.setHvalue(hValue);
+                        }
+
+
+                        if(grafo.getVvalue()!=vValue)
+                            grafo.setVvalue(vValue);
                     }
                     inicioButton.setTextFill(Color.BLACK);
                     anteriorButton.setTextFill(Color.BLACK);
@@ -1017,12 +1074,30 @@ public class FXMLDocumentController implements Initializable {
                     if(graph.getContador()<step) { 
                         graph.setContador(graph.construir(step));
                         Nodo n= graph.getNodos().get(graph.getContador()-1);
-                        grafo.setHvalue(n.getPosX());
+                        Double hValue=(n.getPosX()+sliderZoom.getValue())/maxXPos;
+                        Double vValue=(Math.abs(n.getPosY()))/maxYPos;
+                
+                        if(grafo.getHvalue()!=hValue)
+                            grafo.setHvalue(hValue);
+                        if(grafo.getVvalue()!=vValue)
+                            grafo.setVvalue(vValue);
                     }
                     else if(graph.getContador()>step){
                         graph.eliminar(step);
                         Nodo n= graph.getNodos().get(graph.getContador()-1);
-                        grafo.setHvalue(n.getPosX());
+                        Double hValue=(n.getPosX()+sliderZoom.getValue())/maxXPos;
+                        Double vValue=(n.getPosY()+sliderZoom.getValue()/2)/maxYPos;
+                        if(n.getPosX()*sliderZoom.getValue()/100<grafo.getPrefWidth()){
+                           grafo.setHvalue(0); 
+                        }
+                        else{
+                            if(grafo.getHvalue()!=hValue)
+                            grafo.setHvalue(hValue);
+                        }
+
+
+                        if(grafo.getVvalue()!=vValue)
+                            grafo.setVvalue(vValue);
                     }
                     inicioButton.setTextFill(Color.BLACK);
                     anteriorButton.setTextFill(Color.BLACK);
