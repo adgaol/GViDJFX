@@ -531,6 +531,8 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                     //this.ruleRect.put(nivel,rectReg);
                     posXAnterior+=10+primero.getRectangle().getWidth();
                     posXAnteriores.put(i, posXAnterior);
+                    Tooltip t = new Tooltip(primero.getValue());
+                    Tooltip.install(primero.getRectangle(), t);
                 }
                 else{
                     if(nivelAnterior>nivel){
@@ -585,6 +587,8 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                         posXAnterior+=10.0+node.getRectangle().getWidth();
                         posXAnteriores.put(i, posXAnterior);
                         //width=node.getRectangle().getWidth();
+                        Tooltip t = new Tooltip(node.getValue());
+                        Tooltip.install(node.getRectangle(), t);
                     }
                     else{
                        Nodo firstParent=nodos.get(Integer.parseInt(ejemplo.getListaPasos().get(i).getElemento().split(" ")[1]));
@@ -637,13 +641,17 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                                // this.ruleRect.put(nivel,rectReg);
                             }
                        }
+                        Tooltip t = new Tooltip(node.getValue());
+                        Tooltip.install(node.getRectangle(), t);
                     }
                     nivelAnterior=nivel;
+                    
                 }
             updatedValues(ejemplo.getListaPasos().get(i).getSimbolosActualizados());
             }
           return pasoSolicitado;
     }
+    
     public int construirDesc(int pasoSolicitado){
         for(int i=contador;i<pasoSolicitado;i++){
                 //if is the root
@@ -680,41 +688,9 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                         panelPadre.getChildren().add(0,rectReg);
                         gramatica.getRelRectRegla().put(rectReg, regla);
                         assingRectanglesEvents(rectReg);
-//                        rectReg.setOnMouseClicked(new EventHandler<MouseEvent>(){
-//
-//                            @Override
-//                            public void handle(MouseEvent event) {
-//
-//                                System.out.println(event.getSource());
-//                                gramatica.cambiarFormaRegla(gramatica.getRelRectRegla().get(event.getSource()));
-//                            }
-//
-//                        });
-//                        rectReg.setOnMouseEntered(new EventHandler<MouseEvent>(){
-//
-//                            @Override
-//                            public void handle(MouseEvent event) {
-//
-//                                System.out.println(event.getSource());
-//                                Rectangle rect=(Rectangle)event.getSource();
-//                                rect.setFill(Color.YELLOW);
-//
-//                                gramatica.drawRectangle(gramatica.getRelRectRegla().get(event.getSource()));
-//                            }
-//
-//                        });
-//                        rectReg.setOnMouseExited(new EventHandler<MouseEvent>(){
-//
-//                            @Override
-//                            public void handle(MouseEvent event) {
-//                                Rectangle rect=(Rectangle)event.getSource();
-//                                rect.setFill(Color.BLACK);
-//                                System.out.println(event.getSource());
-//                                gramatica.erasedRectangle(gramatica.getRelRectRegla().get(event.getSource()));
-//                            }
-//
-//                        });
                         setPosXAnterior(hijo.getPosX());
+                        Tooltip t = new Tooltip(hijo.getValue());
+                        Tooltip.install(hijo.getRectangle(), t);
                     }   
                     else{
                         String simbolo=ejemplo.getListaPasos().get(i).getElemento().split(" ")[0];
@@ -739,6 +715,8 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                         //panelPadre.getChildren().add(0,rectReg);
 
                         setPosXAnterior(hijo.getPosX());
+                        Tooltip t = new Tooltip(hijo.getValue());
+                        Tooltip.install(hijo.getRectangle(), t);
 
                     }
                 }
@@ -874,6 +852,8 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
         for(Simbolo s:symbolsUpdated){
            Nodo n=nodos.get(s.getId());
            n.setValue(s.getValor());
+           Tooltip t = new Tooltip(n.getValue());
+           Tooltip.install(n.getRectangle(), t);
         }
         
     }

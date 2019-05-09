@@ -29,7 +29,7 @@
       </GridPane>
       <BorderPane prefHeight="600.0" prefWidth="980.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
-            <MenuBar prefHeight="25.0" prefWidth="980.0" BorderPane.alignment="CENTER">
+            <MenuBar fx:id="menuBar" prefHeight="25.0" prefWidth="980.0" BorderPane.alignment="CENTER">
               <menus>
                 <Menu fx:id="archivo" mnemonicParsing="true" text="_Archivo">
                   <items>

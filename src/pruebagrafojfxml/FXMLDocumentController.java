@@ -34,6 +34,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.SplitPane;
@@ -95,6 +96,8 @@ public class FXMLDocumentController implements Initializable {
     private Menu configuracion;
     @FXML
     private Menu ayuda;
+    @FXML
+    private MenuBar menuBar;
     private Double maxPosition;
     private Double maxZoom;
     private Double minZoom;
@@ -710,7 +713,7 @@ public class FXMLDocumentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         grafo.requestFocus();
         grafo.setFocusTraversable(true);
-        
+        menuBar.setFocusTraversable(true);
 //        archivo.setMnemonicParsing(false);
 //        ejecucion.setMnemonicParsing(false);
 //        configuracion.setMnemonicParsing(false);
