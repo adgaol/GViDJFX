@@ -946,11 +946,11 @@ public class FXMLDocumentController implements Initializable {
      */
      public void addHandlingListennerChain(){
         
-        HashMap<String,Rectangle> elements=entryChain.getRectanglesChain();
+        ArrayList<CadenaEntradaNode> elements=entryChain.getRectanglesList();
         HashMap<String,Label> labels=entryChain.getLabels();
-        for(Rectangle r:elements.values()){
+        for(CadenaEntradaNode r:elements){
             
-            r.setOnMouseClicked(new EventHandler<MouseEvent>(){
+            r.getRectangle().setOnMouseClicked(new EventHandler<MouseEvent>(){
 
                 @Override
                 public void handle(MouseEvent event) {
@@ -958,11 +958,11 @@ public class FXMLDocumentController implements Initializable {
                     int step=0;
                     if(rect.getId().equals("EOF")){
                         step=ejemplo.getNumNodos();
-                       siguienteButton.setTextFill(Color.GRAY);
+                        siguienteButton.setTextFill(Color.GRAY);
                         finButton.setTextFill(Color.GRAY); 
                     }    
                     else{
-                        step= graph.getStepProcess().get(rect.getId()/*cadena.getRectanglesText().get(rect.getId())*/);
+                        step= graph.getStepProcess().get(Integer.parseInt(rect.getId()));
                         finButton.setTextFill(Color.BLACK);
                         siguienteButton.setTextFill(Color.BLACK);
                     }    
@@ -1003,7 +1003,7 @@ public class FXMLDocumentController implements Initializable {
                 }
 
             }); 
-             r.setOnKeyPressed(new EventHandler<KeyEvent>(){
+             r.getRectangle().setOnKeyPressed(new EventHandler<KeyEvent>(){
 
                 @Override
                 public void handle(KeyEvent event) {
@@ -1016,7 +1016,7 @@ public class FXMLDocumentController implements Initializable {
                         finButton.setTextFill(Color.GRAY); 
                     }    
                     else{
-                        step= graph.getStepProcess().get(rect.getId()/*cadena.getRectanglesText().get(rect.getId())*/);
+                        step= graph.getStepProcess().get(Integer.parseInt(rect.getId()));
                         finButton.setTextFill(Color.BLACK);
                         siguienteButton.setTextFill(Color.BLACK);
                     }    
@@ -1056,8 +1056,8 @@ public class FXMLDocumentController implements Initializable {
 
             }); 
         }
-        for(Label l:labels.values()){
-            l.setOnMouseClicked(new EventHandler<MouseEvent>(){
+        for(CadenaEntradaNode l:elements){
+            l.getLabel().setOnMouseClicked(new EventHandler<MouseEvent>(){
 
                 @Override
                 public void handle(MouseEvent event) {
@@ -1069,7 +1069,7 @@ public class FXMLDocumentController implements Initializable {
                         finButton.setTextFill(Color.GRAY); 
                     }
                     else{
-                        step= graph.getStepProcess().get(l.getText()/*cadena.getRectanglesText().get(rect.getId())*/);
+                        step= graph.getStepProcess().get(Integer.parseInt(l.getId()));
                         siguienteButton.setTextFill(Color.BLACK);
                         finButton.setTextFill(Color.BLACK); 
                     }

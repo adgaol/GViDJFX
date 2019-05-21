@@ -5,6 +5,7 @@
  */
 package pruebagrafojfxml;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -30,6 +31,8 @@ private Configuracion config;
 private double posX;
 private Pane panelPadre;
 private HashMap<String,Rectangle> rectanglesChain;
+private ArrayList<CadenaEntradaNode> rectanglesList;
+private HashMap<Integer, CadenaEntradaNode> positionRectangle;
 //private HashMap<String,String> rectanglesText;
 private HashMap<String,Label>labels;
 private int font;
@@ -47,9 +50,11 @@ private int font;
         posX=10;
         this.panelPadre=panelPadre;
         rectanglesChain=new HashMap<>();
+        rectanglesList=new ArrayList<>();
         //rectanglesText=new HashMap<>();
         labels=new HashMap<>();
         font=config.getLetraCadena();
+        positionRectangle=new HashMap<>();
     }
     /**
      * Build the chain
@@ -59,6 +64,7 @@ private int font;
         String completeChain=chain[0]+chain[1]+" EOF";
         String[] chainToRepresent=completeChain.split(" ");
         double posY=50/*panelPadre.getHeight()/2*/;
+        
         for(int i=0;i<chainToRepresent.length;i++){
             String elem=chainToRepresent[i];
             Label l=new Label(elem);
@@ -120,10 +126,15 @@ private int font;
             
             r.setLayoutX(posX);
             r.setLayoutY(posY);
-            r.setId(elem);
+            r.setId(i+"");
+            l.setId(i+"");
             Color colorRectangle=Color.web(config.getColorTerminal());
             r.setFill(colorRectangle);
             rectanglesChain.put(elem, r);
+            CadenaEntradaNode cadenaEntradaNode=new CadenaEntradaNode(elem, l, r, i);
+            rectanglesList.add(cadenaEntradaNode);
+            positionRectangle.put(i, cadenaEntradaNode);
+            
             //rectanglesText.put(r.getId(), elem);
             labels.put(elem, l);
             panelPadre.getChildren().addAll(r,l);
@@ -140,36 +151,35 @@ private int font;
         //int aux=0;
 //        posX=10;
 //        double posY=50/*panelPadre.getHeight()/2*/;
-        HashSet<String> execToCompare=new HashSet<>();
-        for(int i=0;i<exec.length;i++){
-           execToCompare.add(exec[i]); 
-        }
+        
         Color colorAct=null;
 //        int posChain=0;
 //        Label labelPast=null;
-        for (String elem:rectanglesChain.keySet()){
-            Label label=labels.get(elem);
+//        for (String elem:rectanglesChain.keySet()){
+        for (int i=0;i<positionRectangle.size();i++){
+            CadenaEntradaNode elem=positionRectangle.get(i);
+            Label label=elem.getLabel();
             
-            if(execToCompare.contains(elem)){
-                rectanglesChain.get(elem).setOpacity(1.0);
+            if(i<exec.length&&exec[i].equals(elem.getElement())){
+                elem.getRectangle().setOpacity(1.0);
                 colorAct=Color.web(config.getColorLeido());
                 label.setTextFill(colorAct);
                 label.setFont(new Font(config.getLetraCadena()));
             }
             else{
-                rectanglesChain.get(elem).setOpacity(0.5);
+                elem.getRectangle().setOpacity(0.5);
                 colorAct=Color.web(config.getColorPend());
-                labels.get(elem).setTextFill(colorAct);
+                label.setTextFill(colorAct);
                 label.setFont(new Font(config.getLetraCadena()));
             }
             colorAct=Color.web(config.getColorTerminal());
-            rectanglesChain.get(elem).setFill(colorAct);
+            elem.getRectangle().setFill(colorAct);
             //if(config.getLetraCadena()>15){
             double heigth=label.getFont().getSize()+10;
             double width=label.getFont().getSize()+10*label.getText().length();
             //Double diff=Math.abs(width-rectanglesChain.get(elem).getWidth());
-            rectanglesChain.get(elem).setWidth(width);
-            rectanglesChain.get(elem).setHeight(heigth);
+            elem.getRectangle().setWidth(width);
+            elem.getRectangle().setHeight(heigth);
             
 //            if(posChain!=0){
 //                
@@ -234,5 +244,22 @@ private int font;
     public void setLabels(HashMap<String, Label> labels) {
         this.labels = labels;
     }
+
+    public ArrayList<CadenaEntradaNode> getRectanglesList() {
+        return rectanglesList;
+    }
+
+    public void setRectanglesList(ArrayList<CadenaEntradaNode> rectanglesList) {
+        this.rectanglesList = rectanglesList;
+    }
+
+    public HashMap<Integer, CadenaEntradaNode> getPositionRectangle() {
+        return positionRectangle;
+    }
+
+    public void setPositionRectangle(HashMap<Integer, CadenaEntradaNode> positionRectangle) {
+        this.positionRectangle = positionRectangle;
+    }
+
     
 }

@@ -40,7 +40,7 @@ private double heigth;
 private double width;
 private Gramatica gramatica;
 private CadenaEntrada cadena;
-private HashMap<String,Integer>stepProcess;
+private HashMap<Integer,Integer>stepProcess;//posicion en la cadena ,paso en el que se procesa
 private int contador;
 private Pane panelPadre;
 private Configuracion config;
@@ -81,17 +81,21 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
     public void obtainStepsProcess(){
         String comp="";
         int pos=0;
+        int paso=0;
         for(String i:ejemplo.getCadena()){
             String[] pendExec= i.split("pend");
             String last="";
             if(!pendExec[0].equals(""))
                 last=pendExec[0].substring(pendExec[0].length()-1);
             if(!last.equals(comp)){
-               stepProcess.put(last, pos);
+               stepProcess.put(pos, paso);
+               pos++;
                comp=last;
             }
-            pos++;
+            paso++;
         }
+        paso--;
+        stepProcess.put(pos, paso);
     }
  
     /**
@@ -923,11 +927,11 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
         this.contador = contador;
     }
 
-    public HashMap<String, Integer> getStepProcess() {
+    public HashMap<Integer, Integer> getStepProcess() {
         return stepProcess;
     }
 
-    public void setStepProcess(HashMap<String, Integer> stepProcess) {
+    public void setStepProcess(HashMap<Integer, Integer> stepProcess) {
         this.stepProcess = stepProcess;
     }
 
