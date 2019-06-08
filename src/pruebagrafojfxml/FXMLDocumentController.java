@@ -5,25 +5,17 @@
  */
 package pruebagrafojfxml;
 
-import com.sun.javafx.application.HostServicesDelegate;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.application.HostServices;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventDispatcher;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -37,18 +29,13 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
-import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -110,25 +97,25 @@ public class FXMLDocumentController implements Initializable {
     }
     @FXML
     public void adaptarZoomArbol() throws IOException {
-        Double zoomTamañoArbol=0.0;
+        Double zoomTamanioArbol=0.0;
         if(maxPosition.equals(graph.getPosXMax())){
             
            Double aux1=grafo.getWidth();
             
            Double aux2=maxPosition+100+20;
-           zoomTamañoArbol= grafo.getWidth()/(maxPosition+100+20)*100;
+           zoomTamanioArbol= grafo.getWidth()/(maxPosition+100+20)*100;
             
             
         }
         else{
             
-            zoomTamañoArbol=grafo.getHeight()/(maxPosition+50+20)*100;
+            zoomTamanioArbol=grafo.getHeight()/(maxPosition+50+20)*100;
             
             
         }
-        zoom(zoomTamañoArbol/100);
-        sliderZoom.setValue(zoomTamañoArbol);
-        inputZoom.setText(zoomTamañoArbol.toString());
+        zoom(zoomTamanioArbol/100);
+        sliderZoom.setValue(zoomTamanioArbol);
+        inputZoom.setText(zoomTamanioArbol.toString());
         configuration.guardarConfiguracion(".//config//configActual.xml",
                                  configuration.getLetraArbol(),configuration.getLetraTraductor(),configuration.getLetraCadena(),
                                  configuration.getColorTerminal(),configuration.getColorNoTerminal(),configuration.getLetraTerminal(),
@@ -141,7 +128,7 @@ public class FXMLDocumentController implements Initializable {
     }
     @FXML
     public void adaptarZoomGramatica() throws IOException {
-        Double zoomTamaño=0.0;
+        Double zoomTamanio=0.0;
         double maxX=0.0;
         double maxY=0.0;
         for(ArrayList<Label> rule:grammar.getReglaLabel().values()){
@@ -153,19 +140,19 @@ public class FXMLDocumentController implements Initializable {
            Double aux1=gramatica.getWidth();
             
            
-           zoomTamaño= gramatica.getHeight()/(maxY+10)*100;
+           zoomTamanio= gramatica.getHeight()/(maxY+10)*100;
             
             
         }
         else{
             
-           zoomTamaño=gramatica.getWidth()/(maxX+10)*100;
+           zoomTamanio=gramatica.getWidth()/(maxX+10)*100;
             
             
         }
-        zoomGrammar(zoomTamaño/100);
-        zoomGrammar=zoomTamaño;
-        inputZoomGrammar.setText(zoomTamaño.toString());
+        zoomGrammar(zoomTamanio/100);
+        zoomGrammar=zoomTamanio;
+        inputZoomGrammar.setText(zoomTamanio.toString());
         configuration.guardarConfiguracion(".//config//configActual.xml",
                                  configuration.getLetraArbol(),configuration.getLetraTraductor(),configuration.getLetraCadena(),
                                  configuration.getColorTerminal(),configuration.getColorNoTerminal(),configuration.getLetraTerminal(),
@@ -178,21 +165,21 @@ public class FXMLDocumentController implements Initializable {
     }
     @FXML
     public void adaptarZoomCadena() throws IOException {
-        Double zoomTamaño;
+        Double zoomTamanio;
         Double maxPositionChain=entryChain.getRectanglesChain().get("EOF").getLayoutX()+entryChain.getRectanglesChain().get("EOF").getWidth();
         
             
         Double aux1=cadenaEntrada.getWidth();
 
         
-        zoomTamaño= cadenaEntrada.getWidth()/(maxPositionChain+10)*100;
-        zoomChain=zoomTamaño;   
+        zoomTamanio= cadenaEntrada.getWidth()/(maxPositionChain+10)*100;
+        zoomChain=zoomTamanio;   
             
         
        
-        zoomChain(zoomTamaño/100);
+        zoomChain(zoomTamanio/100);
         
-        inputZoomChain.setText(zoomTamaño.toString());
+        inputZoomChain.setText(zoomTamanio.toString());
         configuration.guardarConfiguracion(".//config//configActual.xml",
                                  configuration.getLetraArbol(),configuration.getLetraTraductor(),configuration.getLetraCadena(),
                                  configuration.getColorTerminal(),configuration.getColorNoTerminal(),configuration.getLetraTerminal(),
@@ -917,6 +904,7 @@ public class FXMLDocumentController implements Initializable {
 
         });
         addHandlingListennerChain();
+        
         System.out.println(sliderZoom.getValue());
         sliderZoom.setValue(configuration.getZoomGraph());
         zoomChain=configuration.getZoomChain()+0.0;

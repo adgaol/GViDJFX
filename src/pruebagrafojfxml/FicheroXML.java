@@ -99,12 +99,12 @@ public class FicheroXML {
                     String nuevaRegla = paso.getChildTextTrim("nuevaRegla");
                     Element elNuevaRegla = paso.getChild("nuevaRegla");
                     if (nuevaRegla!=null){               
-                        String tamRegla=paso.getChildText("widthRegla");
+                       // String tamRegla=paso.getChildText("widthRegla");
                         Regla reglaAux= new Regla();
                         reglaAux.setValor(nuevaRegla);
                         String idRegla=elNuevaRegla.getAttributeValue("refRegla");
                         reglaAux.setId(idRegla);                       
-                        reglaAux.setTam(Integer.parseInt(tamRegla));
+                        //reglaAux.setTam(Integer.parseInt(tamRegla));
                         List<Element> eValores=elNuevaRegla.getChildren("valores");
                         List<String> valorAtributos=new ArrayList<>();//lista de los valores de los atributos de la acción semántica                        
                         for(Element e:eValores)
@@ -175,7 +175,7 @@ public class FicheroXML {
                  String valor = simbolo.getChildTextTrim("valor");
                  boolean terminal=Boolean.parseBoolean(simbolo.getChildText("terminal"));
                  Simbolo s = new Simbolo(valor,terminal); 
-                 listaRegla.añadir(s);
+                 listaRegla.aniadir(s);
                  System.out.print(s +" ");
             }
             System.out.println("siguiente regla");  

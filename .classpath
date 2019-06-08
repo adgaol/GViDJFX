@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="dist/lib/jaxen-1.1.6.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jdom-2.0.6-contrib.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jdom-2.0.6-javadoc.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jdom-2.0.6-junit.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jdom-2.0.6-sources.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jdom-2.0.6.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jgraphx.jar"/>
+	<classpathentry kind="lib" path="dist/lib/serializer-2.7.2.jar"/>
+	<classpathentry kind="lib" path="dist/lib/xalan-2.7.2.jar"/>
+	<classpathentry kind="lib" path="dist/lib/xercesImpl.jar"/>
+	<classpathentry kind="lib" path="dist/lib/xml-apis.jar"/>
+	<classpathentry kind="lib" path="dist/PruebaGrafoJFXML.jar"/>
+	<classpathentry kind="lib" path="lib/jaxen-1.1.6.jar"/>
+	<classpathentry kind="lib" path="lib/jdom-2.0.6-contrib.jar"/>
+	<classpathentry kind="lib" path="lib/jdom-2.0.6-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/jdom-2.0.6-junit.jar"/>
+	<classpathentry kind="lib" path="lib/jdom-2.0.6-sources.jar"/>
+	<classpathentry kind="lib" path="lib/jdom-2.0.6.jar"/>
+	<classpathentry kind="lib" path="lib/jgraphx.jar"/>
+	<classpathentry kind="lib" path="lib/serializer-2.7.2.jar"/>
+	<classpathentry kind="lib" path="lib/xalan-2.7.2.jar"/>
+	<classpathentry kind="lib" path="lib/xercesImpl.jar"/>
+	<classpathentry kind="lib" path="lib/xml-apis.jar"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>

@@ -18,7 +18,7 @@ public class Regla {
     private String valor;
     private List<Simbolo> regla;
     private String id;
-    private int tam;
+    //private int tam;
     private List<AccionSemantica> acciones;
     boolean accionesInsertadas = false; //boolean para almacenar si podemos visualizar la acción semántica en la gramática
     List<String> valorAtributos;//el valor de los atributos de la acción semántica
@@ -48,7 +48,7 @@ public class Regla {
      * @param s 
      * symbol to add
      */
-    public void añadir(Simbolo s){
+    public void aniadir(Simbolo s){
         this.regla.add(s);
     }
 /**
@@ -85,17 +85,17 @@ public class Regla {
  * 
  * @return the size of the rule
  */
-    public int getTam() {
-        return tam;
-    }
+//    public int getTam() {
+//        return tam;
+//    }
 /**
  * 
  * @param tam 
  * the size of the rule
  */
-    public void setTam(int tam) {
-        this.tam = tam;
-    }
+//    public void setTam(int tam) {
+//        this.tam = tam;
+//    }
 /**
  * 
  * @return the string "valor //id//value of the attributes of the semantic action " 

@@ -180,20 +180,20 @@ private Integer maxPosition;
             colorBackgroundTerminals=coo.toString();
             if(!compararColores(coo, fontColorTerminals.getValue())){
                 fontColorTerminals.setStyle("-fx-border-color:yellow");
-                backgroundColorTerminals.setStyle("-fx-border-color:red");
+                backgroundColorTerminals.setStyle("-fx-border-color:yellow");
                 fontColorTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
                 backgroundColorTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
             }
             if(!compararColores(coo, pendPart.getValue())){
                 pendPart.setStyle("-fx-border-color:yellow");
-                backgroundColorTerminals.setStyle("-fx-border-color:red");
+                backgroundColorTerminals.setStyle("-fx-border-color:yellow");
                 pendPart.setTooltip(new Tooltip("Colores poco compatibles"));
                 backgroundColorTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
             }
             
             if(!compararColores(coo, readPart.getValue())){
                 readPart.setStyle("-fx-border-color:yellow");
-                backgroundColorTerminals.setStyle("-fx-border-color:red");
+                backgroundColorTerminals.setStyle("-fx-border-color:yellow");
                 readPart.setTooltip(new Tooltip("Colores poco compatibles"));
                 backgroundColorTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
             }
@@ -216,7 +216,7 @@ private Integer maxPosition;
             colorTextTerminals=coo.toString();
             if(!compararColores(coo, backgroundColorTerminals.getValue())){
                 fontColorTerminals.setStyle("-fx-border-color:yellow");
-                backgroundColorTerminals.setStyle("-fx-border-color:red");
+                backgroundColorTerminals.setStyle("-fx-border-color:yellow");
                 fontColorTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
                 backgroundColorTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
             }
@@ -241,7 +241,7 @@ private Integer maxPosition;
             colorTextNoTerminals=coo.toString();
             if(!compararColores(coo, backgroundColorNoTerminals.getValue())){
                 fontColorNoTerminals.setStyle("-fx-border-color:yellow");
-                backgroundColorNoTerminals.setStyle("-fx-border-color:red");
+                backgroundColorNoTerminals.setStyle("-fx-border-color:yellow");
                 fontColorNoTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
                 backgroundColorNoTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
             }
@@ -261,7 +261,7 @@ private Integer maxPosition;
             colorBackgroundNoTerminals=coo.toString();
             if(!compararColores(coo, fontColorNoTerminals.getValue())){
                 fontColorNoTerminals.setStyle("-fx-border-color:yellow");
-                backgroundColorNoTerminals.setStyle("-fx-border-color:red");
+                backgroundColorNoTerminals.setStyle("-fx-border-color:yellow");
                 fontColorNoTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
                 backgroundColorNoTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
             }
@@ -280,7 +280,7 @@ private Integer maxPosition;
             colorPendChain=coo.toString();
             if(!compararColores(coo, backgroundColorTerminals.getValue())){
                 pendPart.setStyle("-fx-border-color:yellow");
-                backgroundColorTerminals.setStyle("-fx-border-color:red");
+                backgroundColorTerminals.setStyle("-fx-border-color:yellow");
                 pendPart.setTooltip(new Tooltip("Colores poco compatibles"));
                 backgroundColorTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
             }
@@ -304,7 +304,7 @@ private Integer maxPosition;
             colorReadChain=coo.toString();
             if(!compararColores(coo, backgroundColorTerminals.getValue())){
                 readPart.setStyle("-fx-border-color:yellow");
-                backgroundColorTerminals.setStyle("-fx-border-color:red");
+                backgroundColorTerminals.setStyle("-fx-border-color:yellow");
                 readPart.setTooltip(new Tooltip("Colores poco compatibles"));
                 backgroundColorTerminals.setTooltip(new Tooltip("Colores poco compatibles"));
             }
