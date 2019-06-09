@@ -65,7 +65,7 @@ public class FXMLVerTutorialController implements Initializable {
     public Button cancelarButton;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-     //https://stackoverflow.com/questions/13726824/javafx-event-triggered-when-selecting-a-check-box
+    
      ocultar.selectedProperty().addListener(new ChangeListener<Boolean>(){
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {

@@ -9,9 +9,6 @@ package pruebagrafojfxml;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-
-import java.util.List;
 
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
@@ -27,9 +24,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
 import javafx.scene.control.Tooltip;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -100,7 +95,7 @@ private javafx.scene.control.Button cancelButton;
 @FXML
 private Pane example;
 
-private Grafo arbolEjemplo;
+
 //private int posYCadena=300;
 //private int posYHijos=100;
 //private int xInicial=100;
@@ -124,9 +119,8 @@ private int treeSize;
 private int grammarSize;
 private int chainSize;
 private String actionType;
-//private ModificacionesTemp mT;
 private Configuracion lectConf;
-private Integer maxPosition;
+
 
 //@FXML
 ///**

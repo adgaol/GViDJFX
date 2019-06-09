@@ -5,7 +5,6 @@
  */
 package pruebagrafojfxml;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -21,11 +20,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import org.apache.xalan.xsltc.runtime.BasisLibrary;
 
 /**
  *
@@ -155,12 +152,14 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
     }
     /**
      * insert one node
-     * @param parent
-     * parent of the node
+     * @param parents
+     * parents of the node
      * @param simbolo
      * symbol to the node
      * @param posX
      * position in axis X
+     * @param value
+     * value of the node
      * @param posY
      * position in axis Y
      * @return the node inserted
@@ -239,62 +238,55 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
      * @return the node inserted
      */
     public HashSet<Nodo> insertarNodoNotExec(Nodo parent,Regla regla,Double posX,Double posY,Nodo hijo){
-      HashSet<Nodo> nodesInserted=new HashSet<>();
-    String[] simbolos=regla.getValor().split(" ");
-    Nodo nodo=null;
-    Double nPosX=posX;
-    double widthAux=0.0;
-    HashMap<String,Double> siblings=new HashMap<>();
-    posSiblings.put(hijo.getId(), siblings);
-    for(int i =1;i<simbolos.length;i++){
-        if(i==2){
-            widthAux=hijo.getRectangle().getWidth();
-        }
-        else if(i>2)
-            widthAux=hijo.getHermanos().get(simbolos[i-1]).getRectangle().getWidth();
-        if(!simbolos[i].equals(hijo.getSimbolo())){
-            Boolean terminal=isTerminal(simbolos[i]);
-            nodo=new Nodo(hijo.getId(),simbolos[i],parent,terminal,config.getLetraArbol(),"Elemento de la pila");
-            nodo.getRectangle().setFill(Color.RED);
-            
-            nodo.getRectangle().setOpacity(0.50);
-            
-            nPosX+=widthAux+10;
-            nodo.getRectangle().setX(nPosX);
-            nodo.setPosX(nPosX);
-            siblings.put(nodo.getSimbolo(), nPosX);
-            nodo.setPosY(posY);
-            nodo.getRectangle().setY(posY);
-            Label label=new Label(simbolos[i]);
-            label.setFont(new Font(config.getLetraArbol()));
-            label.setLayoutX(nPosX+nodo.getRectangle().getWidth()/2-(label.getText().length()*(config.getLetraArbol()/2)/2));
-            label.setLayoutY(posY+nodo.getRectangle().getHeight()/2-config.getLetraArbol());
-            if(!terminal){
-              Color colorRectangle=Color.web(config.getColorNoTerminal());
-              nodo.getRectangle().setFill(colorRectangle);
-              Color colorText=Color.web(config.getLetraNoTerminal());
-              label.setTextFill(colorText);
+        HashSet<Nodo> nodesInserted=new HashSet<>();
+        String[] simbolos=regla.getValor().split(" ");
+        Nodo nodo=null;
+        Double nPosX=posX;
+        double widthAux=0.0;
+        HashMap<String,Double> siblings=new HashMap<>();
+        posSiblings.put(hijo.getId(), siblings);
+        for(int i =1;i<simbolos.length;i++){
+            if(i==2){
+                widthAux=hijo.getRectangle().getWidth();
+            }
+            else if(i>2)
+                widthAux=hijo.getHermanos().get(simbolos[i-1]).getRectangle().getWidth();
+            if(!simbolos[i].equals(hijo.getSimbolo())){
+                Boolean terminal=isTerminal(simbolos[i]);
+                nodo=new Nodo(hijo.getId(),simbolos[i],parent,terminal,config.getLetraArbol(),"Elemento de la pila");
+                nodo.getRectangle().setFill(Color.RED);
 
+                nodo.getRectangle().setOpacity(0.50);
+
+                nPosX+=widthAux+10;
+                nodo.getRectangle().setX(nPosX);
+                nodo.setPosX(nPosX);
+                siblings.put(nodo.getSimbolo(), nPosX);
+                nodo.setPosY(posY);
+                nodo.getRectangle().setY(posY);
+                Label label=new Label(simbolos[i]);
+                label.setFont(new Font(config.getLetraArbol()));
+                label.setLayoutX(nPosX+nodo.getRectangle().getWidth()/2-(label.getText().length()*(config.getLetraArbol()/2)/2));
+                label.setLayoutY(posY+nodo.getRectangle().getHeight()/2-config.getLetraArbol());
+                if(!terminal){
+                  Color colorRectangle=Color.web(config.getColorNoTerminal());
+                  nodo.getRectangle().setFill(colorRectangle);
+                  Color colorText=Color.web(config.getLetraNoTerminal());
+                  label.setTextFill(colorText);
+
+                }
+                else{
+                    Color colorRectangle=Color.web(config.getColorTerminal());
+                    nodo.getRectangle().setFill(colorRectangle);
+                    Color colorText=Color.web(config.getLetraTerminal());
+                    label.setTextFill(colorText);
+                }
+                nodo.setLabel(label);
+                nodesInserted.add(nodo);
+                hijo.getHermanos().put(simbolos[i], nodo);
+                panelPadre.getChildren().addAll(nodo.getRectangle(),label);
             }
-            else{
-                Color colorRectangle=Color.web(config.getColorTerminal());
-                nodo.getRectangle().setFill(colorRectangle);
-                Color colorText=Color.web(config.getLetraTerminal());
-                label.setTextFill(colorText);
-            }
-            nodo.setLabel(label);
-            nodesInserted.add(nodo);
-            hijo.getHermanos().put(simbolos[i], nodo);
-            panelPadre.getChildren().addAll(nodo.getRectangle(),label);
         }
-    }
-       
-       
-       
-       
-       
-       
-           
        
        return nodesInserted; 
     }
@@ -313,39 +305,32 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
     public HashSet<Nodo> insertarNodoNotExec(Collection<Nodo> nodosHermanos,Double posX,Double posY,Nodo hijo){
       HashSet<Nodo> nodesInserted=new HashSet<>();
     
-    Double widthAux=hijo.getRectangle().getWidth();
-    Double nPosX=posX;
-    HashMap<String,Double> siblings=new HashMap<>();
-    posSiblings.put(hijo.getId(), siblings);
-    for(Nodo n:nodosHermanos){
-        
-        if(!hijo.getSimbolo().equals(n.getSimbolo())){
-            
-            
-            nPosX+=widthAux+10;
-            siblings.put(n.getSimbolo(), nPosX);
-            n.setPosX(nPosX);
-            n.getRectangle().setX(nPosX);
-            n.setPosY(posY);
-            n.getRectangle().setY(posY);
-           
-            
-            n.getLabel().setLayoutX(nPosX+n.getRectangle().getWidth()/2-(n.getLabel().getText().length()*(config.getLetraArbol()/2)/2));
-            n.getLabel().setLayoutY(posY+n.getRectangle().getHeight()/2-config.getLetraArbol());
-            
-            nodesInserted.add(n);
-            hijo.getHermanos().put(n.getSimbolo(), n);
-            panelPadre.getChildren().addAll(n.getRectangle(),n.getLabel());
-            widthAux=n.getRectangle().getWidth();
+        Double widthAux=hijo.getRectangle().getWidth();
+        Double nPosX=posX;
+        HashMap<String,Double> siblings=new HashMap<>();
+        posSiblings.put(hijo.getId(), siblings);
+        for(Nodo n:nodosHermanos){
+
+            if(!hijo.getSimbolo().equals(n.getSimbolo())){
+
+
+                nPosX+=widthAux+10;
+                siblings.put(n.getSimbolo(), nPosX);
+                n.setPosX(nPosX);
+                n.getRectangle().setX(nPosX);
+                n.setPosY(posY);
+                n.getRectangle().setY(posY);
+
+
+                n.getLabel().setLayoutX(nPosX+n.getRectangle().getWidth()/2-(n.getLabel().getText().length()*(config.getLetraArbol()/2)/2));
+                n.getLabel().setLayoutY(posY+n.getRectangle().getHeight()/2-config.getLetraArbol());
+
+                nodesInserted.add(n);
+                hijo.getHermanos().put(n.getSimbolo(), n);
+                panelPadre.getChildren().addAll(n.getRectangle(),n.getLabel());
+                widthAux=n.getRectangle().getWidth();
+            }
         }
-    }
-       
-       
-       
-       
-       
-       
-           
        
        return nodesInserted; 
     }
@@ -830,21 +815,7 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
             }
             eliminarNodo(elemElim, i);
         }
-//                if((elemElim.getParent()!=null)&&(elemElim.getParent().getChildren().getFirst()==elemElim)){
-//                    eliminarNodoNotExec(elemElim);
-//                    panelPadre.getChildren().remove(elemElim.getRectRgla());
-//                }
-//    //            if((elemElim.getParent()!=null)&&(elemElim.getParent().getChildren().getFirst()!=elemElim)){
-//    //                elemElim.getRectRgla().setWidth(elemElim.getRectRgla().getWidth()-elemElim.getRectangle().getWidth()-(elemElim.getRectangle().getWidth()+10)*elemElim.getHermanos().size()-(elemElim.getPosX()-elemElim.lastSibling().getPosX()+elemElim.lastSibling().getRectangle().getWidth()));
-//    //            }
-//                Nodo nodoNotExec=   this.NodoNotExec(elemElim);
-//                if(nodoNotExec!=null){
-//                    nodoNotExec.getRectangle().setX(nodoNotExec.getPosX());
-//                    nodoNotExec.getLabel().setLayoutX(nodoNotExec.getPosX()+nodoNotExec.getRectangle().getWidth()/3);
-//                    panelPadre.getChildren().addAll(nodoNotExec.getRectangle(),nodoNotExec.getLabel());
-//                }
-//                eliminarNodo(elemElim, i);
-//                } 
+
         
     }
     /**

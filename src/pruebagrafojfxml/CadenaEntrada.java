@@ -33,7 +33,7 @@ private Pane panelPadre;
 private HashMap<String,Rectangle> rectanglesChain;
 private ArrayList<CadenaEntradaNode> rectanglesList;
 private HashMap<Integer, CadenaEntradaNode> positionRectangle;
-//private HashMap<String,String> rectanglesText;
+
 private HashMap<String,Label>labels;
 private int font;
 
@@ -43,6 +43,8 @@ private int font;
      * list of the state of the chain for each step
      * @param panelPadre 
      * Panel where draw the chain
+     * @param config
+     * configuration
      */
     public CadenaEntrada(List<String> cadenaPorPaso,Pane panelPadre,Configuracion config) {
         this.cadenaPorPaso = cadenaPorPaso;

@@ -36,6 +36,8 @@ private Configuracion config;
      * XML with the data of the translator
      * @param panelPadre 
      * Panel where draw the grammar
+     * @param config
+     * configuration
      */
     public Gramatica(FicheroXML ejemplo,Pane panelPadre,Configuracion config) {
         this.ejemplo = ejemplo;
@@ -244,16 +246,9 @@ private Configuracion config;
         panelPadre.getChildren().add(rect);
     }
     public Rectangle erasedRectangle(Regla regla){
-          Rectangle rect=ruleRectGramm.get(regla.getId());
-          ruleRectGramm.remove(regla.getId());
-//        ArrayList<Label> l=reglaLabel.get(regla.getId());
-//        Double posY=l.get(0).getLayoutY();
-//        Double posX=l.get(0).getLayoutX()-5;
-//        Double width=0.0;
-//        for(Label label:l){
-//            width+=label.getText().length()*label.getFont().getSize()/2;
-//        }
-//        Rectangle rect=new Rectangle(posX, posY, width,l.get(0).getFont().getSize()/2 );
+        Rectangle rect=ruleRectGramm.get(regla.getId());
+        ruleRectGramm.remove(regla.getId());
+
         panelPadre.getChildren().remove(rect);
         return rect;
     }
