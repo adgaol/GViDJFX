@@ -2,9 +2,9 @@
 <tables>
   <config>
     <tamLetras>
-      <arbol>20</arbol>
+      <arbol>10</arbol>
       <traductor>13</traductor>
-      <cadena>20</cadena>
+      <cadena>15</cadena>
     </tamLetras>
     <colores>
       <terminales>F8DADD</terminales>
@@ -16,12 +16,12 @@
     </colores>
     <accSem>
       <colorAccSem>3B3B3C</colorAccSem>
-      <tipoLetra>Informal Roman</tipoLetra>
-      <sizeAcciones>20</sizeAcciones>
+      <tipoLetra>times new roman</tipoLetra>
+      <sizeAcciones>13</sizeAcciones>
     </accSem>
-    <zoomGraph>100</zoomGraph>
-    <zoomGrammar>100</zoomGrammar>
-    <zoomChain>100</zoomChain>
+    <zoomGraph>91</zoomGraph>
+    <zoomGrammar>83</zoomGrammar>
+    <zoomChain>138</zoomChain>
     <ocultarTutorial>true</ocultarTutorial>
   </config>
 </tables>

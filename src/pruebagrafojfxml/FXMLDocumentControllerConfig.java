@@ -373,7 +373,7 @@ private Configuracion lectConf;
         grammarNoTerminal2.setFont(new Font(lectConf.getLetraTraductor()));
         color=Color.web(lectConf.getColorAccSem());
         action.setTextFill(color);
-        action.setFont(new Font(lectConf.getTipoLetra(),lectConf.getLetraTraductor()));
+        action.setFont(new Font(lectConf.getTipoLetra(),lectConf.getSizeAcciones()));
         color=Color.web(lectConf.getColorPend());
         labelpendChain=new Label("+");
         labelpendChain.setTextFill(color);
@@ -430,32 +430,6 @@ private Configuracion lectConf;
                     labelTerminal.setLayoutX(terminal.getLayoutX()+terminal.getWidth()/2-(labelTerminal.getText().length()*(val/2)/2));
                     labelTerminal.setLayoutY(terminal.getLayoutY()+terminal.getHeight()/2-val);
         
-                    /*if(treeSize<val){
-                    labelNoTerminal1.setLayoutX(labelNoTerminal1.getLayoutX()+(labelNoTerminal1.getText().length()*(val/2)/2));
-                    labelNoTerminal2.setLayoutX(labelNoTerminal2.getLayoutX()+(labelNoTerminal2.getText().length()*(val/2)/2));
-                    labelTerminal.setLayoutX(labelTerminal.getLayoutX()+(labelTerminal.getText().length()*(val/2)/2));
-                    }
-                    else{
-                    labelNoTerminal1.setLayoutX(labelNoTerminal1.getLayoutX()-(labelNoTerminal1.getText().length()*(val/2)/2));
-                    labelNoTerminal2.setLayoutX(labelNoTerminal2.getLayoutX()-(labelNoTerminal2.getText().length()*(val/2)/2));
-                    labelTerminal.setLayoutX(labelTerminal.getLayoutX()-(labelTerminal.getText().length()*(val/2)/2));
-                    }*/
-//                    if(val>15){
-//                        noTerminal1.setWidth(50+labelNoTerminal1.getText().length()-3+val); 
-//                       // noTerminal1.setHeight(50+/*labelNoTerminal1.getText().length()+*/val);
-//                        noTerminal2.setWidth(50+labelNoTerminal1.getText().length()-3+val);
-//                        terminal.setWidth(50+labelNoTerminal1.getText().length()-3+val); 
-//                    }
-//                    else{
-//                        noTerminal1.setWidth(50); 
-//                       // noTerminal1.setHeight(50+/*labelNoTerminal1.getText().length()+*/val);
-//                        noTerminal2.setWidth(50);
-//                        terminal.setWidth(50); 
-//
-//
-//                    }
-                    //noTerminal2.setHeight(50+/*labelNoTerminal1.getText().length()+*/val);
-                    //terminal.setHeight(50+/*labelNoTerminal1.getText().length()+*/val);        
                     treeSize=val;
                 }
                 catch(Exception e){
@@ -526,7 +500,7 @@ private Configuracion lectConf;
         ObservableList<String> optionsSizeLetraSemanticAct = FXCollections.observableArrayList( "8","10","13","15","18","20");       
         sizeFountSemanticAct.setItems(optionsSizeLetraSemanticAct);
         sizeFountSemanticAct.setValue(lectConf.getSizeAcciones()+"");
-        sizeFountSemanticAct.setPromptText(lectConf.getLetraTraductor()+"");
+        sizeFountSemanticAct.setPromptText(lectConf.getSizeAcciones()+"");
         
         sizeFountSemanticAct.setEditable(true);
         sizeFountSemanticAct.valueProperty().addListener(new ChangeListener<String>() {
@@ -614,70 +588,14 @@ private Configuracion lectConf;
         boolean noSePuede=true;
         if( !(Math.abs(c1.getHue()-c2.getHue())>50)||!(Math.abs(c1.getHue()+34-360-c2.getHue())>50)||!(Math.abs(c1.getHue()-c2.getHue()+34-360)>50))  {
             
-            if(Math.abs(c1.getSaturation()-c2.getSaturation())>0.70)
-//                if (Math.abs(c1.getBrightness()-c2.getBrightness())>0.16)   
-       
-                        noSePuede=true;
-//                else
-//                    noSePuede=false;
+            if(Math.abs(c1.getSaturation()-c2.getSaturation())>0.70)  
+                noSePuede=true;
             else 
                 noSePuede=false;
         }
-//        else{
-//            if( c1.getSaturation()<50 && c2.getSaturation()<50 && !(Math.abs(c1.getSaturation()-c2.getSaturation())>20))  {
-////                if((Math.abs(c1.getSaturation()-c2.getSaturation())>0.79)&&(Math.abs(c1.getBrightness()-c2.getBrightness())>0.16))            
-////                    noSePuede=true;
-////                else 
-//                    noSePuede=false;
-//            }
-//        }
+
         return noSePuede;
         
     }
- /**
-  * Recive a color in format Swing and transform it into a format javaFX
-  * @param color
-  * String with the color in format Swing
-  * @return 
-  * Color in format javafx.scene.paint.Color
-  */
-// public javafx.scene.paint.Color newColorFX(String color){
-//    int col=Integer.parseInt(color,16);
-//    Color color1=new Color(col);
-//    double red=color1.getRed()/255.0;
-//    double green=color1.getGreen()/255.0;
-//    double blue=color1.getBlue()/255.0;
-//    double opacity=color1.getAlpha()/255.0;
-//    return new javafx.scene.paint.Color(red, green, blue, opacity);
-// }
- /**
-  * recive the color of a ColorPicker and transform it in a color for swing
-  * @param color
-  * Color in format javafx.scene.paint.Color
-  * @return 
-  * Color in format Swing
-  */
-// public Color newColorSw(javafx.scene.paint.Color color){
-// 
-//    float red=(float)(color.getRed());
-//    float green=(float) (color.getGreen());
-//    float blue=(float) (color.getBlue());
-//   // float alpha=(float) (color.getOpacity()*255);
-//    return new Color(red, green, blue);
-// }
- /**
-  * recive the color of a ColorPicker and transform it in a color for swing
-  * @param color
-  * Color in format javafx.scene.paint.Color
-  * @return 
-  * Color in format Swing
-  */
-// public String colorToSave(javafx.scene.paint.Color color){
-//    color.
-//    float red=(float)(color.getRed())*255;
-//    float green=(float) (color.getGreen())*255;
-//    float blue=(float) (color.getBlue())*255;
-//   // float alpha=(float) (color.getOpacity()*255);
-//    return ;
-// }
+ 
         }

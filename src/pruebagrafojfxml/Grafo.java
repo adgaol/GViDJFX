@@ -541,22 +541,13 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                         posXMax=Math.max(node.getPosX(), posXMax);
                         node.setLeftSibling(nodos.get(sibling.get(i)));
                         Rectangle r=null;
-                        //Rectangle r=this.ruleRect.get(nivel);
-//                        if(ejemplo.getListaPasos().get(i).getRegla()!=null){
-//                            if(r!=null){
-//                                ruleRect.remove(nivel);
-//                                r=null;
-//                            }
-//                        }
+                        
                         if(node.getLeftSibling()!=null)
                             r=node.getLeftSibling().getRectRgla();
                         if (r!=null){
-                            System.out.println(r.getWidth()+node.getRectangle().getWidth());
-                            System.out.println((node.getPosX()/*-node.getLeftSibling().getPosX()/*-node.getRectangle().getWidth()*/));
-                            System.out.println(r.getWidth()+node.getRectangle().getWidth()+(node.getPosX()-node.getLeftSibling().getPosX()-node.getRectangle().getWidth()));
                             r.setWidth(r.getWidth()+node.getRectangle().getWidth()+10+(node.getPosX()-(node.getLeftSibling().getPosX()+node.getRectangle().getWidth())));
                             
-                            node.setRectRgla(r);//130+
+                            node.setRectRgla(r);
                             node.setWidthRectRgla(r.getWidth());
                         }
                         else{
@@ -580,58 +571,54 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                         Tooltip.install(node.getRectangle(), t);
                     }
                     else{
-                       Nodo firstParent=nodos.get(Integer.parseInt(ejemplo.getListaPasos().get(i).getElemento().split(" ")[1]));
+                        Nodo firstParent=nodos.get(Integer.parseInt(ejemplo.getListaPasos().get(i).getElemento().split(" ")[1]));
                        
-                       int parentsNumber=ejemplo.getListaPasos().get(i).getElemento().split(" ").length-1;
-                       double aux1=firstParent.getPosX();
-                       double aux2=firstParent.getRectangle().getWidth()+(parentsNumber-1)*(firstParent.getRectangle().getWidth()+10);
-                       Double aux3=aux2/parentsNumber;
-                       Double aux4=aux1+aux3;
-                       double posX=0.0;
+                        int parentsNumber=ejemplo.getListaPasos().get(i).getElemento().split(" ").length-1;
+                        double posX=0.0;
                        
-                       if(ejemplo.getListaPasos().get(i).getElemento().split(" ").length>2)
-                            posX=firstParent.getPosX()+((firstParent.getRectangle().getWidth()+(parentsNumber-1)*(firstParent.getRectangle().getWidth()+10))/2);//parentsNumber);
-                       else
-                            posX=firstParent.getPosX()+((parentsNumber-1)*(firstParent.getRectangle().getWidth()+10)/2);//parentsNumber);
-                       String simbolo=ejemplo.getListaPasos().get(i).getElemento().split(" ")[0];
-                       String value=ejemplo.getListaPasos().get(i).getValor();
-                       Nodo node= insertarNodoA(ejemplo.getListaPasos().get(i).getElemento(), simbolo, posX, posYAnterior,value);
-                       
-                       posXMax=Math.max(node.getPosX(), posXMax);
-                       posXAnteriores.put(i, posXAnterior);
-                       node.setLeftSibling(nodos.get(sibling.get(i)));
-                       Rectangle r=null;
-                       if(node.getLeftSibling()!=null)
-                            r=node.getLeftSibling().getRectRgla();//this.ruleRect.get(nivel);
-//                       if(ejemplo.getListaPasos().get(i).getRegla()!=null){
-//                            if(r!=null){
-//                                ruleRect.remove(nivel);
-//                                r=null;
-//                            }
-//                        }
-                       if(i<ejemplo.getListaPasos().size()-1){
-                           if (r!=null){
-                                r.setWidth(r.getWidth()+node.getRectangle().getWidth()+(node.getPosX()-node.getLeftSibling().getPosX()-node.getRectangle().getWidth()));
-                                node.setRectRgla(r);
-                                node.setWidthRectRgla(r.getWidth());
-                            }
-                            else{
-                                Rectangle rectReg=new Rectangle(node.getRectangle().getWidth()+10, node.getRectangle().getHeight()+10);
-                                rectReg.setFocusTraversable(true);
-                                rectReg.setX(node.getPosX()-5);
-                                rectReg.setY(node.getPosY()-5);
-                                rectReg.setOpacity(0.5);
-                                node.setRectRgla(rectReg);
-                                panelPadre.getChildren().add(0,rectReg);
-                                gramatica.getRelRectRegla().put(rectReg, ejemplo.getListaPasos().get(i).getRegla());
-                                assingRectanglesEvents(rectReg);
-                                node.setRectRgla(rectReg);
-                                node.setWidthRectRgla(rectReg.getWidth());
-                               // this.ruleRect.put(nivel,rectReg);
-                            }
-                       }
-                        Tooltip t = new Tooltip(node.getValue());
-                        Tooltip.install(node.getRectangle(), t);
+                        if(ejemplo.getListaPasos().get(i).getElemento().split(" ").length>2)
+                             posX=firstParent.getPosX()+((firstParent.getRectangle().getWidth()+(parentsNumber-1)*(firstParent.getRectangle().getWidth()+10))/2);//parentsNumber);
+                        else
+                             posX=firstParent.getPosX()+((parentsNumber-1)*(firstParent.getRectangle().getWidth()+10)/2);//parentsNumber);
+                        String simbolo=ejemplo.getListaPasos().get(i).getElemento().split(" ")[0];
+                        String value=ejemplo.getListaPasos().get(i).getValor();
+                        Nodo node= insertarNodoA(ejemplo.getListaPasos().get(i).getElemento(), simbolo, posX, posYAnterior,value);
+
+                        posXMax=Math.max(node.getPosX(), posXMax);
+                        posXAnteriores.put(i, posXAnterior);
+                        node.setLeftSibling(nodos.get(sibling.get(i)));
+                        Rectangle r=null;
+                        if(node.getLeftSibling()!=null)
+                             r=node.getLeftSibling().getRectRgla();//this.ruleRect.get(nivel);
+ //                       if(ejemplo.getListaPasos().get(i).getRegla()!=null){
+ //                            if(r!=null){
+ //                                ruleRect.remove(nivel);
+ //                                r=null;
+ //                            }
+ //                        }
+                        if(i<ejemplo.getListaPasos().size()-1){
+                            if (r!=null){
+                                 r.setWidth(r.getWidth()+node.getRectangle().getWidth()+(node.getPosX()-node.getLeftSibling().getPosX()-node.getRectangle().getWidth()));
+                                 node.setRectRgla(r);
+                                 node.setWidthRectRgla(r.getWidth());
+                             }
+                             else{
+                                 Rectangle rectReg=new Rectangle(node.getRectangle().getWidth()+10, node.getRectangle().getHeight()+10);
+                                 rectReg.setFocusTraversable(true);
+                                 rectReg.setX(node.getPosX()-5);
+                                 rectReg.setY(node.getPosY()-5);
+                                 rectReg.setOpacity(0.5);
+                                 node.setRectRgla(rectReg);
+                                 panelPadre.getChildren().add(0,rectReg);
+                                 gramatica.getRelRectRegla().put(rectReg, ejemplo.getListaPasos().get(i).getRegla());
+                                 assingRectanglesEvents(rectReg);
+                                 node.setRectRgla(rectReg);
+                                 node.setWidthRectRgla(rectReg.getWidth());
+                                // this.ruleRect.put(nivel,rectReg);
+                             }
+                        }
+                         Tooltip t = new Tooltip(node.getValue());
+                         Tooltip.install(node.getRectangle(), t);
                     }
                     nivelAnterior=nivel;
                     
@@ -753,9 +740,7 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                     eliminarNodoNotExec(elemElim);
                     panelPadre.getChildren().remove(elemElim.getRectRgla());
                 }
-    //            if((elemElim.getParent()!=null)&&(elemElim.getParent().getChildren().getFirst()!=elemElim)){
-    //                elemElim.getRectRgla().setWidth(elemElim.getRectRgla().getWidth()-elemElim.getRectangle().getWidth()-(elemElim.getRectangle().getWidth()+10)*elemElim.getHermanos().size()-(elemElim.getPosX()-elemElim.lastSibling().getPosX()+elemElim.lastSibling().getRectangle().getWidth()));
-    //            }
+    //          
                 Nodo nodoNotExec=   this.NodoNotExec(elemElim);
                 if(nodoNotExec!=null){
                     nodoNotExec.getRectangle().setX(nodoNotExec.getPosX());

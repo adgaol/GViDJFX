@@ -307,23 +307,9 @@ public class FXMLDocumentController implements Initializable {
         configurationScreen.initModality(Modality.WINDOW_MODAL);
         configurationScreen.setTitle("Configuración");
             // Specifies the owner Window (parent) for new window
-        configurationScreen.initOwner(PruebaGrafoJFXML.getStage());
-           //configuration.onCloseRequestProperty().addListener();
-            // Set position of second window, related to primary window.
-            //newWindow.setX(primaryStage.getX() + 200);
-            //newWindow.setY(primaryStage.getY() + 100);
+        configurationScreen.initOwner(PruebaGrafoJFXML.getStage());          
         configurationScreen.show();
-//        configurationScreen.setOnHiding(new EventHandler<WindowEvent>() {
-//          @Override
-//          public void handle(WindowEvent we) {
-//            //int cont=contador;
-//            configuration.cargarConfiguracion("./config/configActual.xml");
-//            graph.updateGraph();
-//            grammar.updateGrammar();
-//            entryChain.actualizarCadena(graph.getContador());
-//            
-//          }
-//      }); 
+ 
 
     
     
