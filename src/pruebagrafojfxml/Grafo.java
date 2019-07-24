@@ -750,7 +750,9 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
                     panelPadre.getChildren().addAll(nodoNotExec.getRectangle(),nodoNotExec.getLabel());
                 }
                 eliminarNodo(elemElim, i);
+                updatedValuesOriginal(ejemplo.getListaPasos().get(i).getSimbolosActualizados());
                 } 
+        
     }
     /**
      * Recover the position of the not execute siblings of the node
@@ -812,6 +814,21 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
         for(Simbolo s:symbolsUpdated){
            Nodo n=nodos.get(s.getId());
            n.setValue(s.getValor());
+           Tooltip t = new Tooltip(n.getValue());
+           Tooltip.install(n.getRectangle(), t);
+        }
+        
+    }
+    /**
+    * update the value of the symbols in the list
+    * @param symbolsUpdated 
+    * list of symbols to update the value
+    */
+    public void updatedValuesOriginal(List<Simbolo> symbolsUpdated){
+        for(Simbolo s:symbolsUpdated){
+           Nodo n=nodos.get(s.getId());
+           String valor=ejemplo.getListaPasos().get(n.getId()).getValor();
+           n.setValue(valor);
            Tooltip t = new Tooltip(n.getValue());
            Tooltip.install(n.getRectangle(), t);
         }
