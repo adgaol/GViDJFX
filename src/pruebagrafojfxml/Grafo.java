@@ -488,10 +488,7 @@ public Grafo(FicheroXML xml,Gramatica gramatica,CadenaEntrada cadena,Pane panelP
             });
     }
     public int construirAsc(int pasoSolicitado){
-         int nivel=0;
-            
-            
-            
+         int nivel=0;   
             for(int i=contador;i<pasoSolicitado;i++){
                 nivel=ejemplo.getMapa().get(ejemplo.getListaPasos().get(i).getId()).getNivel();
                 if(i==0){
