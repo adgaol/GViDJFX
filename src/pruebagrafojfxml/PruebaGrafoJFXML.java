@@ -19,7 +19,7 @@ import javafx.stage.Stage;
  */
 public class PruebaGrafoJFXML extends Application {
     private static Stage stage;
-
+    private static Parameters argument;
     public static Stage getStage() {
         return stage;
     }
@@ -27,9 +27,21 @@ public class PruebaGrafoJFXML extends Application {
     public static void setStage(Stage stage) {
         PruebaGrafoJFXML.stage = stage;
     }
+
+    public static Parameters getArgument() {
+        return argument;
+    }
+
+    public static void setArgument(Parameters argument) {
+        PruebaGrafoJFXML.argument = argument;
+    }
+    
     @Override
     public void start(Stage stage) throws Exception {
+        this.setArgument(getParameters()); 
+        System.out.println(this.getArgument().getRaw());
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        
         
         Scene scene = new Scene(root);
         setStage(stage);

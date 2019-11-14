@@ -12,6 +12,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+import javafx.application.Application;
+import javafx.application.Application.Parameters;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -719,13 +721,22 @@ public class FXMLDocumentController implements Initializable {
     private void elegirArchivo(String tipo) {
         configuration=new Configuracion();
         configuration.cargarConfiguracion("./config/configActual.xml");
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open Resource File");
-        fileChooser.setInitialDirectory(new File(".//traductores"));
+        File file=null;
         String path=null;
-        //if(tipo.equals("xml")){
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("xml", "*.xml"));
-        File file=fileChooser.showOpenDialog(PruebaGrafoJFXML.getStage());
+        Parameters params=PruebaGrafoJFXML.getArgument();
+        
+        if(PruebaGrafoJFXML.getArgument().getRaw().isEmpty()){
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Open Resource File");
+            fileChooser.setInitialDirectory(new File(".//traductores"));
+            
+            //if(tipo.equals("xml")){
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("xml", "*.xml"));
+            file=fileChooser.showOpenDialog(PruebaGrafoJFXML.getStage());
+        }
+        else{
+            file=new File(PruebaGrafoJFXML.getArgument().getRaw().get(0));
+        }
         path=file.getAbsolutePath();
         //}
         
